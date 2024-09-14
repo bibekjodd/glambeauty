@@ -10,6 +10,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
+import ProfileDialog from '@/dialogs/profile-dialog';
 
 type Props = { children: React.ReactNode };
 export default function ProfileDropdown({ children }: Props) {
@@ -22,8 +23,12 @@ export default function ProfileDropdown({ children }: Props) {
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
-            <User className="mr-2 size-4" />
-            <span>Profile</span>
+            <ProfileDialog>
+              <button className="flex">
+                <User className="mr-2 size-4" />
+                <span>Profile</span>
+              </button>
+            </ProfileDialog>
           </DropdownMenuSubTrigger>
         </DropdownMenuSub>
 

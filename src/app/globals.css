@@ -2,28 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+input,
+textarea {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  background: transparent;
+  width: '100%';
 }
 
-@media (prefers-color-scheme: dark) {
-  .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+input:focus,
+textarea:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 @layer base {
@@ -81,7 +80,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
 @layer base {
   * {
     @apply border-border;

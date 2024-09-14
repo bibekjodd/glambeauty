@@ -29,7 +29,7 @@ export default function Header() {
           {profile && (
             <ProfileDropdown>
               <button>
-                <Avatar href={profile.image} />
+                <Avatar src={profile.image} />
               </button>
             </ProfileDropdown>
           )}

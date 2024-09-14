@@ -2,11 +2,11 @@ import { dummyUserImage } from '@/lib/constants';
 import ProgressLink from './utils/progress-link';
 
 type Props = {
-  src?: string;
+  src: string | null;
   className?: string;
-  variant?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   isLink?: boolean;
-  href: string | null;
+  href?: string;
 };
 
 /**
@@ -16,7 +16,7 @@ export default function Avatar({ src, className, variant, isLink, href }: Props)
   const image = (
     <div className="inline h-fit w-fit select-none">
       <div
-        className={` ${variant === 'xs' ? 'h-4 w-4' : ''} ${variant === 'sm' ? 'size-6' : ''} ${variant === 'md' || !variant ? 'size-8' : ''} ${variant === 'lg' ? 'size-10' : ''} ${variant === 'xl' ? 'size-12' : ''} ${className || ''} `}
+        className={` ${variant === 'xs' ? 'h-4 w-4' : ''} ${variant === 'sm' ? 'size-6' : ''} ${variant === 'md' || !variant ? 'size-8' : ''} ${variant === 'lg' ? 'size-10' : ''} ${variant === 'xl' ? 'size-12' : ''} ${variant === 'xl' ? 'size-14' : ''} ${className || ''} `}
       >
         <img
           src={src || dummyUserImage}
