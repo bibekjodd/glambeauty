@@ -1,5 +1,5 @@
 'use client';
-import useLoadingBar from '@/hooks/use-loading-bar';
+import { useLoadingBar } from '@/hooks/use-loading-bar';
 import { useRouter } from 'next/navigation';
 import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 
