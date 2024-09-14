@@ -6,7 +6,7 @@ type Props = {
   className?: string;
   variant?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isLink?: boolean;
-  href?: string;
+  href: string | null;
 };
 
 /**

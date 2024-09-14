@@ -5,9 +5,11 @@ import { concertOne } from '@/lib/fonts';
 import { User } from 'lucide-react';
 import { backend_url } from '@/lib/constants';
 import { useProfile } from '@/queries/use-profile';
+import Avatar from './avatar';
+import ProfileDropdown from './dropdowns/profile-dropdown';
 
 export default function Header() {
-  const { data: profile } = useProfile();
+  const { data: profile, isLoading: isLoadingProfile } = useProfile();
   return (
     <div className="flex h-16 items-center">
       <header className="cont flex items-center justify-between">
@@ -19,10 +21,18 @@ export default function Header() {
         </ProgressLink>
 
         <nav className="flex items-center">
-          <a href={`${backend_url}/api/login/google`} target="_blank" rel="noopener noreferrer">
-            <User className="size-6" />
-          </a>
-          <p>{profile?.name}</p>
+          {!isLoadingProfile && !profile && (
+            <a href={`${backend_url}/api/login/google`} target="_blank" rel="noopener noreferrer">
+              <User className="size-6" />
+            </a>
+          )}
+          {profile && (
+            <ProfileDropdown>
+              <button>
+                <Avatar href={profile.image} />
+              </button>
+            </ProfileDropdown>
+          )}
         </nav>
       </header>
     </div>
