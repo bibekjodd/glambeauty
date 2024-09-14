@@ -1,6 +1,8 @@
+import Header from '@/components/header';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import QueryProvider from '@/providers/query-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -14,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white text-gray-900 antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        <QueryProvider>
+          <Header />
+          {children}
+        </QueryProvider>
+      </body>
     </html>
   );
 }
