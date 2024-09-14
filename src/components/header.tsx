@@ -3,14 +3,14 @@ import { backend_url } from '@/lib/constants';
 import { concertOne } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
 import { MoveRight, User } from 'lucide-react';
-import Avatar from './avatar';
 import ProfileDropdown from './dropdowns/profile-dropdown';
+import Avatar from './utils/avatar';
 import ProgressLink from './utils/progress-link';
 
 export default function Header() {
   const { data: profile, isLoading: isLoadingProfile } = useProfile();
   return (
-    <div className="fixed left-0 top-0 z-10 flex h-20 w-full items-center bg-white/80 filter backdrop-blur-2xl">
+    <div className="fixed left-0 top-0 z-10 flex h-20 w-full items-center bg-white/70 filter backdrop-blur-2xl">
       <header className="cont flex items-center justify-between">
         <ProgressLink
           href="/"

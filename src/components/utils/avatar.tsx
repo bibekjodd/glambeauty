@@ -1,5 +1,5 @@
 import { dummyUserImage } from '@/lib/constants';
-import ProgressLink from './utils/progress-link';
+import ProgressLink from './progress-link';
 
 type Props = {
   src: string | null;

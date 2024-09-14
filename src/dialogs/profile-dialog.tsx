@@ -1,4 +1,4 @@
-import Avatar from '@/components/avatar';
+import Avatar from '@/components/utils/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
