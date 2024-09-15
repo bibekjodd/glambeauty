@@ -10,20 +10,33 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Avatar from '@/components/utils/avatar';
+import AddStaffDialog from '@/dialogs/add-staff-dialog';
 import StaffProfileDialog from '@/dialogs/staff-profile-dialog';
 import { useStaffs } from '@/queries/use-staffs';
 import { useIsMutating } from '@tanstack/react-query';
-import { CircleUser, Dot, EllipsisVertical, Loader2, ShieldCheck } from 'lucide-react';
+import {
+  CircleUser,
+  Dot,
+  EllipsisVertical,
+  Loader2,
+  ShieldCheck,
+  UserRoundPlus
+} from 'lucide-react';
 
 export default function Page() {
   const { data: staffs } = useStaffs();
 
   return (
     <main className="px-5">
-      <h3 className="text-lg font-semibold">All Staffs</h3>
+      <section className="mt-7 flex justify-between">
+        <h3 className="text-lg font-semibold">All Staffs</h3>
 
-      <section className="mt-10 flex justify-end">
-        <Button className="">Add new staff</Button>
+        <AddStaffDialog>
+          <Button className="flex items-center space-x-2">
+            <span>Add new staff</span>
+            <UserRoundPlus className="size-4" />
+          </Button>
+        </AddStaffDialog>
       </section>
 
       <Table className="">

@@ -12,6 +12,8 @@ type User = {
 type Service = {
   id: string;
   title: string;
+  image: string | null;
+  description: string;
   price: number;
   duration: number;
   active: boolean;

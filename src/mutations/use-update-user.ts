@@ -15,7 +15,11 @@ export const useUpdateUser = (id: string) => {
 
       let updatedStaffsData: User[] = oldStaffsData.map((staff) => {
         if (staff.id !== id) return staff;
-        return { ...staff, active: active || staff.active, role: role || staff.role };
+        return {
+          ...staff,
+          active: active !== undefined ? active : staff.active,
+          role: role || staff.role
+        };
       });
       updatedStaffsData = updatedStaffsData.filter((staff) => staff.role !== 'user');
 
@@ -33,7 +37,7 @@ type Options = {
   active?: boolean;
   id: string;
 };
-const updateUser = async ({ id, ...data }: Options) => {
+export const updateUser = async ({ id, ...data }: Options) => {
   try {
     await axios.put(`${backend_url}/api/users/${id}`, data, { withCredentials: true });
   } catch (error) {

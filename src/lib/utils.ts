@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -13,4 +13,29 @@ export const extractErrorMessage = (err: unknown): string => {
     return err.message;
   }
   return 'Unknown error occurred!';
+};
+
+export const imageToDataUri = (file: File): Promise<string> => {
+  return new Promise((res) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.addEventListener('load', (ev) => {
+      const result = ev.target?.result?.toString();
+      res(result || '');
+    });
+  });
+};
+
+export const uploadImage = async (file: File): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    const { data } = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+      formData
+    );
+    return data.data.display_url;
+  } catch (error) {
+    throw new Error('Could not upload image');
+  }
 };

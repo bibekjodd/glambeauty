@@ -5,7 +5,7 @@ import { Label } from '../ui/label';
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
-  Icon: LucideIcon;
+  Icon: LucideIcon | null;
   error: string | undefined;
   IconRight?: LucideIcon;
   IconRightOnClick?: () => void;
@@ -16,10 +16,10 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(function Component(
   ref
 ) {
   return (
-    <AutoAnimate className={`${className ? className : 'py-2'}`}>
+    <AutoAnimate className={`${className ? className : 'py-2'} space-y-2`}>
       <Label htmlFor={props.id}>{label}</Label>
-      <div className="group flex h-11 items-center space-x-3 rounded-md border-2 border-gray-700 border-input px-2.5 font-medium focus-within:ring-1 focus-within:ring-ring">
-        <Icon className="h-5 w-5 text-gray-900" />
+      <div className="group flex h-10 items-center space-x-3 rounded-md border-2 border-gray-700 border-input px-2.5 font-medium focus-within:ring-2 focus-within:ring-ring">
+        {Icon && <Icon className="h-5 w-5 text-gray-900" />}
         <input
           {...props}
           ref={ref}
