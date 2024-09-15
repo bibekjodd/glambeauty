@@ -1,22 +1,19 @@
 'use client';
 import { backend_url } from '@/lib/constants';
-import { concertOne } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
 import { MoveRight, User } from 'lucide-react';
-import ProfileDropdown from './dropdowns/profile-dropdown';
-import Avatar from './utils/avatar';
-import ProgressLink from './utils/progress-link';
+import ProfileDropdown from '../dropdowns/profile-dropdown';
+import Avatar from '../utils/avatar';
+import { logo } from '../utils/logo';
+import ProgressLink from '../utils/progress-link';
 
 export default function Header() {
   const { data: profile, isLoading: isLoadingProfile } = useProfile();
   return (
     <div className="fixed left-0 top-0 z-10 flex h-20 w-full items-center bg-white/70 filter backdrop-blur-2xl">
       <header className="cont flex items-center justify-between">
-        <ProgressLink
-          href="/"
-          className={`${concertOne.className} bg-gradient-to-r from-rose-400 to-pink-500 bg-clip-text text-4xl font-bold text-transparent`}
-        >
-          Glambeauty
+        <ProgressLink href="/" className="text-4xl">
+          {logo}
         </ProgressLink>
 
         <nav className="flex items-center space-x-7">
