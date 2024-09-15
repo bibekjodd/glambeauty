@@ -6,8 +6,32 @@ import { Toaster } from 'sonner';
 import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
+const title = 'Glambeauty';
+const description = 'Glambeauty - where your glamour begins';
+const siteImage = 'https://i.postimg.cc/vZYq8C1L/hero-banner-1.png';
+const siteUrl = 'https://glambeauty.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'Glambeauty'
+  title: 'Glambeauty',
+  category: 'beauty/makeup',
+  description,
+
+  openGraph: {
+    title,
+    siteName: title,
+    type: 'website',
+    url: siteUrl,
+    description,
+    images: [siteImage]
+  },
+
+  twitter: {
+    title,
+    site: siteUrl,
+    description,
+    card: 'summary_large_image',
+    images: [siteImage]
+  }
 };
 
 export default function RootLayout({
