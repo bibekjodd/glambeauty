@@ -8,3 +8,11 @@ type User = {
   address: string | null;
   active: boolean;
 };
+
+type Service = {
+  id: string;
+  title: string;
+  price: number;
+  duration: number;
+  active: boolean;
+};
