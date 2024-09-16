@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="relative grid h-screen min-h-screen place-items-center">
       {/* banner */}
-      <div className='absolute -z-10 h-screen w-full bg-[url("https://simplybook.me/build/images/Beauty-salons.f53f1dfc.png")] bg-cover bg-no-repeat [background-position:left_center] [clip-path:polygon(0_0,_100%_0%,_100%_90%,_0%_100%)]'>
+      <div className='absolute -z-10 h-screen w-full bg-[url("https://i.ibb.co/0fZSpRF/hero-bannerr.png")] bg-cover bg-no-repeat [background-position:left_center] [clip-path:polygon(0_0,_100%_0%,_100%_90%,_0%_100%)]'>
         <div className="absolute left-0 top-20 h-screen w-full bg-gradient-to-br from-white/50 lg:from-white/30 xl:bg-none" />
       </div>
 

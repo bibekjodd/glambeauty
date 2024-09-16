@@ -1,5 +1,5 @@
-import LogoutDialog from '@/dialogs/logout-dialog';
-import ProfileDialog from '@/dialogs/profile-dialog';
+import LogoutDialog from '@/components/dialogs/logout-dialog';
+import ProfileDialog from '@/components/dialogs/profile-dialog';
 import { useProfile } from '@/queries/use-profile';
 import { BookText, LayoutGrid, LogOut, User } from 'lucide-react';
 import React from 'react';

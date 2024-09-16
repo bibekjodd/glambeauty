@@ -27,12 +27,12 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="">
+      <DialogContent className="flex max-h-full flex-col overflow-hidden md:max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="text-center">Add new staff</DialogTitle>
         </DialogHeader>
 
-        <section className="">
+        <section className="flex-grow overflow-y-auto px-2">
           <div>
             <Label id="search">Search users</Label>
             <Input
@@ -43,7 +43,7 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
             />
           </div>
 
-          <AutoAnimate className="mt-5 flex h-fit max-h-96 flex-col space-y-2 overflow-y-auto">
+          <AutoAnimate className="mt-5 flex h-fit max-h-96 flex-col space-y-2 overflow-y-auto pr-1 scrollbar-thin">
             <span className="text-sm font-semibold">Results:</span>
             {users.slice(0, 7).map((user) => (
               <User key={user.id} user={user} />
@@ -58,7 +58,9 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
 function User({ user }: { user: User }) {
   const { mutate } = useUpdateUser(user.id);
   const { data: staffs } = useStaffs();
-  const isAddingStaff = !!useIsMutating({ mutationKey: ['update-user', user.id] });
+  const isAddingStaff = !!useIsMutating({
+    mutationKey: ['update-user', user.id]
+  });
   const addStaff = () => {
     mutate({ role: 'staff', active: true });
   };
@@ -71,7 +73,7 @@ function User({ user }: { user: User }) {
       <Avatar src={user.image} className="mr-2" variant="sm" />
       <span className="font-semibold">{user.name}</span>
       <Button disabled={isAddingStaff} onClick={addStaff} className="relative ml-auto" size="sm">
-        {!isAddingStaff && <span>Add staff</span>}
+        <span className={`${isAddingStaff ? 'opacity-0' : ''}`}>Add staff</span>
 
         {isAddingStaff && (
           <span className="absolute grid place-items-center">

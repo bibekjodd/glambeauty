@@ -1,5 +1,5 @@
 'use client';
-import LogoutDialog from '@/dialogs/logout-dialog';
+import LogoutDialog from '@/components/dialogs/logout-dialog';
 import { poppins } from '@/lib/fonts';
 import { BookText, LayoutGrid, Library, LogOut, UsersRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';

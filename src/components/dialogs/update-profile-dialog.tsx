@@ -53,14 +53,13 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
         </DialogHeader>
 
         <section>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
             <FormInput
               Icon={User}
-              {...register('name')}
               label="Name"
               placeholder="Ayushma Dhungana..."
+              {...register('name')}
               error={errors.name?.message}
-              className="m-20 h-20"
             />
             <FormInput
               Icon={MapPin}

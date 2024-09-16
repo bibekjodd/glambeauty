@@ -15,9 +15,16 @@ export const useAddService = () => {
       toast.dismiss();
       toast.loading(`Adding new service...`);
     },
-    onSuccess() {
+    onSuccess(addedService) {
       toast.dismiss();
       toast.success(`New Service added successfully`);
+      const oldServicesData = queryClient.getQueryData<Service[]>(['services']);
+      if (!oldServicesData) return;
+      const updatedServicesData: Service[] = oldServicesData.map((service) => {
+        if (service.id !== addedService.id) return service;
+        return addedService;
+      });
+      queryClient.setQueryData<Service[]>(['services'], updatedServicesData);
     },
     onError(err) {
       toast.dismiss();

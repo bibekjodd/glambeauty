@@ -1,4 +1,4 @@
-import StaffProfileDialog from '@/dialogs/staff-profile-dialog';
+import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
 import { useUpdateUser } from '@/mutations/use-update-user';
 import { CircleUser, Dot, ShieldCheck, User } from 'lucide-react';
 import React from 'react';

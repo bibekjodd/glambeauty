@@ -10,8 +10,8 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Avatar from '@/components/utils/avatar';
-import AddStaffDialog from '@/dialogs/add-staff-dialog';
-import StaffProfileDialog from '@/dialogs/staff-profile-dialog';
+import AddStaffDialog from '@/components/dialogs/add-staff-dialog';
+import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
 import { useStaffs } from '@/queries/use-staffs';
 import { useIsMutating } from '@tanstack/react-query';
 import {
@@ -60,7 +60,9 @@ export default function Page() {
 }
 
 function Staff({ staff }: { staff: User }) {
-  const isUpdatingStaff = !!useIsMutating({ mutationKey: ['update-user', staff.id] });
+  const isUpdatingStaff = !!useIsMutating({
+    mutationKey: ['update-user', staff.id]
+  });
   return (
     <TableRow key={staff.id}>
       <TableCell>

@@ -33,7 +33,7 @@ export const addServiceSchema = z.object({
       .number({ required_error: 'Duration is required' })
       .min(0.5, 'Service duration must be at least half hours')
       .max(12, "Service duration can't exceed 12 hours")
-      .transform((val) => Math.round(val * 2) / 4)
+      .transform((val) => Math.round(val * 2) / 2)
   )
 });
 export type AddServiceSchema = z.infer<typeof addServiceSchema>;

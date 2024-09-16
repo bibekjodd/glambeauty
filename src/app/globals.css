@@ -16,15 +16,6 @@ textarea:focus {
   outline-offset: 2px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;

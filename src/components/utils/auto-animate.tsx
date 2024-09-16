@@ -3,7 +3,9 @@ import { AutoAnimateOptions } from '@formkit/auto-animate';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { HTMLAttributes } from 'react';
 
-type Props = { animationOptions?: Partial<AutoAnimateOptions> } & HTMLAttributes<HTMLDivElement>;
+type Props = {
+  animationOptions?: Partial<AutoAnimateOptions>;
+} & HTMLAttributes<HTMLDivElement>;
 
 export default function AutoAnimate({ animationOptions, children, ...props }: Props) {
   const [ref] = useAutoAnimate({

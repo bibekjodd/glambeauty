@@ -1,5 +1,5 @@
 'use client';
-import ProfileDialog from '@/dialogs/profile-dialog';
+import ProfileDialog from '@/components/dialogs/profile-dialog';
 import { poppins } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
 import Avatar from '../utils/avatar';

@@ -39,7 +39,9 @@ type Options = {
 };
 export const updateUser = async ({ id, ...data }: Options) => {
   try {
-    await axios.put(`${backend_url}/api/users/${id}`, data, { withCredentials: true });
+    await axios.put(`${backend_url}/api/users/${id}`, data, {
+      withCredentials: true
+    });
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
