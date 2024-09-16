@@ -7,6 +7,11 @@ import Avatar from '../utils/avatar';
 import { logo } from '../utils/logo';
 import ProgressLink from '../utils/progress-link';
 
+const links = [
+  { title: 'About', href: '#about' },
+  { title: 'Services', href: '#services' }
+];
+
 export default function Header() {
   const { data: profile, isLoading: isLoadingProfile } = useProfile();
   return (
@@ -16,15 +21,21 @@ export default function Header() {
           {logo}
         </ProgressLink>
 
-        <nav className="flex items-center space-x-7">
+        <nav className="flex items-center space-x-10 font-medium">
+          {links.map((link) => (
+            <ProgressLink key={link.title} href={link.href} className="hover:text-pink-500">
+              {link.title}
+            </ProgressLink>
+          ))}
+
           <button
             onClick={() => {
               if (!profile) window.open(`${backend_url}/api/login/google`, '_blank');
             }}
-            className="group flex items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-6 py-2 text-white brightness-110 transition-all hover:px-[25px] hover:brightness-100 active:scale-[0.98]"
+            className="group flex h-8 items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-7 font-normal text-white brightness-110 transition-all hover:brightness-100 active:scale-[0.98]"
           >
             <span>Book an appointment</span>
-            <MoveRight className="size-4 transition group-hover:translate-x-0.5 group-hover:scale-125" />
+            <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
           </button>
 
           {!isLoadingProfile && !profile && (
@@ -36,12 +47,12 @@ export default function Header() {
           {profile && (
             <ProfileDropdown>
               <button>
-                <Avatar src={profile.image} variant="lg" />
+                <Avatar src={profile.image} />
               </button>
             </ProfileDropdown>
           )}
           {isLoadingProfile && (
-            <div className="size-10 animate-pulse rounded-full bg-neutral-400/30" />
+            <div className="size-8 animate-pulse rounded-full bg-neutral-400/30" />
           )}
         </nav>
       </header>

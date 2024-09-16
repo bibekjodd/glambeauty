@@ -1,3 +1,4 @@
 export const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 export const dummyUserImage = 'https://avatars.githubusercontent.com/u/110604197?v=4';
 export const dummyServiceImage = 'https://i.postimg.cc/HxjCcRRM/Untitled.jpg';
+export const aboutUsImage = 'https://i.postimg.cc/Jz1xTfLB/Untitled.jpg';

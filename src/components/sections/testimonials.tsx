@@ -1,5 +1,6 @@
 import { poppins } from '@/lib/fonts';
 import { Star } from 'lucide-react';
+import Image from 'next/image';
 
 const testimonials: {
   name: string;
@@ -47,14 +48,17 @@ export default function Testimonails() {
         {testimonials.map((testimonial) => (
           <div key={testimonial.name} className="w-full p-5 md:w-1/2 xl:w-1/3">
             <div className="flex flex-col items-center self-center rounded-xl bg-white p-6 pt-0 shadow-xl shadow-gray-200">
-              <img
+              <Image
                 src={testimonial.image}
                 alt="user image"
+                height={1080}
+                width={720}
+                quality={100}
                 className="size-24 -translate-y-5 rounded-full object-cover shadow-xl"
               />
               <p className="text-lg font-semibold">{testimonial.name}</p>
-              <p>{testimonial.attribute}</p>
-              <div className="my-2 flex">
+              <p className="text-gray-700">{testimonial.attribute}</p>
+              <div className="my-2 flex space-x-0.5">
                 {new Array(Math.ceil(testimonial.rating)).fill('nothing').map((_, i) => (
                   <Star key={i} className="size-4 fill-amber-500 text-amber-500" />
                 ))}
