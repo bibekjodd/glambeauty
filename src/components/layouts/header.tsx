@@ -25,7 +25,7 @@ export default function Header() {
         <nav className="flex items-center space-x-3 font-medium md:space-x-10">
           {profile?.role === 'user' && (
             <SelectAppointmentDialog>
-              <Button className="space-x-2 rounded-full px-6" variant="gradient">
+              <Button className="hidden space-x-2 rounded-full px-6 sm:flex" variant="gradient">
                 <span>Book an appointment</span>
                 <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
               </Button>
