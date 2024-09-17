@@ -75,7 +75,6 @@ export default function SelectAppointmentDialog({ children }: { children: React.
 
   return (
     <Dialog
-      defaultOpen
       onOpenChange={() => {
         selectedStaff = undefined;
         selectedService = undefined;
