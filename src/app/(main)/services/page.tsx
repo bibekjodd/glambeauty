@@ -4,7 +4,7 @@ import { poppins } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
 import { useServices } from '@/queries/use-services';
 
-export default function page() {
+export default function Page() {
   const { data: services } = useServices();
   const { data: profile } = useProfile();
   return (
