@@ -16,6 +16,18 @@ textarea:focus {
   outline-offset: 2px;
 }
 
+.progress-loader {
+  animation: progress-loader 1s ease-in-out;
+}
+
+@keyframes progress-loader {
+  from {
+    width: 10%;
+  }
+  to {
+    width: 100%;
+  }
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

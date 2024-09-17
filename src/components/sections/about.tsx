@@ -33,7 +33,7 @@ export default function About() {
             height={1080}
             width={720}
             quality={100}
-            className="aspect-video w-full rounded-sm object-cover"
+            className="aspect-video w-full object-cover"
           />
         </div>
       </section>
@@ -44,7 +44,7 @@ export default function About() {
 const bgShadow = (
   <div className="absolute inset-0 -z-10 grid place-items-center">
     <section className="relative grid h-full w-full place-items-center">
-      <div className="absolute aspect-square w-4/12 rounded-full bg-fuchsia-700/15 blur-3xl filter backdrop-blur-3xl md:w-8/12 lg:bg-fuchsia-700/20" />
+      <div className="absolute aspect-square w-4/12 rounded-full bg-fuchsia-700/15 blur-3xl filter backdrop-blur-3xl md:w-8/12 md:translate-y-16 lg:translate-y-0 lg:bg-fuchsia-700/20" />
     </section>
   </div>
 );

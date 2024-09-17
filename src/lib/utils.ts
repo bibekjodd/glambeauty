@@ -39,3 +39,11 @@ export const uploadImage = async (file: File): Promise<string> => {
     throw new Error('Could not upload image');
   }
 };
+
+export const wait = async (time = 1000) => {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res('okay');
+    }, time);
+  });
+};

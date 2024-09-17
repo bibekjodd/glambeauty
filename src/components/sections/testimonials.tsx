@@ -37,7 +37,7 @@ const testimonials: {
 
 export default function Testimonails() {
   return (
-    <section id="testimonials" className="mt-24 bg-gray-100 px-4 py-12 md:px-5 lg:px-10 xl:px-0">
+    <section id="testimonials" className="mt-24 bg-gray-100 py-12 md:px-5 lg:px-10 xl:px-0">
       <h3
         className={`text-balance px-4 text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
       >
