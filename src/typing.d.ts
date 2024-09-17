@@ -11,10 +11,22 @@ type User = {
 
 type Service = {
   id: string;
-  title: string;
   image: string | null;
-  description: string;
+  active: boolean | null;
+  title: string;
   price: number;
+  description: string;
   duration: number;
-  active: boolean;
+};
+
+type Appointment = {
+  id: string;
+  customer: User;
+  service: Service;
+  staff: User;
+  starts_at: string;
+  ends_at: string;
+  status: 'pending' | 'completed' | 'cancelled';
+  cancelReason: string | null;
+  isRescheduled: boolean | null;
 };

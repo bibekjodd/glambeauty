@@ -22,15 +22,15 @@ const list = [
 
 export default function Best() {
   return (
-    <section id="best" className="cont mt-24 py-12">
+    <section id="best" className="mt-24 py-12">
       <h3
-        className={`text-balance px-4 text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
+        className={`text-balance text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
       >
         Why are we the <span className="text-pink-500">Best</span> on the{' '}
         <span className="text-pink-500">Market!</span>
       </h3>
 
-      <div className="mt-12 grid space-y-12 lg:grid-cols-4 lg:space-y-0">
+      <div className="cont mt-12 grid space-y-12 lg:grid-cols-4 lg:space-y-0">
         {list.map((item) => (
           <div key={item.title} className="flex flex-col items-center space-y-5">
             <item.icon className="size-12 text-pink-500" />

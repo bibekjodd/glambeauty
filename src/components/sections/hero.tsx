@@ -1,5 +1,6 @@
 import { poppins } from '@/lib/fonts';
 import { ChevronRight } from 'lucide-react';
+import ProgressLink from '../utils/progress-link';
 
 export default function Hero() {
   return (
@@ -15,10 +16,13 @@ export default function Hero() {
           <span className="text-4xl font-bold tracking-wide text-gray-800">Glambeauty</span>
         </h3>
 
-        <button className="group mt-3 flex items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-6 py-2.5 text-lg text-white brightness-110 transition-all hover:brightness-100 active:scale-[0.98]">
+        <ProgressLink
+          href="/services"
+          className="group mt-3 flex w-fit items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-6 py-2.5 text-lg text-white brightness-110 transition-all hover:brightness-100 active:scale-[0.98]"
+        >
           <span className="">See our services</span>
           <ChevronRight className="size-6 transition group-hover:translate-x-0.5" />
-        </button>
+        </ProgressLink>
       </div>
     </section>
   );

@@ -1,8 +1,10 @@
 import LogoutDialog from '@/components/dialogs/logout-dialog';
 import ProfileDialog from '@/components/dialogs/profile-dialog';
 import { useProfile } from '@/queries/use-profile';
-import { BookText, LayoutGrid, LogOut, User } from 'lucide-react';
+import { BookText, LayoutGrid, LogOut, NotebookPen, User } from 'lucide-react';
 import React from 'react';
+import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
+import AppointmentsDrawer from '../drawers/appointments-drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,18 +39,33 @@ export default function ProfileDropdown({ children }: Props) {
           </DropdownMenuSubTrigger>
         </DropdownMenuSub>
 
-        {profile?.role === 'user' && (
+        {profile?.role !== 'admin' && (
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <button className="flex items-center">
-                <BookText className="mr-2 size-4" />
-                <span>Appointments</span>
-              </button>
+              <AppointmentsDrawer>
+                <button className="flex items-center">
+                  <BookText className="mr-2 size-4" />
+                  <span>Appointments</span>
+                </button>
+              </AppointmentsDrawer>
             </DropdownMenuSubTrigger>
           </DropdownMenuSub>
         )}
 
-        {profile?.role !== 'user' && (
+        {profile?.role === 'user' && (
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className="sm:hidden">
+              <SelectAppointmentDialog>
+                <button className="flex items-center">
+                  <NotebookPen className="mr-2 size-4" />
+                  <span>Book an appointment</span>
+                </button>
+              </SelectAppointmentDialog>
+            </DropdownMenuSubTrigger>
+          </DropdownMenuSub>
+        )}
+
+        {profile?.role === 'admin' && (
           <DropdownMenuItem>
             <ProgressButton href="/dashboard" className="flex items-center space-x-2">
               <LayoutGrid className="size-4" />

@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: profile, isLoading } = useProfile();
   if (!isLoading && !profile) redirect('/');
   if (!profile) return null;
-  if (profile.role === 'user') redirect('/');
+  if (profile.role !== 'admin') redirect('/');
   return (
     <div className="flex items-start">
       <div className="sticky left-0 top-0">

@@ -2,7 +2,7 @@
 import { poppins } from '@/lib/fonts';
 import { MoveRight } from 'lucide-react';
 import Image from 'next/image';
-import ProgressLink from '../utils/progress-link';
+import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
 
 type Service = { title: string; image: string; description: string };
 const services: Service[] = [
@@ -46,7 +46,7 @@ export default function Services() {
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <div className="flex flex-col px-5 lg:px-7">
+    <div className="flex flex-col lg:px-7">
       <div className="relative aspect-video w-full cursor-pointer overflow-hidden rounded-md">
         <Image
           src={service.image}
@@ -61,13 +61,12 @@ function ServiceCard({ service }: { service: Service }) {
         {bgShadow}
         <h3 className={`text-2xl font-semibold ${poppins.className}`}>{service.title}</h3>
         <p className="mt-3 line-clamp-3 text-gray-700">{service.description}</p>
-        <ProgressLink
-          href="/appointment"
-          className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]"
-        >
-          <span>Book now</span>
-          <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
-        </ProgressLink>
+        <SelectAppointmentDialog>
+          <button className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]">
+            <span>Book now</span>
+            <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
+          </button>
+        </SelectAppointmentDialog>
       </div>
     </div>
   );
