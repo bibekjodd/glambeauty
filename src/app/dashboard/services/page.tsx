@@ -1,7 +1,7 @@
 'use client';
+import ServiceCard from '@/components/cards/service-card';
 import AddServiceDialog from '@/components/dialogs/add-service-dialog';
 import { Button } from '@/components/ui/button';
-import { dummyServiceImage } from '@/lib/constants';
 import { useServices } from '@/queries/use-services';
 
 export default function Page() {
@@ -18,33 +18,10 @@ export default function Page() {
       </div>
 
       <section className="mt-5 flex flex-col space-y-10">
-        {services?.map((service) => <Service key={service.id} service={service} />)}
+        {services?.map((service) => (
+          <ServiceCard key={service.id} service={service} view="admin" />
+        ))}
       </section>
     </main>
-  );
-}
-
-function Service({ service }: { service: Service }) {
-  return (
-    <div className="flex flex-col overflow-hidden rounded-lg border shadow-xl shadow-gray-300/20 md:flex-row">
-      <img
-        src={service.image || dummyServiceImage}
-        alt="service image"
-        className="aspect-video w-full object-contain md:w-1/2 lg:w-96"
-      />
-      <div className="flex flex-col space-y-2 p-4">
-        <h4 className="text-lg font-semibold">{service.title}</h4>
-        <p>
-          Price <span className="font-bold">Rs.{service.price}</span>
-        </p>
-        <p>
-          Duration: <span>{service.duration} hours</span>
-        </p>
-        <p className="line-clamp-2">{service.description}</p>
-        <AddServiceDialog mode="update" service={service}>
-          <Button>Update Service</Button>
-        </AddServiceDialog>
-      </div>
-    </div>
   );
 }

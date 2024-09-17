@@ -27,10 +27,11 @@ import Avatar from '../utils/avatar';
 import BookAppointmentDialog from './book-appointment-dialog';
 
 type CalendarDate = Date | null | [Date | null, Date | null];
-export default function SelectAppointmentDialog({ children }: { children: React.ReactNode }) {
+type Props = { children: React.ReactNode; referredServiceId?: string };
+export default function SelectAppointmentDialog({ children, referredServiceId }: Props) {
   const [date, onChange] = useState<CalendarDate>(new Date());
   const [time, setTime] = useState(9);
-  const [serviceId, setServiceId] = useState<string | null>(null);
+  const [serviceId, setServiceId] = useState<string | null>(referredServiceId || null);
   const { data: services } = useServices();
   const [staffId, setStaffId] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -66,8 +67,8 @@ export default function SelectAppointmentDialog({ children }: { children: React.
   let selectedService = services?.find((service) => service.id === serviceId);
 
   const clearValues = () => {
+    if (!referredServiceId) setServiceId(null);
     setStaffId(null);
-    setServiceId(null);
     selectedStaff = undefined;
     selectedService = undefined;
     closeButtonRef.current?.click();
@@ -75,7 +76,8 @@ export default function SelectAppointmentDialog({ children }: { children: React.
 
   return (
     <Dialog
-      onOpenChange={() => {
+      onOpenChange={(isOpen) => {
+        if (!isOpen) return;
         selectedStaff = undefined;
         selectedService = undefined;
       }}

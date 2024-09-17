@@ -5,6 +5,7 @@ import { LogIn, MoveRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
 import ProfileDropdown from '../dropdowns/profile-dropdown';
+import { Button } from '../ui/button';
 import Avatar from '../utils/avatar';
 import { logo } from '../utils/logo';
 import ProgressLink from '../utils/progress-link';
@@ -14,7 +15,7 @@ export default function Header() {
   const pathname = usePathname();
   return (
     <div
-      className={`left-0 top-0 z-10 flex h-20 w-full items-center bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
+      className={`left-0 top-0 z-10 flex h-20 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
     >
       <header className="cont flex items-center justify-between">
         <ProgressLink href="/" className="text-4xl">
@@ -24,21 +25,19 @@ export default function Header() {
         <nav className="flex items-center space-x-3 font-medium md:space-x-10">
           {profile?.role === 'user' && (
             <SelectAppointmentDialog>
-              <button className="group hidden h-9 items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-7 font-normal text-white brightness-110 transition-all hover:brightness-100 active:scale-[0.98] sm:flex">
+              <Button className="space-x-2 rounded-full px-6" variant="gradient">
                 <span>Book an appointment</span>
                 <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
-              </button>
+              </Button>
             </SelectAppointmentDialog>
           )}
 
           {!profile && (
-            <a
-              href={`${backend_url}/api/login/google`}
-              target="_blank"
-              className="group hidden h-9 items-center space-x-2 rounded-full bg-gradient-to-tr from-pink-600/90 to-pink-500 px-7 font-normal text-white brightness-110 transition-all hover:brightness-100 active:scale-[0.98] sm:flex"
-            >
-              <span>Book an appointment</span>
-              <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
+            <a href={`${backend_url}/api/login/google`} target="_blank">
+              <Button className="space-x-2 rounded-full px-6" variant="gradient">
+                <span>Book an appointment</span>
+                <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
+              </Button>
             </a>
           )}
 
