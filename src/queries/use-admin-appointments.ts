@@ -3,10 +3,10 @@ import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useAppointments = () => {
+export const useAdminAppointments = (userId: string | null) => {
   return useInfiniteQuery({
-    queryKey: ['appointments'],
-    queryFn: ({ signal, pageParam }) => fetchAppointments({ signal, cursor: pageParam }),
+    queryKey: ['admin-appointments', userId],
+    queryFn: ({ signal, pageParam }) => fetchAppointments({ signal, cursor: pageParam, userId }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
       return lastPage[lastPage.length - 1]?.starts_at;
@@ -17,14 +17,17 @@ export const useAppointments = () => {
 
 const fetchAppointments = async ({
   signal,
-  cursor
+  cursor,
+  userId
 }: {
   signal: AbortSignal;
   cursor: string | undefined;
+  userId: string | null;
 }): Promise<Appointment[]> => {
   try {
-    const url = new URL(`${backend_url}/api/appointments`);
+    const url = new URL(`${backend_url}/api/appointments/all`);
     cursor && url.searchParams.set('cursor', cursor);
+    userId && url.searchParams.set('user_id', userId);
     const res = await axios.get<{ appointments: Appointment[] }>(url.href, {
       signal,
       withCredentials: true

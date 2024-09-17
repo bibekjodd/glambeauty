@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="sticky left-0 top-0">
         <DashboardSidebar />
       </div>
-      <div className="flex flex-grow flex-col">
+      <div className="flex flex-grow flex-col bg-white">
         <DashboardHeader />
         {children}
       </div>

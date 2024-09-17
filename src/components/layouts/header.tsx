@@ -18,7 +18,7 @@ export default function Header() {
       className={`left-0 top-0 z-10 flex h-20 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
     >
       <header className="cont flex items-center justify-between">
-        <ProgressLink href="/" className="text-4xl">
+        <ProgressLink href="/" className="text-3xl sm:text-4xl">
           {logo}
         </ProgressLink>
 
@@ -32,36 +32,35 @@ export default function Header() {
             </SelectAppointmentDialog>
           )}
 
-          {!profile && (
+          {!profile && !isLoadingProfile && (
             <a href={`${backend_url}/api/login/google`} target="_blank">
               <Button className="space-x-2 rounded-full px-6" variant="gradient">
-                <span>Book an appointment</span>
-                <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
+                <span>Login</span>
+                <LogIn className="size-4" />
               </Button>
             </a>
           )}
 
-          {!isLoadingProfile && !profile && (
-            <a
-              href={`${backend_url}/api/login/google`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center space-x-2 hover:text-pink-600 sm:hidden"
-            >
-              <span>Login</span>
-              <LogIn className="size-5 text-gray-900 group-hover:text-pink-600" />
-            </a>
+          {profile && (
+            <div className="flex items-center space-x-1.5 text-sm">
+              <div className="hidden sm:inline">
+                <span className="mr-1">Welcome, </span>
+                <span className="font-bold">{profile.name.split(' ')[0]}</span>
+              </div>
+
+              <ProfileDropdown>
+                <button>
+                  <Avatar src={profile.image} />
+                </button>
+              </ProfileDropdown>
+            </div>
           )}
 
-          {profile && (
-            <ProfileDropdown>
-              <button>
-                <Avatar src={profile.image} />
-              </button>
-            </ProfileDropdown>
-          )}
           {isLoadingProfile && (
-            <div className="size-8 animate-pulse rounded-full bg-neutral-400/30" />
+            <div className="flex items-center space-x-2">
+              <div className="hidden h-6 w-28 animate-pulse rounded-lg bg-neutral-400/30 sm:inline" />
+              <div className="size-8 animate-pulse rounded-full bg-neutral-400/30" />
+            </div>
           )}
         </nav>
       </header>

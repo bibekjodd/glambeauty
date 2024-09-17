@@ -76,7 +76,7 @@ function ServiceCard({ service }: { service: Service }) {
             href="/services"
             className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]"
           >
-            <span>Book now</span>
+            <span>Browse services</span>
             <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
           </ProgressLink>
         )}

@@ -39,18 +39,16 @@ export default function ProfileDropdown({ children }: Props) {
           </DropdownMenuSubTrigger>
         </DropdownMenuSub>
 
-        {profile?.role !== 'admin' && (
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <AppointmentsDrawer>
-                <button className="flex items-center">
-                  <BookText className="mr-2 size-4" />
-                  <span>Appointments</span>
-                </button>
-              </AppointmentsDrawer>
-            </DropdownMenuSubTrigger>
-          </DropdownMenuSub>
-        )}
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <AppointmentsDrawer>
+              <button className="flex items-center">
+                <BookText className="mr-2 size-4" />
+                <span>Appointments</span>
+              </button>
+            </AppointmentsDrawer>
+          </DropdownMenuSubTrigger>
+        </DropdownMenuSub>
 
         {profile?.role === 'user' && (
           <DropdownMenuSub>

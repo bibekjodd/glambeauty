@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} min-h-screen bg-white text-black antialiased`}>
         <QueryProvider>
           <LoadingBar />
           <Toaster toastOptions={{ duration: 3000 }} theme="dark" richColors closeButton />

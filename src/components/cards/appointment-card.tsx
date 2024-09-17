@@ -16,6 +16,7 @@ export default function AppointmentCard({ appointment }: { appointment: Appointm
   const completionHours = completionDate.getHours();
   const completionMinutes = completionDate.getMinutes();
   const { data: profile } = useProfile();
+  if (!profile) return;
 
   return (
     <section
@@ -40,13 +41,14 @@ export default function AppointmentCard({ appointment }: { appointment: Appointm
         </div>
 
         <h3 className="mt-1 text-lg font-semibold text-pink-500">{appointment.service.title}</h3>
-        {profile?.role === 'user' ? (
+        {profile.role !== 'staff' && (
           <div className="mt-1 flex items-center space-x-2">
             <p>Stylist:</p>
             <Avatar src={appointment.staff.image} variant="sm" />
             <p>{appointment.staff.name}</p>
           </div>
-        ) : (
+        )}
+        {profile.role !== 'user' && (
           <div className="mt-1 flex items-center space-x-2">
             <p>Customer:</p>
             <Avatar src={appointment.customer.image} variant="sm" />
@@ -70,7 +72,7 @@ export default function AppointmentCard({ appointment }: { appointment: Appointm
         )}
       </div>
 
-      {appointment.status === 'pending' && profile?.role === 'user' && (
+      {appointment.status === 'pending' && profile?.role !== 'staff' && (
         <AppointmentOptionsMenu appointment={appointment}>
           <button>
             <EllipsisVertical className="size-4 text-gray-700" />

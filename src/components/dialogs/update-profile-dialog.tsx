@@ -13,7 +13,8 @@ import { updateProfileSchema, UpdateProfileSchema } from '@/lib/form-schemas';
 import { useUpdateProfile } from '@/mutations/use-update-profile';
 import { useProfile } from '@/queries/use-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MapPin, Phone, User } from 'lucide-react';
+import { useIsMutating } from '@tanstack/react-query';
+import { Loader2, MapPin, Phone, User } from 'lucide-react';
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -34,6 +35,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { mutate } = useUpdateProfile();
+  const isUpdatingProfile = !!useIsMutating({ mutationKey: ['update-profile'] });
 
   const onSubmit = (data: UpdateProfileSchema) => {
     mutate(data, {
@@ -52,32 +54,30 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           <DialogTitle className="text-center">Update Profile</DialogTitle>
         </DialogHeader>
 
-        <section>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
-            <FormInput
-              Icon={User}
-              label="Name"
-              placeholder="Ayushma Dhungana..."
-              {...register('name')}
-              error={errors.name?.message}
-            />
-            <FormInput
-              Icon={MapPin}
-              {...register('address')}
-              label="Address"
-              placeholder="Bharatpur-2, Chitwan..."
-              error={errors.address?.message}
-            />
-            <FormInput
-              Icon={Phone}
-              {...register('phone')}
-              label="Phone"
-              type="number"
-              placeholder="9845620397..."
-              error={errors.phone?.message}
-            />
-          </form>
-        </section>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
+          <FormInput
+            Icon={User}
+            label="Name"
+            placeholder="Ayushma Dhungana..."
+            {...register('name')}
+            error={errors.name?.message}
+          />
+          <FormInput
+            Icon={MapPin}
+            {...register('address')}
+            label="Address"
+            placeholder="Bharatpur-2, Chitwan..."
+            error={errors.address?.message}
+          />
+          <FormInput
+            Icon={Phone}
+            {...register('phone')}
+            label="Phone"
+            type="number"
+            placeholder="9845620397..."
+            error={errors.phone?.message}
+          />
+        </form>
 
         <DialogFooter>
           <DialogClose asChild ref={closeButtonRef}>
@@ -85,8 +85,17 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           </DialogClose>
 
           <DialogClose asChild>
-            <Button onClick={handleSubmit(onSubmit)} disabled={!isDirty}>
-              Save
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              disabled={!isDirty || isUpdatingProfile}
+              className="relative"
+            >
+              <span className={`${isUpdatingProfile ? 'opacity-0' : ''}`}>Save</span>
+              {isUpdatingProfile && (
+                <span className="absolute grid place-items-center">
+                  <Loader2 className="size-4 animate-spin" />
+                </span>
+              )}
             </Button>
           </DialogClose>
         </DialogFooter>

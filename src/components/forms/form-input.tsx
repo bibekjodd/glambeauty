@@ -18,16 +18,16 @@ export const FormInput = forwardRef<HTMLInputElement, Props>(function Component(
   return (
     <AutoAnimate className={`${className ? className : ''} space-y-2`}>
       <Label htmlFor={props.id}>{label}</Label>
-      <div className="group flex h-10 items-center space-x-3 rounded-md border-2 border-gray-700 border-input px-2.5 font-medium focus-within:ring-2 focus-within:ring-ring">
-        {Icon && <Icon className="h-5 w-5 text-gray-900" />}
+      <div className="group flex h-10 items-center space-x-3 rounded-md border-2 border-gray-700 border-input px-3 py-1 text-sm focus-within:ring-2 focus-within:ring-ring">
+        {Icon && <Icon className="size-4 text-gray-900" />}
         <input
           {...props}
           ref={ref}
-          className="flex-1 outline-none placeholder:text-gray-500 focus:outline-none"
+          className="flex-1 outline-none placeholder:text-gray-500 placeholder:text-muted-foreground focus:outline-none"
         />
         {IconRight && (
           <button onClick={IconRightOnClick} type="button">
-            <IconRight className="h-5 w-5 text-gray-500" />
+            <IconRight className="size-4 text-gray-500" />
           </button>
         )}
       </div>
