@@ -21,12 +21,16 @@ type Service = {
 
 type Appointment = {
   id: string;
-  customer: User;
-  service: Service;
-  staff: User;
-  starts_at: string;
-  ends_at: string;
+  customerId: string;
+  serviceId: string | null;
+  staffId: string;
+  startsAt: string;
+  endsAt: string;
   status: 'pending' | 'completed' | 'cancelled';
   cancelReason: string | null;
   isRescheduled: boolean | null;
+  bookedAt: string;
+  staff: User;
+  customer: User;
+  service: Service;
 };

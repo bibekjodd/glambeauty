@@ -83,7 +83,7 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
       }}
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-screen flex-col md:max-h-[calc(100vh-40px)]">
+      <DialogContent className="flex max-h-screen flex-col">
         <DialogHeader>
           <DialogTitle className="text-center">Book an Appointment</DialogTitle>
         </DialogHeader>
@@ -111,7 +111,6 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
                 </SelectContent>
               </Select>
             </section>
-
             <section className="flexflex-col space-y-2">
               <Label>Pick the date</Label>
               <Calendar
@@ -121,7 +120,6 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
                 maxDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)}
               />
             </section>
-
             <section className="flex flex-col space-y-2">
               <Label>Select time </Label>
               <Select value={time.toString()} onValueChange={(val) => setTime(Number(val) || 9)}>
@@ -139,7 +137,6 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
                 </SelectContent>
               </Select>
             </section>
-
             <section className="flex flex-col space-y-2">
               <Label>Select a stylist</Label>
               {canSelectStaff && isLoadingStaffs && (

@@ -9,7 +9,7 @@ export const useAdminAppointments = (userId: string | null) => {
     queryFn: ({ signal, pageParam }) => fetchAppointments({ signal, cursor: pageParam, userId }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
-      return lastPage[lastPage.length - 1]?.starts_at;
+      return lastPage[lastPage.length - 1]?.startsAt;
     },
     refetchOnWindowFocus: true
   });

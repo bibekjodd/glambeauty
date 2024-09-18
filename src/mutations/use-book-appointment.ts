@@ -2,10 +2,12 @@ import { backend_url } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 export const useBookAppointment = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationKey: ['book-appointment'],
@@ -14,9 +16,10 @@ export const useBookAppointment = () => {
       toast.dismiss();
       toast.loading(`Booking appointment...`);
     },
-    onSuccess() {
+    onSuccess(appointmentId) {
       toast.dismiss();
       toast.success(`Appointment booked successfully`);
+      router.replace(`/?appointment_id=${appointmentId}&show_qr_code=true`);
     },
     onError(err) {
       toast.dismiss();
@@ -33,9 +36,14 @@ type Options = {
   serviceId: string;
   date: string;
 };
-const bookAppointment = async (data: Options) => {
+const bookAppointment = async (data: Options): Promise<string> => {
   try {
-    await axios.post(`${backend_url}/api/appointments`, data, { withCredentials: true });
+    const res = await axios.post<{ appointmentId: string }>(
+      `${backend_url}/api/appointments`,
+      data,
+      { withCredentials: true }
+    );
+    return res.data.appointmentId;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }

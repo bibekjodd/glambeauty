@@ -1,0 +1,32 @@
+import { backend_url } from '@/lib/constants';
+import { extractErrorMessage } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+export const useAppointment = (id: string) => {
+  return useQuery({
+    queryKey: ['appointment', id],
+    queryFn: ({ signal }) => fetchAppointment({ id, signal }),
+    staleTime: Infinity,
+    gcTime: 5 * 60 * 1000,
+    enabled: !!id
+  });
+};
+
+const fetchAppointment = async ({
+  id,
+  signal
+}: {
+  id: string;
+  signal: AbortSignal;
+}): Promise<Appointment> => {
+  try {
+    const res = await axios.get<{ appointment: Appointment }>(
+      `${backend_url}/api/appointments/${id}`,
+      { withCredentials: true, signal }
+    );
+    return res.data.appointment;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+};

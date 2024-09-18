@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/utils';
 import { useBookAppointment } from '@/mutations/use-book-appointment';
 import { useIsMutating } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
@@ -35,10 +36,6 @@ export default function BookAppointmentDialog({
   const isBookingAppointment = !!useIsMutating({ mutationKey: ['book-appointment'] });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const fullDate = new Date(date);
-  const month = fullDate.toLocaleString('default', { month: 'long' });
-  const day = fullDate.getDate();
-  const hours = fullDate.getHours();
-  const minutes = fullDate.getMinutes();
 
   const bookAppointment = () => {
     mutate(
@@ -71,9 +68,7 @@ export default function BookAppointmentDialog({
             <span>{staff.name}</span>
           </div>
           <div>
-            <span>Time:</span> {month} {day}, {hours % 12 || 12}
-            {minutes !== 0 ? `:${minutes}` : ''}
-            {hours >= 12 ? 'pm' : 'am'}
+            <span>Time: {formatDate(fullDate)}</span>
           </div>
 
           <div>

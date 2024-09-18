@@ -1,16 +1,14 @@
 import { inter, poppins } from '@/lib/fonts';
+import { formatDate } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';
 import { CircleCheck, CircleSlash, Clock12, EllipsisVertical } from 'lucide-react';
 import AppointmentOptionsMenu from '../dropdowns/appointment-options-menu';
 import Avatar from '../utils/avatar';
 
 export default function AppointmentCard({ appointment }: { appointment: Appointment }) {
-  const date = new Date(appointment.starts_at);
+  const date = new Date(appointment.startsAt);
   if (new Date().toISOString() > appointment.status) appointment.status = 'completed';
   const month = date.toLocaleString('default', { month: 'long' });
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
   const completionDate = new Date(date.getTime() + appointment.service.duration * 60 * 60 * 1000);
   const completionMonth = completionDate.toLocaleString('default', { month: 'long' });
   const completionHours = completionDate.getHours();
@@ -57,9 +55,7 @@ export default function AppointmentCard({ appointment }: { appointment: Appointm
         )}
         <p className="mt-1">Charge: Rs. {appointment.service.price}</p>
         <p className="mt-1 text-sm italic text-gray-600">
-          Date: {month} {day}, {hours % 12 || 12}
-          {minutes !== 0 ? `:${minutes}` : ''}
-          {hours >= 12 ? 'pm' : 'am'} - {month !== completionMonth ? ` ${completionMonth},` : ''}{' '}
+          Date: {formatDate(date)} - {month !== completionMonth ? ` ${completionMonth},` : ''}{' '}
           {completionHours % 12 || 12}
           {completionMinutes !== 0 ? `:${completionMinutes}` : ''}
           {completionHours >= 12 ? 'pm' : 'am'}

@@ -9,7 +9,7 @@ export const useAppointments = () => {
     queryFn: ({ signal, pageParam }) => fetchAppointments({ signal, cursor: pageParam }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
-      return lastPage[lastPage.length - 1]?.starts_at;
+      return lastPage[lastPage.length - 1]?.startsAt;
     },
     refetchOnWindowFocus: true
   });
