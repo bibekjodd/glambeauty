@@ -69,7 +69,6 @@ function CustomerAndStaffAppointments() {
 function AdminAppointments() {
   const { data, isFetching, fetchNextPage, hasNextPage, isLoading } = useAdminAppointments(null);
   const appointments = data?.pages.flat(1) || [];
-  const { data: profile } = useProfile();
 
   return (
     <div className="h-full space-y-3 overflow-y-auto px-4 scrollbar-thin">

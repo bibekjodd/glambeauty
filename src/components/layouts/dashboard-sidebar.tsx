@@ -3,22 +3,16 @@ import LogoutDialog from '@/components/dialogs/logout-dialog';
 import { poppins } from '@/lib/fonts';
 import { BookText, LayoutGrid, Library, LogOut, LucideIcon, UsersRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import AppointmentsDrawer from '../drawers/appointments-drawer';
 import { logo } from '../utils/logo';
 import ProgressLink from '../utils/progress-link';
-import AppointmentsDrawer from '../drawers/appointments-drawer';
-
-const links = [
-  { title: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
-  { title: 'Appointments', href: '/dashboard/appointments', icon: BookText },
-  { title: 'Services', href: '/dashboard/services', icon: Library },
-  { title: 'Manage Staffs', href: '/dashboard/staffs', icon: UsersRound }
-];
 
 export default function DashboardSidebar() {
   return (
     <aside
-      className={`${poppins.className} hidden h-screen min-h-screen w-64 flex-col overflow-y-auto border-r bg-white py-3 text-sm font-semibold lg:flex`}
+      className={`${poppins.className} left-0 top-0 z-50 hidden h-screen min-h-screen w-64 flex-col overflow-y-auto border-r py-3 text-sm font-semibold lg:flex`}
     >
+      {bgGraphics}
       <ProgressLink href="/" className="px-6 text-4xl">
         {logo}
       </ProgressLink>
@@ -59,3 +53,12 @@ function NavLink({ title, href, Icon }: { title: string; href: string; Icon: Luc
     </ProgressLink>
   );
 }
+
+const bgGraphics = (
+  <>
+    <div className="fixed left-0 top-0 -z-10 hidden aspect-square w-60 rounded-full bg-pink-300/5 mix-blend-multiply blur-3xl filter lg:block" />
+    <div className="fixed left-0 top-32 -z-10 hidden aspect-square w-60 rounded-full bg-pink-300/5 mix-blend-multiply blur-3xl filter lg:block" />
+    <div className="fixed left-0 top-64 -z-10 hidden aspect-square w-60 rounded-full bg-pink-300/5 mix-blend-multiply blur-3xl filter lg:block" />
+    <div className="fixed left-0 top-96 -z-10 hidden aspect-square w-60 rounded-full bg-pink-300/5 mix-blend-multiply blur-3xl filter lg:block" />
+  </>
+);

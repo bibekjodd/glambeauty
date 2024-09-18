@@ -11,7 +11,7 @@ export default function DashboardHeader() {
   if (!profile) return null;
   return (
     <header
-      className={`${poppins.className} sticky top-0 flex items-center justify-between bg-white/80 px-6 py-4 text-sm filter backdrop-blur-2xl`}
+      className={`${poppins.className} sticky top-0 z-30 flex items-center justify-between border-b bg-white/60 px-6 py-4 text-sm filter backdrop-blur-xl`}
     >
       <nav className="hidden space-x-7 font-semibold lg:block">
         <span>Analytics</span>

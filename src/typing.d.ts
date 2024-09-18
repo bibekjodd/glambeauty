@@ -34,3 +34,11 @@ type Appointment = {
   customer: User;
   service: Service;
 };
+
+type AppointmentStats = {
+  id: string;
+  status: 'pending' | 'completed' | 'cancelled';
+  startsAt: string;
+  endsAt: string;
+  bookedAt: string;
+};

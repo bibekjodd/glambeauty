@@ -12,7 +12,7 @@ export const useDebounce = (dependency: unknown, delay = 200) => {
       setEnabled(false);
       clearTimeout(timeout);
     };
-  }, [dependency]);
+  }, [dependency, delay]);
 
   return enabled;
 };

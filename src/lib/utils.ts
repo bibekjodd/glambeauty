@@ -1,3 +1,4 @@
+import { TopService } from '@/queries/use-top-services';
 import axios, { AxiosError } from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -5,6 +6,19 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const colors = [
+  '#4A90E2',
+  '#D5A86B',
+  '#E94E77',
+  '#5D6D93',
+  '#F6C3B4',
+  '#8FCB3D',
+  '#FF8C00',
+  '#7D5BA6',
+  '#1ABC9C',
+  '#F39C12'
+] as const;
 
 export const extractErrorMessage = (err: unknown): string => {
   if (err instanceof AxiosError) {
@@ -55,4 +69,58 @@ export const formatDate = (value: string | Date | number) => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   return `${month} ${day}, ${hours % 12 || 12}${minutes !== 0 ? `:${minutes}` : ''}${hours > 12 ? 'pm' : 'am'}`;
+};
+
+export const findNextNDaysDate = (days: number): string => {
+  const date = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date.toISOString();
+};
+
+export type AppointmentsChartData = {
+  date: string;
+  pending: number;
+  completed: number;
+  cancelled: number;
+};
+
+export const prepareAppointmentsChartData = (stats: AppointmentStats[]) => {
+  const data: AppointmentsChartData[] = [];
+  for (const item of stats) {
+    const date = item.startsAt.slice(0, 10);
+    const itemGroup = data.find((group) => group.date === date);
+    if (itemGroup) {
+      itemGroup.cancelled += item.status === 'cancelled' ? 1 : 0;
+      itemGroup.pending += item.status === 'pending' ? 1 : 0;
+      itemGroup.completed += item.status === 'completed' ? 1 : 0;
+    } else {
+      data.push({
+        date,
+        pending: item.status === 'pending' ? 1 : 0,
+        cancelled: item.status === 'cancelled' ? 1 : 0,
+        completed: item.status === 'completed' ? 1 : 0
+      });
+    }
+  }
+  return data.sort((a, b) => a.date.localeCompare(b.date));
+};
+
+type TopServiceData = { title: string; count: number; fill: string };
+export const prepareTopServicesData = (services: TopService[]): TopServiceData[] => {
+  const data: TopServiceData[] = [];
+
+  for (let i = 0; i < services.length; i++) {
+    const service = services[i];
+    data.push({
+      title: service.title,
+      count: service.count,
+      // fill: `var(--chart-${i + 1})`
+      fill: colors[i]
+    });
+  }
+
+  return data;
 };
