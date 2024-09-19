@@ -19,9 +19,10 @@ import { useAddService } from '@/mutations/use-add-service';
 import { useUpdateService } from '@/mutations/use-update-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useIsMutating } from '@tanstack/react-query';
-import { Image as ImageIcon, Loader2, X } from 'lucide-react';
+import { Image as ImageIcon, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import DeleteServiceDialog from './delete-service-dialog';
 
 type Props =
   | { children: React.ReactNode; mode: 'add'; service?: undefined }
@@ -188,20 +189,24 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
 
           <div className="flex flex-col space-y-2">
             <Button
-              disabled={disabled}
+              disabled={disabled || isUpdatingService}
               onClick={() => handleSubmit(onSubmit)}
               type="submit"
+              loading={disabled}
               className="relative"
             >
               <span className={`${disabled ? 'opacity-0' : ''}`}>
-                {mode === 'add' ? 'Add Service' : 'Update'}
+                {mode === 'add' ? 'Add Service' : 'Update'} Service
               </span>
-              {disabled && (
-                <span className="absolute inset-0 grid place-items-center">
-                  <Loader2 className="size-4 animate-spin text-white" />
-                </span>
-              )}
             </Button>
+
+            {service && (
+              <DeleteServiceDialog id={service.id}>
+                <Button type="button" variant="outline">
+                  Delete Service
+                </Button>
+              </DeleteServiceDialog>
+            )}
 
             <DialogClose asChild ref={closeButtonRef}>
               <Button type="button" variant="outline" className="">

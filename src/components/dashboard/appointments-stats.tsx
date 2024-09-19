@@ -19,7 +19,7 @@ export default function AppointmentsStats() {
 
   return (
     <section>
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <h3 className="mb-5 text-xl font-semibold">Upcoming Appointments</h3>
         <Select value={start} onValueChange={setStart}>
           <SelectTrigger className="w-fit">

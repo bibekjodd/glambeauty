@@ -34,12 +34,13 @@ export default function NotificationsDrawer({ children }: { children: React.Reac
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetching={isFetching}
+            showLoader
           />
         </div>
 
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant="gradient" className="block w-full">
+            <Button variant="outline" className="block w-full">
               Close
             </Button>
           </DrawerClose>

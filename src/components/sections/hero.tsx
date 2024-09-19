@@ -12,9 +12,9 @@ export default function Hero() {
       </div>
 
       <div className="w-fit px-4 md:px-0 lg:ml-auto lg:w-1/2">
-        <h3 className={`${poppins.className} text-3xl`}>
-          <span className="mb-1 block text-balance text-gray-800">Online Booking System for</span>
-          <span className="text-4xl font-bold tracking-wide text-gray-800">Glambeauty</span>
+        <h3 className={`${poppins.className} text-3xl lg:text-gray-800`}>
+          <span className="mb-1 block text-balance">Online Booking System for</span>
+          <span className="text-4xl font-bold tracking-wide">Glambeauty</span>
         </h3>
 
         <ProgressLink href="/services">

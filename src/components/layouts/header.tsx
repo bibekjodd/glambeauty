@@ -1,5 +1,5 @@
 'use client';
-import { backend_url } from '@/lib/constants';
+import { loginLink } from '@/lib/constants';
 import { useProfile } from '@/queries/use-profile';
 import { LogIn, MoveRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = usePathname();
   return (
     <div
-      className={`left-0 top-0 z-10 flex h-20 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
+      className={`left-0 top-0 z-10 flex h-16 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
     >
       <header className="cont flex items-center justify-between">
         <ProgressLink href="/" className="text-3xl sm:text-4xl">
@@ -34,12 +34,12 @@ export default function Header() {
 
           {!profile && !isLoadingProfile && (
             <Button
-              onClick={() => window.open(`${backend_url}/api/login/google`, '_blank')}
+              onClick={() => window.open(loginLink, '_blank')}
               className="rounded-full px-6"
               variant="gradient"
+              Icon={LogIn}
             >
-              <span>Login</span>
-              <LogIn className="ml-2 size-4" />
+              Login
             </Button>
           )}
 

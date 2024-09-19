@@ -89,13 +89,13 @@ export default function BookAppointmentDialog({
           <DialogClose asChild ref={closeButtonRef}>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button onClick={bookAppointment} className="relative" disabled={isBookingAppointment}>
-            <span className={`${isBookingAppointment ? 'opacity-0' : ''}`}>Confirm Booking</span>
-            {isBookingAppointment && (
-              <span className="absolute grid place-items-center">
-                <Loader2 className="size-4 animate-spin" />
-              </span>
-            )}
+          <Button
+            loading={isBookingAppointment}
+            onClick={bookAppointment}
+            className="relative"
+            disabled={isBookingAppointment}
+          >
+            Confirm Booking
           </Button>
         </DialogFooter>
       </DialogContent>

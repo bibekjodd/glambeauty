@@ -28,9 +28,9 @@ export default function TopServices() {
   }, [chartData]);
 
   return (
-    <section className="mt-32">
+    <section className="w-full">
       <div className="flex justify-between">
-        <h3 className="mb-5 text-xl font-semibold">Top Services</h3>
+        <h3 className="mb-3 text-xl font-semibold">Top Services</h3>
         <Select value={end} onValueChange={setEnd}>
           <SelectTrigger className="w-fit">
             <SelectValue placeholder="Past 30 days" />
@@ -43,30 +43,25 @@ export default function TopServices() {
         </Select>
       </div>
 
-      <div className="grid w-full space-y-10 lg:grid-cols-2 lg:space-y-0">
-        <div className="relative">
-          <div className="absolute left-0 aspect-square size-96 rounded-full bg-fuchsia-600/5 mix-blend-multiply blur-3xl filter" />
-          <div className="absolute right-0 aspect-square size-96 rounded-full bg-pink-600/5 mix-blend-multiply blur-3xl filter" />
-
-          <Table className="border border-neutral-300">
-            <TableHeader>
-              <TableRow className="border-neutral-300">
-                <TableHead>Rank</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>No. of appointments</TableHead>
+      <div className="grid w-full max-w-full space-y-10 overflow-x-auto scrollbar-thin lg:grid-cols-2 lg:space-y-0">
+        <Table className="border border-neutral-300">
+          <TableHeader>
+            <TableRow className="border-neutral-300">
+              <TableHead>Rank</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>No. of appointments</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {services?.map((service, i) => (
+              <TableRow key={service.id} className="border-neutral-300">
+                <TableCell>{i + 1}</TableCell>
+                <TableCell className="font-medium">{service.title}</TableCell>
+                <TableCell>{service.count}</TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {services?.map((service, i) => (
-                <TableRow key={service.id} className="border-neutral-300">
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell className="font-medium">{service.title}</TableCell>
-                  <TableCell>{service.count}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+            ))}
+          </TableBody>
+        </Table>
 
         <ChartContainer config={chartConfig} className="w-full">
           <PieChart>

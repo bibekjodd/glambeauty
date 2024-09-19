@@ -39,7 +39,7 @@ export default function StaffOptionsDropdown({ staff, children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <StaffProfileDialog staff={staff}>
-              <button className="flex items-center">
+              <button className="flex w-full items-center">
                 <User className="mr-2 size-4" />
                 <span>See profile</span>
               </button>

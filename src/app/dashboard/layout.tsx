@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   if (profile.role !== 'admin') redirect('/');
 
   return (
-    <div className="flex items-start bg-white lg:pl-64">
+    <div className="flex w-full flex-grow items-start bg-white lg:pl-64">
       <div className="fixed left-0 top-0 z-30">
         <DashboardSidebar />
       </div>

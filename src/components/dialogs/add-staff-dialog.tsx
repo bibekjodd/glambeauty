@@ -72,14 +72,14 @@ function User({ user }: { user: User }) {
     <div className="flex items-center py-1 text-sm">
       <Avatar src={user.image} className="mr-2" variant="sm" />
       <span className="font-semibold">{user.name}</span>
-      <Button disabled={isAddingStaff} onClick={addStaff} className="relative ml-auto" size="sm">
-        <span className={`${isAddingStaff ? 'opacity-0' : ''}`}>Add staff</span>
-
-        {isAddingStaff && (
-          <span className="absolute grid place-items-center">
-            <Loader2 className="size-4 animate-spin" />
-          </span>
-        )}
+      <Button
+        disabled={isAddingStaff}
+        loading={isAddingStaff}
+        onClick={addStaff}
+        className="relative ml-auto"
+        size="sm"
+      >
+        Add staff
       </Button>
     </div>
   );

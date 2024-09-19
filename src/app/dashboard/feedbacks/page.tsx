@@ -20,32 +20,33 @@ export default function Page() {
   );
   const feedbacks = data?.pages.flat(1) || [];
   return (
-    <main className="p-4">
-      <h3 className="mb-5 text-xl font-semibold lg:hidden">User Feedbacks</h3>
+    <main>
+      <div className="sticky left-0 top-16 z-10 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
+        <h3 className="mb-2 text-xl font-semibold lg:hidden">User Feedbacks</h3>
+        <div className="mb-2 flex items-center space-x-5 bg-white/80">
+          <div className="flex items-center space-x-2">
+            <ListFilter className="size-4" />
+            <span className="font-medium">Filter by Ratings</span>
+          </div>
 
-      <div className="mb-2 flex items-center space-x-5">
-        <div className="flex items-center space-x-2">
-          <ListFilter className="size-4" />
-          <span className="font-medium">Filter by Ratings</span>
+          <Select value={rating} onValueChange={setRating}>
+            <SelectTrigger className="w-fit">
+              <SelectValue placeholder="All" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              {new Array(5).fill('nothing').map((val, i) => (
+                <SelectItem key={i} value={(i + 1).toString()}>
+                  {i + 1} stars
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-
-        <Select value={rating} onValueChange={setRating}>
-          <SelectTrigger className="w-fit">
-            <SelectValue placeholder="All" />
-          </SelectTrigger>
-
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            {new Array(5).fill('nothing').map((val, i) => (
-              <SelectItem key={i} value={(i + 1).toString()}>
-                {i + 1} stars
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-3 px-4">
         {feedbacks.map((feedback) => (
           <FeedbackCard key={feedback.id} feedback={feedback} />
         ))}
@@ -53,6 +54,7 @@ export default function Page() {
           isFetching={isFetching}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
+          showLoader
         />
       </div>
     </main>

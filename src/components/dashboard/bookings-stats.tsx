@@ -19,7 +19,7 @@ export default function BookingsStats() {
 
   return (
     <section className="mt-32">
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <h3 className="mb-5 text-xl font-semibold">Bookings Statistics</h3>
         <Select value={end} onValueChange={setEnd}>
           <SelectTrigger className="w-fit">

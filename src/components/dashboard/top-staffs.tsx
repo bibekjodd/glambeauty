@@ -12,9 +12,9 @@ export default function TopStaffs() {
   const { data: staffs } = useTopStaffs({ start, end });
 
   return (
-    <section className="mt-32">
+    <section className="relative w-full overflow-hidden">
       <div className="flex justify-between">
-        <h3 className="mb-5 text-xl font-semibold">Top Staffs</h3>
+        <h3 className="mb-3 text-xl font-semibold">Top Staffs</h3>
         <Select value={end} onValueChange={setEnd}>
           <SelectTrigger className="w-fit">
             <SelectValue placeholder="Past 30 days" />
@@ -27,37 +27,32 @@ export default function TopStaffs() {
         </Select>
       </div>
 
-      <div className="grid w-full space-y-10 lg:grid-cols-2 lg:space-y-0">
-        <div className="relative">
-          <div className="absolute left-0 aspect-square size-96 rounded-full bg-fuchsia-600/5 mix-blend-multiply blur-3xl filter" />
-          <div className="absolute right-0 aspect-square size-96 rounded-full bg-pink-600/5 mix-blend-multiply blur-3xl filter" />
-
-          <Table className="border border-neutral-300">
-            <TableHeader>
-              <TableRow className="border-neutral-300">
-                <TableHead>Rank</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>No. of appointments</TableHead>
+      <div className="relative h-auto w-full max-w-full overflow-x-auto scrollbar-thin">
+        <Table className="w-full border border-neutral-300">
+          <TableHeader>
+            <TableRow className="border-neutral-300">
+              <TableHead>Rank</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>No. of appointments</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {staffs?.map((staff, i) => (
+              <TableRow key={staff.id} className="border-neutral-300">
+                <TableCell>{i + 1}</TableCell>
+                <TableCell className="font-medium">
+                  <StaffProfileDialog staff={staff}>
+                    <button className="flex items-center space-x-3">
+                      <Avatar src={staff.image} variant="sm" />
+                      <span>{staff.name}</span>
+                    </button>
+                  </StaffProfileDialog>
+                </TableCell>
+                <TableCell>{staff.count}</TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {staffs?.map((staff, i) => (
-                <TableRow key={staff.id} className="border-neutral-300">
-                  <TableCell>{i + 1}</TableCell>
-                  <TableCell className="font-medium">
-                    <StaffProfileDialog staff={staff}>
-                      <button className="flex items-center space-x-3">
-                        <Avatar src={staff.image} variant="sm" />
-                        <span>{staff.name}</span>
-                      </button>
-                    </StaffProfileDialog>
-                  </TableCell>
-                  <TableCell>{staff.count}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </section>
   );

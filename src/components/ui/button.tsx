@@ -3,7 +3,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
+import { Loader2, LucideIcon } from 'lucide-react';
 
 const buttonVariants = cva(
   'inline-flex items-center relative justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
@@ -39,15 +39,17 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
+  Icon?: LucideIcon;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading, children, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading, children, Icon, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
         <span className={`${loading ? 'opacity-0' : ''} inline-flex items-center justify-center`}>
-          {children}
+          <span className="inline-flex items-center justify-center">{children}</span>
+          {Icon && <Icon className="ml-2 size-4" />}
         </span>
         {loading && (
           <span className="absolute grid place-items-center">

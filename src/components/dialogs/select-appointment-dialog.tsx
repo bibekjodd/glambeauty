@@ -83,7 +83,7 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
       }}
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-screen flex-col">
+      <DialogContent className="flex h-screen max-h-screen flex-col">
         <DialogHeader>
           <DialogTitle className="text-center">Book an Appointment</DialogTitle>
         </DialogHeader>

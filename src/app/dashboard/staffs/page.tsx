@@ -1,4 +1,6 @@
 'use client';
+import AddStaffDialog from '@/components/dialogs/add-staff-dialog';
+import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
 import StaffOptionsDropdown from '@/components/dropdowns/staff-options-dropdown';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,8 +12,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Avatar from '@/components/utils/avatar';
-import AddStaffDialog from '@/components/dialogs/add-staff-dialog';
-import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
+import { useProfile } from '@/queries/use-profile';
 import { useStaffs } from '@/queries/use-staffs';
 import { useIsMutating } from '@tanstack/react-query';
 import {
@@ -27,39 +28,41 @@ export default function Page() {
   const { data: staffs } = useStaffs();
 
   return (
-    <main className="px-5">
-      <section className="mt-7 flex justify-between">
+    <main className="w-full flex-1 overflow-x-auto p-4">
+      <section className="flex justify-between">
         <h3 className="text-lg font-semibold">All Staffs</h3>
 
         <AddStaffDialog>
-          <Button className="flex items-center space-x-2">
-            <span>Add new staff</span>
-            <UserRoundPlus className="size-4" />
+          <Button Icon={UserRoundPlus} className="flex items-center space-x-2">
+            Add new Staff
           </Button>
         </AddStaffDialog>
       </section>
 
-      <Table className="">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Staff</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>
-              <span>Status</span>
-              <Dot className="inline-block size-6 -translate-x-1 scale-150 animate-pulse text-green-500" />
-            </TableHead>
-          </TableRow>
-        </TableHeader>
+      <div className="w-full max-w-full overflow-x-auto scrollbar-thin">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Staff</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>
+                <span>Status</span>
+                <Dot className="inline-block size-6 -translate-x-1 scale-150 animate-pulse text-green-500" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody className="font-medium">
-          {staffs?.map((staff) => <Staff staff={staff} key={staff.id} />)}
-        </TableBody>
-      </Table>
+          <TableBody className="font-medium">
+            {staffs?.map((staff) => <Staff staff={staff} key={staff.id} />)}
+          </TableBody>
+        </Table>
+      </div>
     </main>
   );
 }
 
 function Staff({ staff }: { staff: User }) {
+  const { data: profile } = useProfile();
   const isUpdatingStaff = !!useIsMutating({
     mutationKey: ['update-user', staff.id]
   });
@@ -91,17 +94,19 @@ function Staff({ staff }: { staff: User }) {
         )}
       </TableCell>
       <TableCell>
-        <StaffOptionsDropdown staff={staff}>
-          <button className="">
-            {isUpdatingStaff ? (
-              <Loader2 className="size-5 animate-spin text-gray-900" />
-            ) : (
-              <button>
-                <EllipsisVertical className="size-5 text-gray-900" />
-              </button>
-            )}
-          </button>
-        </StaffOptionsDropdown>
+        {profile?.id !== staff.id && (
+          <StaffOptionsDropdown staff={staff}>
+            <button className="">
+              {isUpdatingStaff ? (
+                <Loader2 className="size-4 animate-spin text-gray-900" />
+              ) : (
+                <button>
+                  <EllipsisVertical className="size-4 text-gray-900" />
+                </button>
+              )}
+            </button>
+          </StaffOptionsDropdown>
+        )}
       </TableCell>
     </TableRow>
   );

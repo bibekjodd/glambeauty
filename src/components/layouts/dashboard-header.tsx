@@ -18,7 +18,7 @@ export default function DashboardHeader() {
   if (!profile) return null;
   return (
     <header
-      className={`${poppins.className} sticky top-0 z-30 flex items-center border-b bg-white/60 px-4 py-4 text-sm filter backdrop-blur-xl md:px-6`}
+      className={`${poppins.className} sticky top-0 z-30 flex h-16 items-center border-b bg-white/80 px-4 text-sm filter backdrop-blur-2xl md:px-6`}
     >
       <h3 className="hidden text-lg font-semibold lg:block">{currentPage?.title || 'Dashboard'}</h3>
 

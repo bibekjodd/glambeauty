@@ -1,4 +1,5 @@
 import { useCancelAppointment } from '@/mutations/use-cancel-appointment';
+import { QueryKey } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -12,7 +13,6 @@ import {
 } from '../ui/dialog';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { QueryKey } from '@tanstack/react-query';
 
 export default function CancelAppointmentDialog({
   children,
@@ -33,7 +33,7 @@ export default function CancelAppointmentDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent onKeyDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle className="text-center">Are you sure to cancel appointment?</DialogTitle>
         </DialogHeader>

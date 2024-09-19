@@ -35,7 +35,7 @@ export default function LogoutDialog({ children }: Props) {
             <Button variant="outline">Cancel</Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button disabled={isPending} onClick={() => logout()}>
+            <Button disabled={isPending} loading={isPending} onClick={() => logout()}>
               Logout
             </Button>
           </DialogClose>

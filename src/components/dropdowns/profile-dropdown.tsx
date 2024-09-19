@@ -32,7 +32,7 @@ export default function ProfileDropdown({ children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <ProfileDialog>
-              <button className="flex items-center">
+              <button className="flex w-full items-center">
                 <User className="mr-2 size-4" />
                 <span>Profile</span>
               </button>
@@ -43,7 +43,7 @@ export default function ProfileDropdown({ children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <NotificationsDrawer>
-              <button className="flex items-center">
+              <button className="flex w-full items-center">
                 <Bell className="mr-2 size-4" />
                 <span>Notifications</span>
               </button>
@@ -54,7 +54,7 @@ export default function ProfileDropdown({ children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <AppointmentsDrawer>
-              <button className="flex items-center">
+              <button className="flex w-full items-center">
                 <BookText className="mr-2 size-4" />
                 <span>Appointments</span>
               </button>
@@ -66,7 +66,7 @@ export default function ProfileDropdown({ children }: Props) {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="sm:hidden">
               <SelectAppointmentDialog>
-                <button className="flex items-center">
+                <button className="flex w-full items-center">
                   <NotebookPen className="mr-2 size-4" />
                   <span>Book an appointment</span>
                 </button>
@@ -89,7 +89,7 @@ export default function ProfileDropdown({ children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <LogoutDialog>
-              <button className="flex">
+              <button className="flex w-full">
                 <LogOut className="mr-2 size-4" />
                 <span>Logout</span>
               </button>

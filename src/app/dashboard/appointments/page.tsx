@@ -21,8 +21,8 @@ export default function Page() {
   });
   const appointments = data?.pages.flat(1) || [];
   return (
-    <main className="p-4">
-      <div className="mb-4 flex items-center space-x-5">
+    <main>
+      <div className="sticky left-0 top-16 z-10 mb-4 flex w-full items-center space-x-5 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
         <div className="flex items-center space-x-2">
           <ListFilter className="size-4" />
           <span className="font-medium">Filter by Status</span>
@@ -50,7 +50,7 @@ export default function Page() {
         </Select>
       </div>
 
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-3 px-4">
         {appointments.map((appointment) => (
           <AppointmentCard
             key={appointment.id}

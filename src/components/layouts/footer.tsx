@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
       </footer>
 
-      <p className="mx-auto mt-10 w-fit text-center">
+      <p className="mx-auto mt-10 w-fit px-4 text-center">
         <span className="mr-1 text-lg font-light">&copy;</span>
         {new Date().getFullYear()} Glambeauty appointment services. All rights reserved.
       </p>

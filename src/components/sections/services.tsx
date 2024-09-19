@@ -30,7 +30,7 @@ const services: Service[] = [
 
 export default function Services() {
   return (
-    <section id="services" className="cont my-24 scroll-m-24 md:my-32">
+    <section id="services" className="cont my-24 scroll-m-20 md:my-32">
       <h3
         className={`text-balance text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
       >

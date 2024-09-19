@@ -14,7 +14,7 @@ import { useUpdateProfile } from '@/mutations/use-update-profile';
 import { useProfile } from '@/queries/use-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useIsMutating } from '@tanstack/react-query';
-import { Loader2, MapPin, Phone, User } from 'lucide-react';
+import { MapPin, Phone, User } from 'lucide-react';
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -22,7 +22,8 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   const { data: profile } = useProfile();
   const {
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
+    watch,
     register,
     reset
   } = useForm<UpdateProfileSchema>({
@@ -37,24 +38,24 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   const { mutate } = useUpdateProfile();
   const isUpdatingProfile = !!useIsMutating({ mutationKey: ['update-profile'] });
 
-  const onSubmit = (data: UpdateProfileSchema) => {
+  const onSubmit = handleSubmit((data: UpdateProfileSchema) => {
     mutate(data, {
       onSuccess() {
         closeButtonRef.current?.click();
         reset();
       }
     });
-  };
+  });
 
   return (
     <Dialog onOpenChange={() => reset()}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent onKeyDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle className="text-center">Update Profile</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
+        <form onSubmit={onSubmit} className="flex flex-col space-y-5">
           <FormInput
             Icon={User}
             label="Name"
@@ -84,20 +85,14 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
             <Button variant="outline">Close</Button>
           </DialogClose>
 
-          <DialogClose asChild>
-            <Button
-              onClick={handleSubmit(onSubmit)}
-              disabled={!isDirty || isUpdatingProfile}
-              className="relative"
-            >
-              <span className={`${isUpdatingProfile ? 'opacity-0' : ''}`}>Save</span>
-              {isUpdatingProfile && (
-                <span className="absolute grid place-items-center">
-                  <Loader2 className="size-4 animate-spin" />
-                </span>
-              )}
-            </Button>
-          </DialogClose>
+          <Button
+            type="button"
+            onClick={onSubmit}
+            disabled={isUpdatingProfile}
+            loading={isUpdatingProfile}
+          >
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

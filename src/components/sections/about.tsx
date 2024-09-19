@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function About() {
   return (
-    <div id="about" className="scroll-m-24 bg-gray-200/30">
+    <div id="about" className="scroll-m-20 bg-gray-200/30">
       <section className="cont my-24 grid grid-cols-1 space-y-5 py-10 md:my-32 lg:grid-cols-2 lg:space-y-0">
         <div className="relative text-gray-700 lg:pr-6">
           {bgShadow}
