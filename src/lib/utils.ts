@@ -117,7 +117,6 @@ export const prepareTopServicesData = (services: TopService[]): TopServiceData[]
     data.push({
       title: service.title,
       count: service.count,
-      // fill: `var(--chart-${i + 1})`
       fill: colors[i]
     });
   }

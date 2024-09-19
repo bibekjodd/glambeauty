@@ -1,10 +1,11 @@
 import LogoutDialog from '@/components/dialogs/logout-dialog';
 import ProfileDialog from '@/components/dialogs/profile-dialog';
 import { useProfile } from '@/queries/use-profile';
-import { BookText, LayoutGrid, LogOut, NotebookPen, User } from 'lucide-react';
+import { Bell, BookText, LayoutGrid, LogOut, NotebookPen, User } from 'lucide-react';
 import React from 'react';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
 import AppointmentsDrawer from '../drawers/appointments-drawer';
+import NotificationsDrawer from '../drawers/notifications-drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,11 +32,22 @@ export default function ProfileDropdown({ children }: Props) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <ProfileDialog>
-              <button className="flex">
+              <button className="flex items-center">
                 <User className="mr-2 size-4" />
                 <span>Profile</span>
               </button>
             </ProfileDialog>
+          </DropdownMenuSubTrigger>
+        </DropdownMenuSub>
+
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <NotificationsDrawer>
+              <button className="flex items-center">
+                <Bell className="mr-2 size-4" />
+                <span>Notifications</span>
+              </button>
+            </NotificationsDrawer>
           </DropdownMenuSubTrigger>
         </DropdownMenuSub>
 

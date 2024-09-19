@@ -3,11 +3,12 @@ type User = {
   name: string;
   email: string;
   image: string | null;
-  role: 'user' | 'admin' | 'staff';
+  role: UserRole;
   phone: number | null;
   address: string | null;
   active: boolean;
 };
+type UserRole = 'user' | 'admin' | 'staff';
 
 type Service = {
   id: string;
@@ -26,7 +27,7 @@ type Appointment = {
   staffId: string;
   startsAt: string;
   endsAt: string;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: AppointmentStatus;
   cancelReason: string | null;
   isRescheduled: boolean | null;
   bookedAt: string;
@@ -34,11 +35,22 @@ type Appointment = {
   customer: User;
   service: Service;
 };
+type AppointmentStatus = 'pending' | 'completed' | 'cancelled';
 
 type AppointmentStats = {
   id: string;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: AppointmentStatus;
   startsAt: string;
   endsAt: string;
   bookedAt: string;
+};
+
+type NotificationResult = {
+  id: string;
+  userId: string;
+  title: string;
+  description: string | null;
+  receivedAt: string;
+  entity: string;
+  params: string | null;
 };
