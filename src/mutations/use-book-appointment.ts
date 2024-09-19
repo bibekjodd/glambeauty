@@ -1,5 +1,5 @@
 import { backend_url } from '@/lib/constants';
-import { extractErrorMessage } from '@/lib/utils';
+import { extractErrorMessage, wait } from '@/lib/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,9 @@ export const useBookAppointment = () => {
     onSuccess(appointmentId) {
       toast.dismiss();
       toast.success(`Appointment booked successfully`);
-      router.replace(`/?appointment_id=${appointmentId}&show_qr_code=true`);
+      wait(300).then(() => {
+        router.replace(`/?appointment_id=${appointmentId}&show_qr_code=true`);
+      });
     },
     onError(err) {
       toast.dismiss();

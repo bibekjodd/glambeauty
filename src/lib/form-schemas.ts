@@ -38,3 +38,23 @@ export const addServiceSchema = z.object({
 });
 export type AddServiceSchema = z.infer<typeof addServiceSchema>;
 export type UpdateServiceSchema = Partial<AddServiceSchema>;
+
+export const postFeedbackSchema = z.object({
+  title: z
+    .string({ required_error: 'Title is required' })
+    .min(1, 'Title is required')
+    .max(100, 'Too long feedback title')
+    .trim(),
+  text: z
+    .string({ required_error: 'Feedback text is required' })
+    .min(1, 'Feedback text is required')
+    .max(400, 'Too long feedback text'),
+  rating: z.preprocess(
+    (val) => Number(val),
+    z
+      .number({ required_error: 'Rating is required', invalid_type_error: 'Rating is required' })
+      .min(1)
+      .max(5)
+  )
+});
+export type PostFeedbackSchema = z.infer<typeof postFeedbackSchema>;

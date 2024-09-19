@@ -31,7 +31,7 @@ function BaseComponent() {
   const searchParams = useSearchParams();
   const appointmentId = searchParams.get('appointment_id');
   const showQrCode = searchParams.get('show_qr_code') === 'true';
-  const url = `${location.origin}/?appointment_id=${appointmentId}`;
+  const url = `${typeof location !== 'undefined' ? location : { origin: '' }?.origin}/?appointment_id=${appointmentId}`;
 
   if (!appointmentId) return null;
 
@@ -43,7 +43,7 @@ function BaseComponent() {
         if (!isOpen) router.replace('/');
       }}
     >
-      <DrawerTrigger className="hidden"></DrawerTrigger>
+      <DrawerTrigger className="hidden">Open</DrawerTrigger>
       <DrawerContent className="h-screen max-h-[600px]">
         <DrawerHeader>
           <DrawerTitle className="text-center">Appointment Details</DrawerTitle>

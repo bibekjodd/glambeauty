@@ -25,20 +25,22 @@ export default function Header() {
         <nav className="flex items-center space-x-3 font-medium md:space-x-10">
           {profile?.role === 'user' && (
             <SelectAppointmentDialog>
-              <Button className="hidden space-x-2 rounded-full px-6 sm:flex" variant="gradient">
+              <Button className="hidden rounded-full px-6 sm:flex" variant="gradient">
                 <span>Book an appointment</span>
-                <MoveRight className="size-4 scale-125 transition group-hover:translate-x-1" />
+                <MoveRight className="ml-2 size-4 scale-125 transition group-hover:translate-x-1" />
               </Button>
             </SelectAppointmentDialog>
           )}
 
           {!profile && !isLoadingProfile && (
-            <a href={`${backend_url}/api/login/google`} target="_blank">
-              <Button className="space-x-2 rounded-full px-6" variant="gradient">
-                <span>Login</span>
-                <LogIn className="size-4" />
-              </Button>
-            </a>
+            <Button
+              onClick={() => window.open(`${backend_url}/api/login/google`, '_blank')}
+              className="rounded-full px-6"
+              variant="gradient"
+            >
+              <span>Login</span>
+              <LogIn className="ml-2 size-4" />
+            </Button>
           )}
 
           {profile && (
