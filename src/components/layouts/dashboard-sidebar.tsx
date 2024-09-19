@@ -11,11 +11,39 @@ import {
   UsersRound
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import AppointmentsDrawer from '../drawers/appointments-drawer';
 import { logo } from '../utils/logo';
 import ProgressLink from '../utils/progress-link';
 
+export const dashboardLinks: { title: string; href: string; icon: LucideIcon }[] = [
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    icon: LayoutGrid
+  },
+  {
+    title: 'Appointments',
+    href: '/dashboard/appointments',
+    icon: BookText
+  },
+  {
+    title: 'Services',
+    href: '/dashboard/services',
+    icon: Library
+  },
+  {
+    title: 'Manage Staffs',
+    href: '/dashboard/staffs',
+    icon: UsersRound
+  },
+  {
+    title: 'Feedbacks',
+    href: '/dashboard/feedbacks',
+    icon: MessageSquareText
+  }
+];
+
 export default function DashboardSidebar() {
+  const pathname = usePathname();
   return (
     <aside
       className={`${poppins.className} left-0 top-0 z-50 hidden h-screen min-h-screen w-64 flex-col overflow-y-auto border-r py-3 text-sm font-semibold lg:flex`}
@@ -26,18 +54,16 @@ export default function DashboardSidebar() {
       </ProgressLink>
 
       <nav className="mt-10 flex h-full flex-grow flex-col">
-        <NavLink title="Dashboard" href="/dashboard" Icon={LayoutGrid} />
-        <AppointmentsDrawer>
-          <button
-            className={`mb-1 flex h-12 items-center space-x-3 pl-4 hover:bg-pink-600/10 hover:text-pink-600`}
+        {dashboardLinks.map((link) => (
+          <ProgressLink
+            key={link.title}
+            href={link.href}
+            className={`mb-1 flex h-12 items-center space-x-3 pl-4 hover:bg-pink-600/10 hover:text-pink-600 ${pathname === link.href ? 'border-l-4 border-pink-500 bg-pink-600/10 text-pink-600' : ''}`}
           >
-            <BookText className="size-5" />
-            <span>Appointments</span>
-          </button>
-        </AppointmentsDrawer>
-        <NavLink title="Services" href="/dashboard/services" Icon={Library} />
-        <NavLink title="Manage Staffs" href="/dashboard/staffs" Icon={UsersRound} />
-        <NavLink title="Feedbacks" href="/dashboard/feedbacks" Icon={MessageSquareText} />
+            <link.icon className="size-5" />
+            <span>{link.title}</span>
+          </ProgressLink>
+        ))}
 
         <LogoutDialog>
           <button className="mb-3 mt-auto flex w-fit items-center space-x-3 px-6 hover:text-rose-500">
@@ -47,19 +73,6 @@ export default function DashboardSidebar() {
         </LogoutDialog>
       </nav>
     </aside>
-  );
-}
-
-function NavLink({ title, href, Icon }: { title: string; href: string; Icon: LucideIcon }) {
-  const pathname = usePathname();
-  return (
-    <ProgressLink
-      href={href}
-      className={`mb-1 flex h-12 items-center space-x-3 pl-4 hover:bg-pink-600/10 hover:text-pink-600 ${pathname === href ? 'border-l-4 border-pink-500 bg-pink-600/10 text-pink-600' : ''}`}
-    >
-      <Icon className="size-5" />
-      <span>{title}</span>
-    </ProgressLink>
   );
 }
 
