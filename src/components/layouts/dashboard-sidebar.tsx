@@ -1,7 +1,15 @@
 'use client';
 import LogoutDialog from '@/components/dialogs/logout-dialog';
 import { poppins } from '@/lib/fonts';
-import { BookText, LayoutGrid, Library, LogOut, LucideIcon, UsersRound } from 'lucide-react';
+import {
+  BookText,
+  LayoutGrid,
+  Library,
+  LogOut,
+  LucideIcon,
+  MessageSquareText,
+  UsersRound
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import AppointmentsDrawer from '../drawers/appointments-drawer';
 import { logo } from '../utils/logo';
@@ -29,6 +37,7 @@ export default function DashboardSidebar() {
         </AppointmentsDrawer>
         <NavLink title="Services" href="/dashboard/services" Icon={Library} />
         <NavLink title="Manage Staffs" href="/dashboard/staffs" Icon={UsersRound} />
+        <NavLink title="Feedbacks" href="/dashboard/feedbacks" Icon={MessageSquareText} />
 
         <LogoutDialog>
           <button className="mb-3 mt-auto flex w-fit items-center space-x-3 px-6 hover:text-rose-500">

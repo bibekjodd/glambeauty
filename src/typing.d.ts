@@ -54,3 +54,13 @@ type NotificationResult = {
   entity: string;
   params: string | null;
 };
+
+type Feedback = {
+  id: string;
+  title: string;
+  text: string;
+  userId: string;
+  rating: number;
+  receivedAt: string;
+  user: User;
+};

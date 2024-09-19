@@ -29,7 +29,7 @@ const chartConfig = {
 
 export default function DashboardAreaChart({ data }: { data: AppointmentsChartData[] }) {
   return (
-    <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+    <ChartContainer config={chartConfig} className="aspect-auto h-60 w-full md:h-80">
       <AreaChart data={data}>
         <defs>
           <linearGradient id="fillCancelled" x1="0" y1="0" x2="0" y2="1">
