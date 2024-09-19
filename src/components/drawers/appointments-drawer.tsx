@@ -55,19 +55,27 @@ function CustomerAndStaffAppointments() {
         </p>
       )}
       {appointments.map((appointment) => (
-        <AppointmentCard key={appointment.id} appointment={appointment} />
+        <AppointmentCard
+          key={appointment.id}
+          appointment={appointment}
+          queryKey={['appointments']}
+        />
       ))}
       <InfiniteScrollObserver
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetching={isFetching}
+        showLoader
       />
     </div>
   );
 }
 
 function AdminAppointments() {
-  const { data, isFetching, fetchNextPage, hasNextPage, isLoading } = useAdminAppointments(null);
+  const { data, isFetching, fetchNextPage, hasNextPage, isLoading } = useAdminAppointments({
+    userId: null,
+    status: null
+  });
   const appointments = data?.pages.flat(1) || [];
 
   return (
@@ -76,12 +84,17 @@ function AdminAppointments() {
         <p className="px-4 font-medium">'No customers has made any appointments yet!'</p>
       )}
       {appointments.map((appointment) => (
-        <AppointmentCard key={appointment.id} appointment={appointment} />
+        <AppointmentCard
+          key={appointment.id}
+          appointment={appointment}
+          queryKey={['admin-appointments', { userId: null, status: null }]}
+        />
       ))}
       <InfiniteScrollObserver
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetching={isFetching}
+        showLoader
       />
     </div>
   );

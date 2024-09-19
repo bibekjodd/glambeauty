@@ -9,13 +9,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
+import { QueryKey } from '@tanstack/react-query';
 
 export default function AppointmentOptionsMenu({
   children,
-  appointment
+  appointment,
+  queryKey
 }: {
   children: React.ReactNode;
   appointment: Appointment;
+  queryKey: QueryKey;
 }) {
   return (
     <DropdownMenu>
@@ -26,7 +29,7 @@ export default function AppointmentOptionsMenu({
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
-            <CancelAppointmentDialog id={appointment.id}>
+            <CancelAppointmentDialog id={appointment.id} queryKey={queryKey}>
               <button className="font-medium">Cancel Appointment</button>
             </CancelAppointmentDialog>
           </DropdownMenuSubTrigger>

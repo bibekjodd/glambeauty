@@ -11,7 +11,8 @@ export const useAppointments = () => {
     getNextPageParam(lastPage) {
       return lastPage[lastPage.length - 1]?.startsAt;
     },
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
+    refetchOnMount: true
   });
 };
 

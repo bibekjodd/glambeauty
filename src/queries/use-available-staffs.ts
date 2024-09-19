@@ -15,7 +15,7 @@ export const useAvailableStaffs = ({
     queryFn: ({ signal }) => fetchAvailableStaffs({ signal, date: date!, serviceId: serviceId! }),
     enabled: !!(date && serviceId),
     gcTime: 30_000,
-    staleTime: 30_000
+    refetchOnMount: true
   });
 };
 

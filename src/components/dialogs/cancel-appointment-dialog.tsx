@@ -12,19 +12,22 @@ import {
 } from '../ui/dialog';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
+import { QueryKey } from '@tanstack/react-query';
 
 export default function CancelAppointmentDialog({
   children,
-  id
+  id,
+  queryKey
 }: {
   children: React.ReactNode;
   id: string;
+  queryKey: QueryKey;
 }) {
   const [cancelReason, setCancelReason] = useState('');
   const { mutate } = useCancelAppointment(id);
 
   const cancelAppointment = () => {
-    mutate({ cancelReason: cancelReason.trim() || undefined });
+    mutate({ cancelReason: cancelReason.trim() || undefined, queryKey });
   };
 
   return (
