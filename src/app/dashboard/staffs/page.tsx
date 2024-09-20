@@ -2,7 +2,9 @@
 import AddStaffDialog from '@/components/dialogs/add-staff-dialog';
 import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
 import StaffOptionsDropdown from '@/components/dropdowns/staff-options-dropdown';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -16,6 +18,7 @@ import { useProfile } from '@/queries/use-profile';
 import { useStaffs } from '@/queries/use-staffs';
 import { useIsMutating } from '@tanstack/react-query';
 import {
+  AlertCircle,
   CircleUser,
   Dot,
   EllipsisVertical,
@@ -25,7 +28,7 @@ import {
 } from 'lucide-react';
 
 export default function Page() {
-  const { data: staffs } = useStaffs();
+  const { data: staffs, isLoading, error } = useStaffs();
 
   return (
     <main className="w-full flex-1 overflow-x-auto p-4">
@@ -40,6 +43,14 @@ export default function Page() {
       </section>
 
       <div className="w-full max-w-full overflow-x-auto scrollbar-thin">
+        {error && (
+          <Alert variant="destructive" className="mt-2">
+            <AlertCircle className="size-4" />
+            <AlertTitle>Could not load staffs!</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        )}
+
         <Table>
           <TableHeader>
             <TableRow>
@@ -56,6 +67,8 @@ export default function Page() {
             {staffs?.map((staff) => <Staff staff={staff} key={staff.id} />)}
           </TableBody>
         </Table>
+
+        {isLoading && <Skeleton className="mt-2 h-80 w-full" />}
       </div>
     </main>
   );

@@ -47,7 +47,7 @@ export default function Testimonails() {
       <div className="mx-auto mt-10 flex max-w-screen-xl flex-wrap items-center justify-center">
         {testimonials.map((testimonial) => (
           <div key={testimonial.name} className="w-full p-5 md:w-1/2 xl:w-1/3">
-            <div className="flex flex-col items-center self-center rounded-xl bg-white p-6 pt-0 shadow-xl shadow-gray-200">
+            <div className="flex flex-col items-center self-center rounded-xl bg-white p-4 pt-0 shadow-xl shadow-gray-200 md:p-6">
               <Image
                 src={testimonial.image}
                 alt="user image"

@@ -5,11 +5,12 @@ import { Pie, PieChart } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Skeleton } from '../ui/skeleton';
 
 export default function TopServices() {
   const [start] = useState(findNextNDaysDate(-1));
   const [end, setEnd] = useState(findNextNDaysDate(-8));
-  const { data: services } = useTopServices({ start, end });
+  const { data: services, isLoading } = useTopServices({ start, end });
 
   const chartData = useMemo(() => prepareTopServicesData(services || []), [services]);
 
@@ -44,31 +45,40 @@ export default function TopServices() {
       </div>
 
       <div className="grid w-full max-w-full space-y-10 overflow-x-auto scrollbar-thin lg:grid-cols-2 lg:space-y-0">
-        <Table className="border border-neutral-300">
-          <TableHeader>
-            <TableRow className="border-neutral-300">
-              <TableHead>Rank</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>No. of appointments</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {services?.map((service, i) => (
-              <TableRow key={service.id} className="border-neutral-300">
-                <TableCell>{i + 1}</TableCell>
-                <TableCell className="font-medium">{service.title}</TableCell>
-                <TableCell>{service.count}</TableCell>
+        <div>
+          <Table className="border border-neutral-300">
+            <TableHeader>
+              <TableRow className="border-neutral-300">
+                <TableHead>Rank</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>No. of appointments</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {services?.map((service, i) => (
+                <TableRow key={service.id} className="border-neutral-300">
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell className="font-medium">{service.title}</TableCell>
+                  <TableCell>{service.count}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {isLoading && <Skeleton className="h-60 rounded-none" />}
+        </div>
 
-        <ChartContainer config={chartConfig} className="w-full">
-          <PieChart>
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="count" label nameKey="title" />
-          </PieChart>
-        </ChartContainer>
+        <div className="grid w-full place-items-center">
+          {!isLoading && (
+            <ChartContainer config={chartConfig} className="w-full">
+              <PieChart>
+                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                <Pie data={chartData} dataKey="count" label nameKey="title" />
+              </PieChart>
+            </ChartContainer>
+          )}
+
+          {isLoading && <Skeleton className="aspect-square w-1/2 rounded-full" />}
+        </div>
       </div>
     </section>
   );

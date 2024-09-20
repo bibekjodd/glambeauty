@@ -1,7 +1,6 @@
 import { formatDate } from '@/lib/utils';
 import { useBookAppointment } from '@/mutations/use-book-appointment';
 import { useIsMutating } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
 import React, { useRef } from 'react';
 import { Button } from '../ui/button';
 import {

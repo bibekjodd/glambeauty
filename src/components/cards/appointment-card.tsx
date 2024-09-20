@@ -4,6 +4,7 @@ import { QueryKey, useQueryClient } from '@tanstack/react-query';
 import { CheckCircle, CircleSlash, Clock12, EllipsisVertical } from 'lucide-react';
 import AppointmentOptionsMenu from '../dropdowns/appointment-options-menu';
 import Avatar from '../utils/avatar';
+import { Skeleton } from '../ui/skeleton';
 
 type Props = { appointment: Appointment; queryKey: QueryKey };
 export default function AppointmentCard({ appointment, queryKey }: Props) {
@@ -80,3 +81,13 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
     </section>
   );
 }
+
+export const apponitmentCardSkeleton = (
+  <div className="space-y-2 rounded-lg border border-fuchsia-200/60 bg-gray-50 p-4">
+    <Skeleton className="h-6 w-24 rounded-full" />
+    <Skeleton className="h-6 w-44" />
+    <Skeleton className="h-6 w-36" />
+    <Skeleton className="h-6 w-24" />
+    <Skeleton className="h-6 w-44" />
+  </div>
+);

@@ -5,11 +5,12 @@ import StaffProfileDialog from '../dialogs/staff-profile-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import Avatar from '../utils/avatar';
+import { Skeleton } from '../ui/skeleton';
 
 export default function TopStaffs() {
   const [start] = useState(findNextNDaysDate(-1));
   const [end, setEnd] = useState(findNextNDaysDate(-8));
-  const { data: staffs } = useTopStaffs({ start, end });
+  const { data: staffs, isLoading } = useTopStaffs({ start, end });
 
   return (
     <section className="relative w-full overflow-hidden">
@@ -53,6 +54,7 @@ export default function TopStaffs() {
             ))}
           </TableBody>
         </Table>
+        {isLoading && <Skeleton className="h-60 rounded-none" />}
       </div>
     </section>
   );

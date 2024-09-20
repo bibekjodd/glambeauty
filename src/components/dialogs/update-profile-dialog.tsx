@@ -23,7 +23,6 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   const {
     handleSubmit,
     formState: { errors },
-    watch,
     register,
     reset
   } = useForm<UpdateProfileSchema>({

@@ -53,7 +53,7 @@ export default function DashboardSidebar() {
         {logo}
       </ProgressLink>
 
-      <nav className="mt-10 flex h-full flex-grow flex-col">
+      <nav className="mt-5 flex h-full flex-grow flex-col">
         {dashboardLinks.map((link) => (
           <ProgressLink
             key={link.title}

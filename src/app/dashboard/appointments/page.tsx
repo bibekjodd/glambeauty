@@ -1,5 +1,6 @@
 'use client';
-import AppointmentCard from '@/components/cards/appointment-card';
+import AppointmentCard, { apponitmentCardSkeleton } from '@/components/cards/appointment-card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   Select,
   SelectContent,
@@ -9,20 +10,27 @@ import {
 } from '@/components/ui/select';
 import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer';
 import { useAdminAppointments } from '@/queries/use-admin-appointments';
-import { CheckCircle, CircleSlash, Clock12, ListFilter, TextQuote } from 'lucide-react';
+import {
+  CheckCircle,
+  CircleAlert,
+  CircleSlash,
+  Clock12,
+  ListFilter,
+  TextQuote
+} from 'lucide-react';
 import { useState } from 'react';
 
 const statusOptions = ['all', 'pending', 'completed', 'cancelled'] as const;
 export default function Page() {
   const [status, setStatus] = useState<AppointmentStatus | 'all'>('all');
-  const { data, isFetching, hasNextPage, fetchNextPage } = useAdminAppointments({
+  const { data, isFetching, hasNextPage, fetchNextPage, isLoading, error } = useAdminAppointments({
     userId: null,
     status: status === 'all' ? null : status
   });
   const appointments = data?.pages.flat(1) || [];
   return (
     <main>
-      <div className="sticky left-0 top-16 z-10 mb-4 flex w-full items-center space-x-5 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
+      <div className="sticky left-0 top-16 z-10 flex w-full items-center space-x-5 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
         <div className="flex items-center space-x-2">
           <ListFilter className="size-4" />
           <span className="font-medium">Filter by Status</span>
@@ -51,6 +59,17 @@ export default function Page() {
       </div>
 
       <div className="flex flex-col space-y-3 px-4">
+        {isLoading &&
+          new Array(6).fill('nothing').map((_, i) => <div key={i}>{apponitmentCardSkeleton}</div>)}
+
+        {error && (
+          <Alert variant="destructive">
+            <CircleAlert className="size-4" />
+            <AlertTitle>Could not load appointments</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        )}
+
         {appointments.map((appointment) => (
           <AppointmentCard
             key={appointment.id}

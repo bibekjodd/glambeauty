@@ -1,4 +1,5 @@
 'use client';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   Select,
   SelectContent,
@@ -6,16 +7,17 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import Avatar from '@/components/utils/avatar';
 import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer';
 import { useFeedbacks } from '@/queries/use-feedbacks';
-import { ListFilter, Star } from 'lucide-react';
+import { CircleAlert, ListFilter, Star } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
 
 export default function Page() {
   const [rating, setRating] = useState<string>('all');
-  const { data, isFetching, hasNextPage, fetchNextPage } = useFeedbacks(
+  const { data, isFetching, hasNextPage, fetchNextPage, isLoading, error } = useFeedbacks(
     rating === 'all' ? undefined : Number(rating) || undefined
   );
   const feedbacks = data?.pages.flat(1) || [];
@@ -23,7 +25,7 @@ export default function Page() {
     <main>
       <div className="sticky left-0 top-16 z-10 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
         <h3 className="mb-2 text-xl font-semibold lg:hidden">User Feedbacks</h3>
-        <div className="mb-2 flex items-center space-x-5 bg-white/80">
+        <div className="flex items-center space-x-5 bg-white/80">
           <div className="flex items-center space-x-2">
             <ListFilter className="size-4" />
             <span className="font-medium">Filter by Ratings</span>
@@ -47,6 +49,16 @@ export default function Page() {
       </div>
 
       <div className="flex flex-col space-y-3 px-4">
+        {error && (
+          <Alert variant="destructive">
+            <CircleAlert className="size-4" />
+            <AlertTitle>Could not load feedbacks</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        )}
+
+        {isLoading && new Array(6).fill('nothing').map((_, i) => <div key={i}>{skeleton}</div>)}
+
         {feedbacks.map((feedback) => (
           <FeedbackCard key={feedback.id} feedback={feedback} />
         ))}
@@ -87,3 +99,18 @@ function FeedbackCard({ feedback }: { feedback: Feedback }) {
     </section>
   );
 }
+
+const skeleton = (
+  <div className="space-y-1.5 rounded-lg border bg-gray-50 p-4">
+    <div className="mb-4 flex space-x-3">
+      <Skeleton className="size-10 rounded-full" />
+      <div className="space-y-1">
+        <Skeleton className="h-7 w-full max-w-72" />
+        <Skeleton className="h-6 w-36" />
+      </div>
+    </div>
+    <Skeleton className="h-6 w-60" />
+    <Skeleton className="h-12 w-full" />
+    <Skeleton className="h-6 w-60" />
+  </div>
+);

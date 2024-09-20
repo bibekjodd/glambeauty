@@ -1,7 +1,8 @@
 import { useNotifications } from '@/queries/use-notifications';
-import { Bell, BookText, ShieldCheck, ShieldEllipsis, User } from 'lucide-react';
+import { Bell, BookText, CircleAlert, ShieldCheck, ShieldEllipsis, User } from 'lucide-react';
 import moment from 'moment';
 import React from 'react';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Button } from '../ui/button';
 import {
   Drawer,
@@ -12,20 +13,33 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from '../ui/drawer';
+import { Skeleton } from '../ui/skeleton';
 import InfiniteScrollObserver from '../utils/infinite-scroll-observer';
 
 export default function NotificationsDrawer({ children }: { children: React.ReactNode }) {
-  const { data, isFetching, fetchNextPage, hasNextPage } = useNotifications();
+  const { data, isFetching, fetchNextPage, hasNextPage, error, isLoading } = useNotifications();
   const notifications = data?.pages.flat(1) || [];
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="ml-auto h-screen w-full max-w-96 rounded-r-none">
+      <DrawerContent className="ml-auto h-screen w-full max-w-screen-sm rounded-none sm:max-w-[500px] sm:rounded-l-lg">
         <DrawerHeader>
           <DrawerTitle className="text-center">Notifications</DrawerTitle>
         </DrawerHeader>
 
         <div className="h-full space-y-3 overflow-y-auto scrollbar-thin">
+          {error && (
+            <div className="p-4">
+              <Alert className="" variant="destructive">
+                <CircleAlert className="size-4" />
+                <AlertTitle>Could not load notifications!</AlertTitle>
+                <AlertDescription>{error.message}</AlertDescription>
+              </Alert>
+            </div>
+          )}
+
+          {isLoading && new Array(4).fill('nothing').map((_, i) => <div key={i}>{skeleton}</div>)}
+
           {notifications.map((notification) => (
             <NotificationCard key={notification.id} notification={notification} />
           ))}
@@ -76,3 +90,16 @@ function NotificationCard({ notification }: { notification: NotificationResult }
     </section>
   );
 }
+
+const skeleton = (
+  <div className="flex items-start rounded-md p-4">
+    <div>
+      <Skeleton className="mr-4 size-9 rounded-full" />
+    </div>
+    <div className="w-full space-y-2">
+      <Skeleton className="h-6 w-full" />
+      <Skeleton className="h-10 w-full" />
+      <Skeleton className="h-6 w-full" />
+    </div>
+  </div>
+);

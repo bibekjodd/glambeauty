@@ -1,8 +1,10 @@
 import { useAdminAppointments } from '@/queries/use-admin-appointments';
 import { useAppointments } from '@/queries/use-appointments';
 import { useProfile } from '@/queries/use-profile';
+import { CircleAlert } from 'lucide-react';
 import React from 'react';
-import AppointmentCard from '../cards/appointment-card';
+import AppointmentCard, { apponitmentCardSkeleton } from '../cards/appointment-card';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Button } from '../ui/button';
 import {
   Drawer,
@@ -21,7 +23,7 @@ export default function AppointmentsDrawer({ children }: { children: React.React
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="ml-5 h-screen w-full max-w-screen-sm sm:ml-auto sm:rounded-r-none">
+      <DrawerContent className="ml-auto h-screen w-full max-w-screen-sm rounded-none sm:rounded-l-lg">
         <DrawerHeader>
           <DrawerTitle className="text-center">
             {profile.role === 'user' ? 'Appointments History' : ''}
@@ -42,7 +44,7 @@ export default function AppointmentsDrawer({ children }: { children: React.React
 }
 
 function CustomerAndStaffAppointments() {
-  const { data, isFetching, fetchNextPage, hasNextPage, isLoading } = useAppointments();
+  const { data, isFetching, fetchNextPage, hasNextPage, isLoading, error } = useAppointments();
   const appointments = data?.pages.flat(1) || [];
   const { data: profile } = useProfile();
   return (
@@ -54,6 +56,18 @@ function CustomerAndStaffAppointments() {
             : 'No customers has made any appointments with you yet!'}
         </p>
       )}
+
+      {isLoading &&
+        new Array(6).fill('nothing').map((_, i) => <div key={i}>{apponitmentCardSkeleton}</div>)}
+
+      {error && (
+        <Alert variant="destructive">
+          <CircleAlert className="size-4" />
+          <AlertTitle>Could not load appointments</AlertTitle>
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      )}
+
       {appointments.map((appointment) => (
         <AppointmentCard
           key={appointment.id}
@@ -72,7 +86,7 @@ function CustomerAndStaffAppointments() {
 }
 
 function AdminAppointments() {
-  const { data, isFetching, fetchNextPage, hasNextPage, isLoading } = useAdminAppointments({
+  const { data, isFetching, fetchNextPage, hasNextPage, isLoading, error } = useAdminAppointments({
     userId: null,
     status: null
   });
@@ -83,6 +97,18 @@ function AdminAppointments() {
       {!isLoading && appointments.length === 0 && (
         <p className="px-4 font-medium">'No customers has made any appointments yet!'</p>
       )}
+
+      {isLoading &&
+        new Array(6).fill('nothing').map((_, i) => <div key={i}>{apponitmentCardSkeleton}</div>)}
+
+      {error && (
+        <Alert variant="destructive">
+          <CircleAlert className="size-4" />
+          <AlertTitle>Could not load appointments</AlertTitle>
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      )}
+
       {appointments.map((appointment) => (
         <AppointmentCard
           key={appointment.id}

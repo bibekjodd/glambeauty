@@ -1,9 +1,10 @@
 import { dummyServiceImage, loginLink } from '@/lib/constants';
 import { MoveRight } from 'lucide-react';
+import Image from 'next/image';
 import AddServiceDialog from '../dialogs/add-service-dialog';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
 import { Button } from '../ui/button';
-import Image from 'next/image';
+import { Skeleton } from '../ui/skeleton';
 
 type Props = {
   service: Service;
@@ -57,3 +58,16 @@ export default function ServiceCard({ service, view }: Props) {
     </section>
   );
 }
+
+export const serviceCardSkeleton = (
+  <div className="flex flex-col items-stretch space-y-5 md:flex-row md:space-y-0">
+    <Skeleton className="aspect-video max-h-80 w-full md:w-1/2 lg:w-96" />
+    <div className="h-full flex-grow space-y-3 md:px-4">
+      <Skeleton className="h-8 w-80" />
+      <Skeleton className="h-8 w-32" />
+      <Skeleton className="h-8 w-40" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-10 w-full" />
+    </div>
+  </div>
+);

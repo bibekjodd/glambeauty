@@ -15,7 +15,6 @@ import { useUpdateUser } from '@/mutations/use-update-user';
 import { useStaffs } from '@/queries/use-staffs';
 import { useUsers } from '@/queries/use-users';
 import { useIsMutating } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
 import React, { useState } from 'react';
 
 export default function AddStaffDialog({ children }: { children: React.ReactNode }) {
