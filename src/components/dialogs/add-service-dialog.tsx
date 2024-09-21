@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -96,8 +97,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-screen flex-col md:max-h-[calc(100vh-40px)]">
-        {/* <DialogContent className=""> */}
+      <DialogContent className="flex max-h-screen flex-col">
         <DialogHeader>
           <DialogTitle className="text-center">
             {mode === 'add' ? 'Add new Service' : 'Update Service'}
@@ -106,9 +106,9 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-grow flex-col space-y-2 overflow-hidden"
+          className="flex flex-grow flex-col space-y-2 overflow-y-auto px-2 scrollbar-thin"
         >
-          <div className="flex flex-grow flex-col space-y-5 overflow-y-auto px-2 scrollbar-hide">
+          <div className="flex flex-grow flex-col space-y-5">
             <FormInput
               id="title"
               Icon={null}
@@ -178,7 +178,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
                 id="description"
                 {...register('description')}
                 placeholder="Service description..."
-                className="focus:ring-2"
+                className="scrollbar-thin focus:ring-2"
                 rows={6}
               />
               {errors.description?.message && (
@@ -186,35 +186,35 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
               )}
             </AutoAnimate>
           </div>
-
-          <div className="flex flex-col space-y-2">
-            <Button
-              disabled={disabled || isUpdatingService}
-              onClick={() => handleSubmit(onSubmit)}
-              type="submit"
-              loading={disabled}
-              className="relative"
-            >
-              <span className={`${disabled ? 'opacity-0' : ''}`}>
-                {mode === 'add' ? 'Add Service' : 'Update'} Service
-              </span>
-            </Button>
-
-            {service && (
-              <DeleteServiceDialog id={service.id}>
-                <Button type="button" variant="outline">
-                  Delete Service
-                </Button>
-              </DeleteServiceDialog>
-            )}
-
-            <DialogClose asChild ref={closeButtonRef}>
-              <Button type="button" variant="outline" className="">
-                Close
-              </Button>
-            </DialogClose>
-          </div>
         </form>
+
+        <DialogFooter>
+          <DialogClose asChild ref={closeButtonRef}>
+            <Button type="button" variant="outline" className="">
+              Close
+            </Button>
+          </DialogClose>
+
+          {service && (
+            <DeleteServiceDialog id={service.id}>
+              <Button type="button" variant="outline">
+                Delete Service
+              </Button>
+            </DeleteServiceDialog>
+          )}
+
+          <Button
+            disabled={disabled || isUpdatingService}
+            onClick={() => handleSubmit(onSubmit)}
+            type="submit"
+            loading={disabled}
+            className="relative"
+          >
+            <span className={`${disabled ? 'opacity-0' : ''}`}>
+              {mode === 'add' ? 'Add Service' : 'Update'} Service
+            </span>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

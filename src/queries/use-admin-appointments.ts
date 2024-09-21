@@ -36,7 +36,7 @@ const fetchAppointments = async ({
   try {
     const url = new URL(`${backend_url}/api/appointments/all`);
     cursor && url.searchParams.set('cursor', cursor);
-    userId && url.searchParams.set('user_id', userId);
+    userId && url.searchParams.set('userId', userId);
     status && url.searchParams.set('status', status);
     const res = await axios.get<{ appointments: Appointment[] }>(url.href, {
       signal,

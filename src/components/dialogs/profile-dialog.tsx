@@ -1,4 +1,3 @@
-import Avatar from '@/components/utils/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import Avatar from '@/components/utils/avatar';
 import { useProfile } from '@/queries/use-profile';
 import { Mail, MapPin, Phone, User } from 'lucide-react';
 import React from 'react';

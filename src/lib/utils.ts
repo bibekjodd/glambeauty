@@ -87,10 +87,17 @@ export type AppointmentsChartData = {
   cancelled: number;
 };
 
-export const prepareAppointmentsChartData = (stats: AppointmentStats[]) => {
+export const prepareAppointmentsChartData = ({
+  stats,
+  type
+}: {
+  stats: AppointmentStats[];
+  type: 'appointment' | 'booking';
+}) => {
   const data: AppointmentsChartData[] = [];
   for (const item of stats) {
-    const date = item.startsAt.slice(0, 10);
+    let date = item.startsAt.slice(0, 10);
+    if (type === 'booking') date = item.bookedAt.slice(0, 10);
     const itemGroup = data.find((group) => group.date === date);
     if (itemGroup) {
       itemGroup.cancelled += item.status === 'cancelled' ? 1 : 0;

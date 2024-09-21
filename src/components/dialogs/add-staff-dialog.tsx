@@ -16,23 +16,28 @@ import { useStaffs } from '@/queries/use-staffs';
 import { useUsers } from '@/queries/use-users';
 import { useIsMutating } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { Skeleton } from '../ui/skeleton';
+import InfiniteScrollObserver from '../utils/infinite-scroll-observer';
 
 export default function AddStaffDialog({ children }: { children: React.ReactNode }) {
   const [searchInput, setSearchInput] = useState('');
   const enabled = useDebounce(searchInput);
-  const { data } = useUsers({ search: searchInput, enabled });
+  const { data, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsers({
+    search: searchInput,
+    enabled
+  });
   const users = data?.pages.flat(1) || [];
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-full flex-col overflow-hidden md:max-h-[90vh]">
+      <DialogContent className="flex max-h-full flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-center">Add new staff</DialogTitle>
         </DialogHeader>
 
-        <section className="flex-grow overflow-y-auto px-2">
-          <div>
+        <section className="flex h-full flex-col overflow-y-auto px-2 scrollbar-hide">
+          <div className="space-y-2.5 pr-2">
             <Label id="search">Search users</Label>
             <Input
               id="search"
@@ -40,13 +45,29 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search..."
             />
+            <div className="text-sm font-semibold">
+              <span>Results:</span> <span className="text-gray-800">no users found</span>
+            </div>
           </div>
 
-          <AutoAnimate className="mt-5 flex h-fit max-h-96 flex-col space-y-2 overflow-y-auto pr-1 scrollbar-thin">
-            <span className="text-sm font-semibold">Results:</span>
-            {users.slice(0, 7).map((user) => (
+          <AutoAnimate className="mt-3 flex h-full flex-col space-y-2 overflow-y-auto overflow-x-hidden pr-1 scrollbar-thin">
+            {(isLoading || !enabled) &&
+              new Array(5).fill('nothing').map((_, i) => (
+                <div key={i} className="w-full">
+                  {skeleton}
+                </div>
+              ))}
+
+            {users.map((user) => (
               <User key={user.id} user={user} />
             ))}
+
+            <InfiniteScrollObserver
+              isFetching={isFetching}
+              hasNextPage={hasNextPage}
+              fetchNextPage={fetchNextPage}
+              showLoader={users.length > 10}
+            />
           </AutoAnimate>
         </section>
       </DialogContent>
@@ -83,3 +104,11 @@ function User({ user }: { user: User }) {
     </div>
   );
 }
+
+const skeleton = (
+  <div className="flex items-center">
+    <Skeleton className="size-7 rounded-full" />
+    <Skeleton className="ml-2 mr-auto h-6 w-40" />
+    <Skeleton className="h-8 w-20" />
+  </div>
+);

@@ -49,7 +49,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   return (
     <Dialog onOpenChange={() => reset()}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent onKeyDown={(e) => e.stopPropagation()}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-center">Update Profile</DialogTitle>
         </DialogHeader>
@@ -57,6 +57,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
         <form onSubmit={onSubmit} className="flex flex-col space-y-5">
           <FormInput
             Icon={User}
+            id="name"
             label="Name"
             placeholder="Ayushma Dhungana..."
             {...register('name')}
@@ -64,6 +65,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           />
           <FormInput
             Icon={MapPin}
+            id="address"
             {...register('address')}
             label="Address"
             placeholder="Bharatpur-2, Chitwan..."
@@ -71,6 +73,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           />
           <FormInput
             Icon={Phone}
+            id="phone"
             {...register('phone')}
             label="Phone"
             type="number"
