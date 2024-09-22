@@ -28,7 +28,7 @@ export const useUpdateProfile = () => {
 
 export const updateProfile = async (data: Partial<UpdateProfileSchema>): Promise<User> => {
   try {
-    const res = await axios.put<{ user: User }>(`${backend_url}/api/profile`, data, {
+    const res = await axios.put<{ user: User }>(`${backend_url}/api/users/profile`, data, {
       withCredentials: true
     });
 

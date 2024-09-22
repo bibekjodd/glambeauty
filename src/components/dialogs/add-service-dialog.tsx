@@ -205,7 +205,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
 
           <Button
             disabled={disabled || isUpdatingService}
-            onClick={() => handleSubmit(onSubmit)}
+            onClick={handleSubmit(onSubmit)}
             type="submit"
             loading={disabled}
             className="relative"

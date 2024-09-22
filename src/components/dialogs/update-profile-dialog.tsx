@@ -37,14 +37,14 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   const { mutate } = useUpdateProfile();
   const isUpdatingProfile = !!useIsMutating({ mutationKey: ['update-profile'] });
 
-  const onSubmit = handleSubmit((data: UpdateProfileSchema) => {
+  const onSubmit = (data: UpdateProfileSchema) => {
     mutate(data, {
       onSuccess() {
         closeButtonRef.current?.click();
         reset();
       }
     });
-  });
+  };
 
   return (
     <Dialog onOpenChange={() => reset()}>
@@ -54,7 +54,7 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           <DialogTitle className="text-center">Update Profile</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex flex-col space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
           <FormInput
             Icon={User}
             id="name"
@@ -88,8 +88,8 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
           </DialogClose>
 
           <Button
-            type="button"
-            onClick={onSubmit}
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
             disabled={isUpdatingProfile}
             loading={isUpdatingProfile}
           >

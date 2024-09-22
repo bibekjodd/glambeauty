@@ -9,7 +9,7 @@ export const useUsers = ({ search, enabled }: { search: string; enabled: boolean
     queryFn: ({ signal, pageParam }) => fetchUsers({ search, signal, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages, lastPageParam) {
-      if (lastPage.length) return lastPageParam + 1;
+      if (lastPage?.length) return lastPageParam + 1;
       return undefined;
     },
     enabled
@@ -30,7 +30,7 @@ const fetchUsers = async ({
     searchParams.set('q', search);
     searchParams.set('page', page.toString());
     const url = `${backend_url}/api/users?${searchParams.toString()}`;
-    const res = await axios.get<{ users: User[] }>(url, { signal });
+    const res = await axios.get<{ users: User[] }>(url, { signal, withCredentials: true });
     return res.data.users;
   } catch (error) {
     throw new Error(extractErrorMessage(error));

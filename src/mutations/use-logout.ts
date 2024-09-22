@@ -11,16 +11,16 @@ export const useLogout = () => {
     mutationKey: ['logout'],
     mutationFn: logout,
     onSuccess() {
+      router.replace('/');
       queryClient.setQueryData(['profile'], null);
       queryClient.clear();
-      router.replace('/');
     }
   });
 };
 
 const logout = async () => {
   try {
-    return axios.get(`${backend_url}/api/logout`, { withCredentials: true });
+    return axios.post(`${backend_url}/api/auth/logout`, undefined, { withCredentials: true });
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }

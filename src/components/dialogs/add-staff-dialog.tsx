@@ -46,7 +46,10 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
               placeholder="Search..."
             />
             <div className="text-sm font-semibold">
-              <span>Results:</span> <span className="text-gray-800">no users found</span>
+              <span>Results:</span>{' '}
+              {!isLoading && users.length === 0 && (
+                <span className="text-gray-800">no users found</span>
+              )}
             </div>
           </div>
 
