@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const appointmentsKey = ['appointments'];
+
 export const useAppointments = () => {
   return useInfiniteQuery({
-    queryKey: ['appointments'],
+    queryKey: appointmentsKey,
     queryFn: ({ signal, pageParam }) => fetchAppointments({ signal, cursor: pageParam }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
@@ -24,7 +26,7 @@ const fetchAppointments = async ({
   cursor: string | undefined;
 }): Promise<Appointment[]> => {
   try {
-    const url = new URL(`${backend_url}/api/appointments`);
+    const url = new URL(`${backendUrl}/api/appointments`);
     cursor && url.searchParams.set('cursor', cursor);
     const res = await axios.get<{ appointments: Appointment[] }>(url.href, {
       signal,

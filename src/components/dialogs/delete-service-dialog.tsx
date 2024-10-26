@@ -1,4 +1,4 @@
-import { useDeleteService } from '@/mutations/use-delete-service';
+import { deleteServiceKey, useDeleteService } from '@/mutations/use-delete-service';
 import { useIsMutating } from '@tanstack/react-query';
 import React, { useRef } from 'react';
 import { Button } from '../ui/button';
@@ -16,7 +16,7 @@ import {
 type Props = { children: React.ReactNode; id: string };
 export default function DeleteServiceDialog({ children, id }: Props) {
   const { mutate } = useDeleteService(id);
-  const isDeletingService = !!useIsMutating({ mutationKey: ['delete-service', id] });
+  const isDeletingService = !!useIsMutating({ mutationKey: deleteServiceKey(id) });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const deleteService = () => {

@@ -1,3 +1,4 @@
+import { QueryKey } from '@tanstack/react-query';
 import React from 'react';
 import CancelAppointmentDialog from '../dialogs/cancel-appointment-dialog';
 import {
@@ -9,7 +10,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
-import { QueryKey } from '@tanstack/react-query';
 
 export default function AppointmentOptionsMenu({
   children,

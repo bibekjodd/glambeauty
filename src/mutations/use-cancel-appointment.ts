@@ -1,13 +1,17 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
-import { InfiniteData, QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
+import { appointmentsKey } from '@/queries/use-appointments';
+import { InfiniteData, QueryKey, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
 
+export const cancelAppointmentKey = (id: string) => ['cancel-appointment', id];
+
 export const useCancelAppointment = (id: string) => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation({
-    mutationKey: ['cancel-appointment', id],
+    mutationKey: cancelAppointmentKey(id),
     mutationFn: ({ cancelReason }: { cancelReason: string | undefined; queryKey: QueryKey }) =>
       cancelAppointment({ id, cancelReason }),
 
@@ -41,11 +45,11 @@ export const useCancelAppointment = (id: string) => {
       toast.dismiss();
       toast.error(`Could not cancel appointment! ${err.message}`);
       if (!oldPages) return;
-      queryClient.setQueryData<InfiniteData<Appointment[]>>(['appointments'], { ...oldPages });
+      queryClient.setQueryData<InfiniteData<Appointment[]>>(appointmentsKey, { ...oldPages });
     },
 
     onSettled() {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: appointmentsKey });
     }
   });
 };
@@ -59,7 +63,7 @@ const cancelAppointment = ({
 }) => {
   try {
     return axios.put(
-      `${backend_url}/api/appointments/${id}/cancel`,
+      `${backendUrl}/api/appointments/${id}/cancel`,
       { cancelReason },
       { withCredentials: true }
     );

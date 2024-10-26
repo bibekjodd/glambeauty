@@ -1,13 +1,17 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { servicesKey } from '@/queries/use-services';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
 
+export const deleteServiceKey = (id: string) => ['delete-service', id];
+
 export const useDeleteService = (id: string) => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation({
-    mutationKey: ['delete-service', id],
+    mutationKey: deleteServiceKey(id),
     mutationFn: () => deleteService(id),
     onMutate() {
       toast.dismiss();
@@ -17,10 +21,10 @@ export const useDeleteService = (id: string) => {
     onSuccess() {
       toast.dismiss();
       toast.success('Service deleted successfully');
-      const oldServices = queryClient.getQueryData<Service[]>(['services']);
+      const oldServices = queryClient.getQueryData<Service[]>(servicesKey);
       if (!oldServices) return;
       const updatedServices = oldServices.filter((service) => service.id !== id);
-      queryClient.setQueryData<Service[]>(['services'], updatedServices);
+      queryClient.setQueryData<Service[]>(servicesKey, updatedServices);
     },
 
     onError(err) {
@@ -29,14 +33,14 @@ export const useDeleteService = (id: string) => {
     },
 
     onSettled() {
-      queryClient.invalidateQueries({ queryKey: ['services'] });
+      queryClient.invalidateQueries({ queryKey: servicesKey });
     }
   });
 };
 
 const deleteService = async (id: string) => {
   try {
-    await axios.delete(`${backend_url}/api/services/${id}`, { withCredentials: true });
+    await axios.delete(`${backendUrl}/api/services/${id}`, { withCredentials: true });
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }

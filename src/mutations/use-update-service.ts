@@ -1,15 +1,19 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { UpdateServiceSchema } from '@/lib/form-schemas';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage, uploadImage } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { servicesKey } from '@/queries/use-services';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
 
+export const updateServiceKey = (id: string) => ['update-service', id];
+
 export const useUpdateService = (id: string) => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
 
   return useMutation({
-    mutationKey: ['update-service', id],
+    mutationKey: updateServiceKey(id),
     mutationFn: (data: UpdateServiceSchema & { image?: File | string }) =>
       updateService({ id, ...data }),
 
@@ -21,14 +25,14 @@ export const useUpdateService = (id: string) => {
     onSuccess(updatedService) {
       toast.dismiss();
       toast.success('Updated service successfully');
-      const oldServicesData = queryClient.getQueryData<Service[]>(['services']);
+      const oldServicesData = queryClient.getQueryData<Service[]>(servicesKey);
       if (!oldServicesData) return;
 
       const updatedServicesData: Service[] = oldServicesData.map((service) => {
         if (service.id !== id) return service;
         return updatedService;
       });
-      queryClient.setQueryData<Service[]>(['services'], updatedServicesData);
+      queryClient.setQueryData<Service[]>(servicesKey, updatedServicesData);
     },
 
     onError(error) {
@@ -37,7 +41,7 @@ export const useUpdateService = (id: string) => {
     },
 
     onSettled() {
-      queryClient.invalidateQueries({ queryKey: ['services'] });
+      queryClient.invalidateQueries({ queryKey: servicesKey });
     }
   });
 };
@@ -47,7 +51,7 @@ export const updateService = async ({ id, image, ...data }: Options): Promise<Se
   try {
     const uploadImagePromise = image instanceof File ? uploadImage(image) : undefined;
     const updateServicePromise = axios.put<{ service: Service }>(
-      `${backend_url}/api/services/${id}`,
+      `${backendUrl}/api/services/${id}`,
       { ...data, image: typeof image === 'string' ? image : undefined },
       {
         withCredentials: true

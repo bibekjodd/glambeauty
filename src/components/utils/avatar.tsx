@@ -1,5 +1,5 @@
 import { dummyUserImage } from '@/lib/constants';
-import ProgressLink from './progress-link';
+import { ProgressLink } from '@jodd/next-top-loading-bar';
 
 type Props = {
   src: string | null;

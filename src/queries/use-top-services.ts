@@ -1,11 +1,14 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useTopServices = ({ start, end }: { start: string; end: string }) => {
+type KeyOptions = { start: string; end: string };
+export const topServicesKey = (options: KeyOptions) => ['top-services', options];
+
+export const useTopServices = ({ start, end }: KeyOptions) => {
   return useQuery({
-    queryKey: ['top-services', { start, end }],
+    queryKey: topServicesKey({ start, end }),
     queryFn: ({ signal }) => fetchServicesStats({ signal, start, end })
   });
 };
@@ -15,17 +18,10 @@ export type TopService = {
   title: string;
   count: number;
 };
-const fetchServicesStats = async ({
-  signal,
-  start,
-  end
-}: {
-  signal: AbortSignal;
-  start: string;
-  end: string;
-}): Promise<TopService[]> => {
+type Options = { signal: AbortSignal } & KeyOptions;
+const fetchServicesStats = async ({ signal, start, end }: Options): Promise<TopService[]> => {
   try {
-    const url = new URL(`${backend_url}/api/stats/services`);
+    const url = new URL(`${backendUrl}/api/stats/services`);
     url.searchParams.set('start', start);
     url.searchParams.set('end', end);
 

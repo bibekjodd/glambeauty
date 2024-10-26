@@ -1,16 +1,20 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { staffsKey } from '@/queries/use-staffs';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const updateUserKey = (id: string) => ['update-user', id];
+
 export const useUpdateUser = (id: string) => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation({
-    mutationKey: ['update-user', id],
+    mutationKey: updateUserKey(id),
     mutationFn: (data: Omit<Options, 'id'>) => updateUser({ id, ...data }),
 
     onSuccess(_, { active, role }) {
-      const oldStaffsData = queryClient.getQueryData<User[]>(['staffs']);
+      const oldStaffsData = queryClient.getQueryData<User[]>(staffsKey);
       if (!oldStaffsData) return;
 
       let updatedStaffsData: User[] = oldStaffsData.map((staff) => {
@@ -23,11 +27,11 @@ export const useUpdateUser = (id: string) => {
       });
       updatedStaffsData = updatedStaffsData.filter((staff) => staff.role !== 'user');
 
-      queryClient.setQueryData<User[]>(['staffs'], updatedStaffsData);
+      queryClient.setQueryData<User[]>(staffsKey, updatedStaffsData);
     },
 
     onSettled() {
-      queryClient.invalidateQueries({ queryKey: ['staffs'] });
+      queryClient.invalidateQueries({ queryKey: staffsKey });
     }
   });
 };
@@ -39,7 +43,7 @@ type Options = {
 };
 export const updateUser = async ({ id, ...data }: Options) => {
   try {
-    await axios.put(`${backend_url}/api/users/${id}`, data, {
+    await axios.put(`${backendUrl}/api/users/${id}`, data, {
       withCredentials: true
     });
   } catch (error) {

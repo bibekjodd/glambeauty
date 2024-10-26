@@ -1,5 +1,5 @@
-import LoadingBar from '@/components/utils/loading-bar';
 import QueryProvider from '@/providers/query-provider';
+import { LoadingBar } from '@jodd/next-top-loading-bar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
@@ -43,7 +43,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-white text-black antialiased`}>
         <QueryProvider>
-          <LoadingBar />
+          <LoadingBar waitingTime={200} color="rgb(236 72 153)" />
           <Toaster toastOptions={{ duration: 3000 }} theme="dark" richColors closeButton />
           {children}
         </QueryProvider>

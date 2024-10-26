@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const notificationsKey = ['notifications'];
+
 export const useNotifications = () => {
   return useInfiniteQuery({
-    queryKey: ['notifications'],
+    queryKey: notificationsKey,
     queryFn: ({ signal, pageParam }) => fetchNotifications({ signal, cursor: pageParam }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
@@ -22,7 +24,7 @@ const fetchNotifications = async ({
   cursor: string | undefined;
 }): Promise<NotificationResult[]> => {
   try {
-    const url = new URL(`${backend_url}/api/notifications`);
+    const url = new URL(`${backendUrl}/api/notifications`);
     cursor && url.searchParams.set('cursor', cursor);
     const res = await axios.get<{ notifications: NotificationResult[] }>(url.href, {
       withCredentials: true,

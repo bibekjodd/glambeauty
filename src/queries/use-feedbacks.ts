@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const feedbacksKey = (rating?: number) => ['feedbacks', rating];
+
 export const useFeedbacks = (rating?: number) => {
   return useInfiniteQuery({
-    queryKey: ['feedbacks', rating],
+    queryKey: feedbacksKey(rating),
     queryFn: ({ signal, pageParam }) => fetchFeedbacks({ signal, cursor: pageParam, rating }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam(lastPage) {
@@ -24,7 +26,7 @@ const fetchFeedbacks = async ({
   rating: number | undefined;
 }): Promise<Feedback[]> => {
   try {
-    const url = new URL(`${backend_url}/api/feedbacks`);
+    const url = new URL(`${backendUrl}/api/feedbacks`);
     cursor && url.searchParams.set('cursor', cursor);
     rating && url.searchParams.set('rating', rating.toString());
     const res = await axios.get<{ feedbacks: Feedback[] }>(url.href, {

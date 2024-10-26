@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const servicesKey = ['services'];
+
 export const useServices = () => {
   return useQuery({
-    queryKey: ['services'],
+    queryKey: servicesKey,
     queryFn: fetchServices,
     refetchOnWindowFocus: true
   });
@@ -13,7 +15,7 @@ export const useServices = () => {
 
 const fetchServices = async ({ signal }: { signal: AbortSignal }) => {
   try {
-    const res = await axios.get<{ services: Service[] }>(`${backend_url}/api/services`, {
+    const res = await axios.get<{ services: Service[] }>(`${backendUrl}/api/services`, {
       withCredentials: true,
       signal
     });

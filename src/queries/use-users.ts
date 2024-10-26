@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const usersKey = (search: string) => ['users', search];
+
 export const useUsers = ({ search, enabled }: { search: string; enabled: boolean }) => {
   return useInfiniteQuery({
-    queryKey: ['users', search],
+    queryKey: usersKey(search),
     queryFn: ({ signal, pageParam }) => fetchUsers({ search, signal, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages, lastPageParam) {
@@ -29,7 +31,7 @@ const fetchUsers = async ({
     const searchParams = new URLSearchParams();
     searchParams.set('q', search);
     searchParams.set('page', page.toString());
-    const url = `${backend_url}/api/users?${searchParams.toString()}`;
+    const url = `${backendUrl}/api/users?${searchParams.toString()}`;
     const res = await axios.get<{ users: User[] }>(url, { signal, withCredentials: true });
     return res.data.users;
   } catch (error) {

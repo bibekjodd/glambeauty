@@ -1,6 +1,6 @@
 'use client';
 import { postFeedbackSchema, PostFeedbackSchema } from '@/lib/form-schemas';
-import { usePostFeedback } from '@/mutations/use-post-feedback';
+import { postFeedbackKey, usePostFeedback } from '@/mutations/use-post-feedback';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useIsMutating } from '@tanstack/react-query';
 import React, { useRef } from 'react';
@@ -40,7 +40,7 @@ export default function PostFeedbackDialog({ children }: { children: React.React
     defaultValues: { rating: 4 }
   });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const isPostingFeedback = !!useIsMutating({ mutationKey: ['post-feedback'] });
+  const isPostingFeedback = !!useIsMutating({ mutationKey: postFeedbackKey });
   const { mutate } = usePostFeedback();
   const onSubmit = async (data: PostFeedbackSchema) => {
     mutate(data, {
@@ -111,7 +111,7 @@ export default function PostFeedbackDialog({ children }: { children: React.React
         </form>
 
         <DialogFooter>
-          <DialogClose ref={closeButtonRef}>
+          <DialogClose ref={closeButtonRef} asChild>
             <Button variant="outline" className="w-full">
               Cancel
             </Button>

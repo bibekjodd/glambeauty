@@ -1,4 +1,4 @@
-import AutoAnimate from '@/components/utils/auto-animate';
+import { AutoAnimate } from '@jodd/auto-animate';
 import { LucideIcon } from 'lucide-react';
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { Label } from '../ui/label';

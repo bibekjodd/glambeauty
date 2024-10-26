@@ -8,12 +8,12 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AutoAnimate from '@/components/utils/auto-animate';
 import Avatar from '@/components/utils/avatar';
 import { useDebounce } from '@/hooks/use-debounce';
-import { useUpdateUser } from '@/mutations/use-update-user';
+import { updateUserKey, useUpdateUser } from '@/mutations/use-update-user';
 import { useStaffs } from '@/queries/use-staffs';
 import { useUsers } from '@/queries/use-users';
+import { AutoAnimate } from '@jodd/auto-animate';
 import { useIsMutating } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Skeleton } from '../ui/skeleton';
@@ -82,7 +82,7 @@ function User({ user }: { user: User }) {
   const { mutate } = useUpdateUser(user.id);
   const { data: staffs } = useStaffs();
   const isAddingStaff = !!useIsMutating({
-    mutationKey: ['update-user', user.id]
+    mutationKey: updateUserKey(user.id)
   });
   const addStaff = () => {
     mutate({ role: 'staff', active: true });

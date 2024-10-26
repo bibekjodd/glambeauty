@@ -14,6 +14,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 import Avatar from '@/components/utils/avatar';
+import { updateUserKey } from '@/mutations/use-update-user';
 import { useProfile } from '@/queries/use-profile';
 import { useStaffs } from '@/queries/use-staffs';
 import { useIsMutating } from '@tanstack/react-query';
@@ -77,7 +78,7 @@ export default function Page() {
 function Staff({ staff }: { staff: User }) {
   const { data: profile } = useProfile();
   const isUpdatingStaff = !!useIsMutating({
-    mutationKey: ['update-user', staff.id]
+    mutationKey: updateUserKey(staff.id)
   });
   return (
     <TableRow key={staff.id}>
@@ -113,9 +114,7 @@ function Staff({ staff }: { staff: User }) {
               {isUpdatingStaff ? (
                 <Loader2 className="size-4 animate-spin text-gray-900" />
               ) : (
-                <button>
-                  <EllipsisVertical className="size-4 text-gray-900" />
-                </button>
+                <EllipsisVertical className="size-4 text-gray-900" />
               )}
             </button>
           </StaffOptionsDropdown>

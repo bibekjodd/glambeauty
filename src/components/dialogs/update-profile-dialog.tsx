@@ -10,7 +10,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { updateProfileSchema, UpdateProfileSchema } from '@/lib/form-schemas';
-import { useUpdateProfile } from '@/mutations/use-update-profile';
+import { updateProfileKey, useUpdateProfile } from '@/mutations/use-update-profile';
 import { useProfile } from '@/queries/use-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useIsMutating } from '@tanstack/react-query';
@@ -28,14 +28,14 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
   } = useForm<UpdateProfileSchema>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
-      name: profile?.name,
-      address: profile?.address || undefined,
+      name: profile?.name || '',
+      address: profile?.address || '',
       phone: profile?.phone || undefined
     }
   });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { mutate } = useUpdateProfile();
-  const isUpdatingProfile = !!useIsMutating({ mutationKey: ['update-profile'] });
+  const isUpdatingProfile = !!useIsMutating({ mutationKey: updateProfileKey });
 
   const onSubmit = (data: UpdateProfileSchema) => {
     mutate(data, {

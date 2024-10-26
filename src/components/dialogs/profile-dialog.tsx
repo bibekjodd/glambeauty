@@ -20,7 +20,7 @@ export default function ProfileDialog({ children }: { children: React.ReactNode 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent onKeyDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle className="text-center">Your Profile</DialogTitle>
         </DialogHeader>

@@ -4,15 +4,15 @@ import { useMemo, useState } from 'react';
 import { Pie, PieChart } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Skeleton } from '../ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 export default function TopServices() {
   const [start] = useState(findNextNDaysDate(-1));
   const [end, setEnd] = useState(findNextNDaysDate(-8));
   const { data: services, isLoading } = useTopServices({ start, end });
 
-  const chartData = useMemo(() => prepareTopServicesData(services || []), [services]);
+  const chartData = prepareTopServicesData(services || []);
 
   const chartConfig: ChartConfig = useMemo(() => {
     const config: ChartConfig = {

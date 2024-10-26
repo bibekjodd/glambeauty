@@ -1,14 +1,18 @@
-import { backend_url } from '@/lib/constants';
-import { toast } from 'sonner';
+import { backendUrl } from '@/lib/constants';
 import { UpdateProfileSchema } from '@/lib/form-schemas';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { profileKey } from '@/queries/use-profile';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { toast } from 'sonner';
+
+export const updateProfileKey = ['update-profile'];
 
 export const useUpdateProfile = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   return useMutation({
-    mutationKey: ['update-profile'],
+    mutationKey: updateProfileKey,
     mutationFn: updateProfile,
     onMutate() {
       toast.dismiss();
@@ -17,7 +21,7 @@ export const useUpdateProfile = () => {
     onSuccess(user) {
       toast.dismiss();
       toast.success('Profile updated successfully');
-      queryClient.setQueryData<User>(['profile'], user);
+      queryClient.setQueryData<User>(profileKey, user);
     },
     onError(err) {
       toast.dismiss();
@@ -28,7 +32,7 @@ export const useUpdateProfile = () => {
 
 export const updateProfile = async (data: Partial<UpdateProfileSchema>): Promise<User> => {
   try {
-    const res = await axios.put<{ user: User }>(`${backend_url}/api/users/profile`, data, {
+    const res = await axios.put<{ user: User }>(`${backendUrl}/api/users/profile`, data, {
       withCredentials: true
     });
 

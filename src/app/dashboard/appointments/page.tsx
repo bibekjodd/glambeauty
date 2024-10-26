@@ -9,7 +9,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer';
-import { useAdminAppointments } from '@/queries/use-admin-appointments';
+import { adminAppointmentsKey, useAdminAppointments } from '@/queries/use-admin-appointments';
 import {
   CheckCircle,
   CircleAlert,
@@ -74,10 +74,10 @@ export default function Page() {
           <AppointmentCard
             key={appointment.id}
             appointment={appointment}
-            queryKey={[
-              'admin-appointments',
-              { userId: null, status: status === 'all' ? null : status }
-            ]}
+            queryKey={adminAppointmentsKey({
+              userId: null,
+              status: status === 'all' ? null : status
+            })}
           />
         ))}
         <InfiniteScrollObserver

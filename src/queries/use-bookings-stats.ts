@@ -1,26 +1,22 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useBookingsStats = ({ start, end }: { start: string; end: string }) => {
+type KeyOptions = { start: string; end: string };
+export const bookingsStatsKey = (options: KeyOptions) => ['bookings-stats', options];
+
+export const useBookingsStats = ({ start, end }: KeyOptions) => {
   return useQuery({
-    queryKey: ['bookings-stats', { start, end }],
+    queryKey: bookingsStatsKey({ start, end }),
     queryFn: ({ signal }) => fetchBookings({ signal, start, end })
   });
 };
 
-const fetchBookings = async ({
-  signal,
-  start,
-  end
-}: {
-  signal: AbortSignal;
-  start: string;
-  end: string;
-}): Promise<AppointmentStats[]> => {
+type Options = { signal: AbortSignal } & KeyOptions;
+const fetchBookings = async ({ signal, start, end }: Options): Promise<AppointmentStats[]> => {
   try {
-    const url = new URL(`${backend_url}/api/stats/bookings`);
+    const url = new URL(`${backendUrl}/api/stats/bookings`);
     url.searchParams.set('start', start);
     url.searchParams.set('end', end);
     const res = await axios.get<{ bookings: Appointment[] }>(url.href, {

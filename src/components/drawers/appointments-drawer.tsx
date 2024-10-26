@@ -1,5 +1,5 @@
-import { useAdminAppointments } from '@/queries/use-admin-appointments';
-import { useAppointments } from '@/queries/use-appointments';
+import { adminAppointmentsKey, useAdminAppointments } from '@/queries/use-admin-appointments';
+import { appointmentsKey, useAppointments } from '@/queries/use-appointments';
 import { useProfile } from '@/queries/use-profile';
 import { CircleAlert } from 'lucide-react';
 import React from 'react';
@@ -72,7 +72,7 @@ function CustomerAndStaffAppointments() {
         <AppointmentCard
           key={appointment.id}
           appointment={appointment}
-          queryKey={['appointments']}
+          queryKey={appointmentsKey}
         />
       ))}
       <InfiniteScrollObserver
@@ -113,7 +113,7 @@ function AdminAppointments() {
         <AppointmentCard
           key={appointment.id}
           appointment={appointment}
-          queryKey={['admin-appointments', { userId: null, status: null }]}
+          queryKey={adminAppointmentsKey({ status: null, userId: null })}
         />
       ))}
       <InfiniteScrollObserver

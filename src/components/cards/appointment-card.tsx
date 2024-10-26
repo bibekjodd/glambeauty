@@ -1,10 +1,12 @@
 import { inter } from '@/lib/fonts';
+import { getQueryClient } from '@/lib/query-client';
 import { formatDate } from '@/lib/utils';
-import { QueryKey, useQueryClient } from '@tanstack/react-query';
+import { profileKey } from '@/queries/use-profile';
+import { QueryKey } from '@tanstack/react-query';
 import { CheckCircle, CircleSlash, Clock12, EllipsisVertical } from 'lucide-react';
 import AppointmentOptionsMenu from '../dropdowns/appointment-options-menu';
-import Avatar from '../utils/avatar';
 import { Skeleton } from '../ui/skeleton';
+import Avatar from '../utils/avatar';
 
 type Props = { appointment: Appointment; queryKey: QueryKey };
 export default function AppointmentCard({ appointment, queryKey }: Props) {
@@ -15,8 +17,8 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
   const completionMonth = completionDate.toLocaleString('default', { month: 'long' });
   const completionHours = completionDate.getHours();
   const completionMinutes = completionDate.getMinutes();
-  const queryClient = useQueryClient();
-  const profile = queryClient.getQueryData<User>(['profile']);
+  const queryClient = getQueryClient();
+  const profile = queryClient.getQueryData<User>(profileKey);
   if (!profile) return;
 
   return (

@@ -1,18 +1,18 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { profileKey } from '@/queries/use-profile';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 export const useLogout = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
+  const queryClient = getQueryClient();
+
   return useMutation({
     mutationKey: ['logout'],
     mutationFn: logout,
     onSuccess() {
-      router.replace('/');
-      queryClient.setQueryData(['profile'], null);
+      queryClient.setQueryData(profileKey, null);
       queryClient.clear();
     }
   });
@@ -20,7 +20,7 @@ export const useLogout = () => {
 
 const logout = async () => {
   try {
-    return axios.post(`${backend_url}/api/auth/logout`, undefined, { withCredentials: true });
+    return axios.post(`${backendUrl}/api/auth/logout`, undefined, { withCredentials: true });
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }

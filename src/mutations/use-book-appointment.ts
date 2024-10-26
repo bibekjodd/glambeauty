@@ -1,16 +1,21 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
+import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage, wait } from '@/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { appointmentsKey } from '@/queries/use-appointments';
+import { notificationsKey } from '@/queries/use-notifications';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+export const bookAppointmentKey = ['book-appointment'];
+
 export const useBookAppointment = () => {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const router = useRouter();
 
   return useMutation({
-    mutationKey: ['book-appointment'],
+    mutationKey: bookAppointmentKey,
     mutationFn: bookAppointment,
     onMutate() {
       toast.dismiss();
@@ -19,6 +24,7 @@ export const useBookAppointment = () => {
     onSuccess(appointmentId) {
       toast.dismiss();
       toast.success(`Appointment booked successfully`);
+      queryClient.invalidateQueries({ queryKey: notificationsKey });
       wait(300).then(() => {
         router.replace(`/?appointment_id=${appointmentId}&show_qr_code=true`);
       });
@@ -28,7 +34,7 @@ export const useBookAppointment = () => {
       toast.error(`Could not book appointment! ${err.message}`);
     },
     onSettled() {
-      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      queryClient.invalidateQueries({ queryKey: appointmentsKey });
     }
   });
 };
@@ -41,7 +47,7 @@ type Options = {
 const bookAppointment = async (data: Options): Promise<string> => {
   try {
     const res = await axios.post<{ appointmentId: string }>(
-      `${backend_url}/api/appointments`,
+      `${backendUrl}/api/appointments`,
       data,
       { withCredentials: true }
     );

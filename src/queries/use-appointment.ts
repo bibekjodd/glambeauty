@@ -1,11 +1,13 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+export const appointmentKey = (id: string) => ['appointment', id];
+
 export const useAppointment = (id: string) => {
   return useQuery({
-    queryKey: ['appointment', id],
+    queryKey: appointmentKey(id),
     queryFn: ({ signal }) => fetchAppointment({ id, signal }),
     staleTime: Infinity,
     gcTime: 5 * 60 * 1000,
@@ -22,7 +24,7 @@ const fetchAppointment = async ({
 }): Promise<Appointment> => {
   try {
     const res = await axios.get<{ appointment: Appointment }>(
-      `${backend_url}/api/appointments/${id}`,
+      `${backendUrl}/api/appointments/${id}`,
       { withCredentials: true, signal }
     );
     return res.data.appointment;

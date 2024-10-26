@@ -52,19 +52,8 @@ export default function LineChart({
     ];
   }, [stats, type]);
 
-  const primaryAxis = useMemo((): AxisOptions<Data> => {
-    return {
-      getValue: (data) => new Date(data.date)
-    };
-  }, []);
-
-  const secondaryAxes = useMemo((): AxisOptions<Data>[] => {
-    return [
-      {
-        getValue: (data) => data.count
-      }
-    ];
-  }, []);
+  const primaryAxis: AxisOptions<Data> = { getValue: (data) => new Date(data.date) };
+  const secondaryAxes: AxisOptions<Data>[] = [{ getValue: (data) => data.count }];
 
   const chartColors = {
     pending: '#0ea5e9',

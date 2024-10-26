@@ -1,6 +1,7 @@
 'use client';
 import { loginLink } from '@/lib/constants';
 import { useProfile } from '@/queries/use-profile';
+import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { LogIn, MoveRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
@@ -8,7 +9,6 @@ import ProfileDropdown from '../dropdowns/profile-dropdown';
 import { Button } from '../ui/button';
 import Avatar from '../utils/avatar';
 import { logo } from '../utils/logo';
-import ProgressLink from '../utils/progress-link';
 
 export default function Header() {
   const { data: profile, isLoading: isLoadingProfile } = useProfile();
@@ -18,7 +18,7 @@ export default function Header() {
       className={`left-0 top-0 z-10 flex h-16 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
     >
       <header className="cont flex items-center justify-between">
-        <ProgressLink href="/" className="text-3xl sm:text-4xl">
+        <ProgressLink href="/" className="text-3xl">
           {logo}
         </ProgressLink>
 

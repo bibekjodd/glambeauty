@@ -1,10 +1,10 @@
 'use client';
 import { poppins } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
+import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { MoveRight } from 'lucide-react';
 import Image from 'next/image';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
-import ProgressLink from '../utils/progress-link';
 
 type Service = { title: string; image: string; description: string };
 const services: Service[] = [

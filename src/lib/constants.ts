@@ -1,5 +1,5 @@
-export const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
-export const loginLink = `${backend_url}/api/auth/login/google?redirect=${typeof location === 'undefined' ? { origin: '' } : location.origin}`;
+export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const loginLink = `${backendUrl}/api/auth/login/google?redirect=${typeof location === 'undefined' ? { origin: '' } : location.origin}`;
 export const dummyUserImage = 'https://avatars.githubusercontent.com/u/110604197?v=4';
 export const dummyServiceImage = 'https://i.postimg.cc/HxjCcRRM/Untitled.jpg';
 export const aboutUsImage = 'https://i.postimg.cc/Jz1xTfLB/Untitled.jpg';

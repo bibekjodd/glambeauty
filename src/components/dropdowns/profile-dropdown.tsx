@@ -1,6 +1,7 @@
 import LogoutDialog from '@/components/dialogs/logout-dialog';
 import ProfileDialog from '@/components/dialogs/profile-dialog';
 import { useProfile } from '@/queries/use-profile';
+import { ProgressButton } from '@jodd/next-top-loading-bar';
 import { Bell, BookText, LayoutGrid, LogOut, NotebookPen, User } from 'lucide-react';
 import React from 'react';
 import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
@@ -16,7 +17,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
-import ProgressButton from '../utils/progress-button';
 
 type Props = { children: React.ReactNode };
 export default function ProfileDropdown({ children }: Props) {

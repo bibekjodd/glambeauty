@@ -1,17 +1,18 @@
-import { backend_url } from '@/lib/constants';
+import { backendUrl } from '@/lib/constants';
 import { extractErrorMessage } from '@/lib/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useAdminAppointments = ({
-  userId,
-  status
-}: {
+type KeyOptions = {
   userId: string | null;
   status: AppointmentStatus | null;
-}) => {
+};
+
+export const adminAppointmentsKey = (options: KeyOptions) => ['admin-appointments', options];
+
+export const useAdminAppointments = ({ userId, status }: KeyOptions) => {
   return useInfiniteQuery({
-    queryKey: ['admin-appointments', { userId, status }],
+    queryKey: adminAppointmentsKey({ userId, status }),
     queryFn: ({ signal, pageParam }) =>
       fetchAppointments({ signal, cursor: pageParam, userId, status }),
     initialPageParam: undefined as string | undefined,
@@ -22,19 +23,15 @@ export const useAdminAppointments = ({
   });
 };
 
+type Options = { signal: AbortSignal; cursor: string | undefined } & KeyOptions;
 const fetchAppointments = async ({
   signal,
   cursor,
   userId,
   status
-}: {
-  signal: AbortSignal;
-  cursor: string | undefined;
-  userId: string | null;
-  status: AppointmentStatus | null;
-}): Promise<Appointment[]> => {
+}: Options): Promise<Appointment[]> => {
   try {
-    const url = new URL(`${backend_url}/api/appointments/all`);
+    const url = new URL(`${backendUrl}/api/appointments/all`);
     cursor && url.searchParams.set('cursor', cursor);
     userId && url.searchParams.set('userId', userId);
     status && url.searchParams.set('status', status);

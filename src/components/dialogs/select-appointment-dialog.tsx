@@ -1,3 +1,4 @@
+import { bookAppointmentKey } from '@/mutations/use-book-appointment';
 import { useAvailableStaffs } from '@/queries/use-available-staffs';
 import { useServices } from '@/queries/use-services';
 import { useIsMutating } from '@tanstack/react-query';
@@ -61,7 +62,7 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
   }, [availableStaffs, fullDate]);
 
   const canSelectStaff = date && time && serviceId;
-  const isBookingAppointment = !!useIsMutating({ mutationKey: ['book-appointment'] });
+  const isBookingAppointment = !!useIsMutating({ mutationKey: bookAppointmentKey });
   const disabled = !serviceId || !time || !date || !staffId || isBookingAppointment;
 
   let selectedStaff = availableStaffs?.find((staff) => staff.id === staffId);

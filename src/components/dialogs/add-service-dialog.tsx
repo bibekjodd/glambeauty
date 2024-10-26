@@ -13,12 +13,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
-import AutoAnimate from '@/components/utils/auto-animate';
 import { addServiceSchema, AddServiceSchema, UpdateServiceSchema } from '@/lib/form-schemas';
 import { imageToDataUri } from '@/lib/utils';
-import { useAddService } from '@/mutations/use-add-service';
-import { useUpdateService } from '@/mutations/use-update-service';
+import { addServiceKey, useAddService } from '@/mutations/use-add-service';
+import { updateServiceKey, useUpdateService } from '@/mutations/use-update-service';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AutoAnimate } from '@jodd/auto-animate';
 import { useIsMutating } from '@tanstack/react-query';
 import { Image as ImageIcon, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
@@ -65,9 +65,9 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
 
   const { mutate: addService } = useAddService();
   const { mutate: updateService } = useUpdateService(service?.id || '');
-  const isAddingService = !!useIsMutating({ mutationKey: ['add-service'] });
+  const isAddingService = !!useIsMutating({ mutationKey: addServiceKey });
   const isUpdatingService = !!useIsMutating({
-    mutationKey: ['update-service', service?.id]
+    mutationKey: updateServiceKey(service?.id!)
   });
 
   const disabled = mode === 'add' ? isAddingService : isUpdatingService;
@@ -87,7 +87,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
     } else {
       const dataToUpdate: UpdateServiceSchema = { ...data };
       for (const [key, value] of Object.entries(service)) {
-        // @ts-ignore
+        // @ts-expect-error ...
         if (dataToUpdate[key] === value) dataToUpdate[key] = undefined;
       }
       updateService({ ...data, image: imageFile }, { onSuccess });
@@ -129,7 +129,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
 
             <div className="flex flex-col space-y-3 py-4">
               <p className="text-sm font-medium">Duration {watch('duration')} hours</p>
-              {/* @ts-ignore */}
+              {/* @ts-expect-error ... */}
               <Slider min={0.5} max={12} id="duration" step={0.5} {...register('duration')} />
               {errors.duration?.message && (
                 <p className="text-sm text-rose-500">{errors.duration?.message}</p>

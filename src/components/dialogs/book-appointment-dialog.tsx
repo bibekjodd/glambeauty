@@ -1,5 +1,5 @@
 import { formatDate } from '@/lib/utils';
-import { useBookAppointment } from '@/mutations/use-book-appointment';
+import { bookAppointmentKey, useBookAppointment } from '@/mutations/use-book-appointment';
 import { useIsMutating } from '@tanstack/react-query';
 import React, { useRef } from 'react';
 import { Button } from '../ui/button';
@@ -32,7 +32,7 @@ export default function BookAppointmentDialog({
   clearValues
 }: Props) {
   const { mutate } = useBookAppointment();
-  const isBookingAppointment = !!useIsMutating({ mutationKey: ['book-appointment'] });
+  const isBookingAppointment = !!useIsMutating({ mutationKey: bookAppointmentKey });
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const fullDate = new Date(date);
 

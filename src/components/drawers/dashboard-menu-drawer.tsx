@@ -1,17 +1,18 @@
+import { ProgressLink } from '@jodd/next-top-loading-bar';
+import { usePathname } from 'next/navigation';
 import React, { useRef } from 'react';
+import { dashboardLinks } from '../layouts/dashboard-sidebar';
 import { Button } from '../ui/button';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
 } from '../ui/drawer';
-import { dashboardLinks } from '../layouts/dashboard-sidebar';
-import ProgressLink from '../utils/progress-link';
-import { usePathname } from 'next/navigation';
 import { logo } from '../utils/logo';
 
 export default function DashboardMenuDrawer({ children }: { children: React.ReactNode }) {
@@ -25,7 +26,7 @@ export default function DashboardMenuDrawer({ children }: { children: React.Reac
         <DrawerHeader>
           <DrawerTitle className="text-4xl">{logo}</DrawerTitle>
         </DrawerHeader>
-
+        <DrawerDescription></DrawerDescription>
         <nav className="mt-3 flex h-full flex-col space-y-1 overflow-y-auto text-sm">
           {dashboardLinks.map((link) => (
             <ProgressLink
