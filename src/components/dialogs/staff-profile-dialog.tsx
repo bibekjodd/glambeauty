@@ -6,6 +6,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import Avatar from '@/components/utils/avatar';
+import { cn } from '@/lib/utils';
 import { Dot, Mail, MapPin, Phone, User } from 'lucide-react';
 import React from 'react';
 
@@ -40,10 +41,16 @@ export default function StaffProfileDialog({ children, staff }: Props) {
           </div>
           <div className="flex items-center">
             <Dot
-              className={`mr-2 size-4 scale-150 animate-pulse ${staff.active ? 'text-green-600' : 'text-amber-600'}`}
+              className={cn('mr-2 size-4 scale-150 animate-pulse', {
+                'text-green-600': staff.active,
+                'text-amber-600': !staff.active
+              })}
             />
             <span
-              className={`rounded-sm px-2 ${staff.active ? 'bg-green-600/20 text-green-600' : 'bg-amber-600/10 text-amber-600'}`}
+              className={cn('rounded-sm px-2', {
+                'bg-green-600/20 text-green-600': staff.active,
+                'bg-amber-600/10 text-amber-600': !staff.active
+              })}
             >
               {staff.active ? 'Active' : 'Inactive'}
             </span>

@@ -4,6 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { poppins } from '@/lib/fonts';
 import { useProfile } from '@/queries/use-profile';
 import { useServices } from '@/queries/use-services';
+import clsx from 'clsx';
 import { CircleAlert } from 'lucide-react';
 
 export default function Page() {
@@ -12,7 +13,10 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-white pb-24">
       <h3
-        className={`${poppins.className} mb-3 text-balance pt-7 text-center text-4xl font-semibold`}
+        className={clsx(
+          poppins.className,
+          'mb-3 text-balance pt-7 text-center text-4xl font-semibold'
+        )}
       >
         <span>We have </span>
         <span className="text-pink-500">covered</span> <span>what</span>{' '}

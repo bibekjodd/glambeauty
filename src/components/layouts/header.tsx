@@ -1,5 +1,6 @@
 'use client';
 import { loginLink } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { LogIn, MoveRight } from 'lucide-react';
@@ -15,7 +16,13 @@ export default function Header() {
   const pathname = usePathname();
   return (
     <div
-      className={`left-0 top-0 z-10 flex h-16 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl ${pathname === '/' ? 'fixed' : 'sticky'}`}
+      className={cn(
+        'left-0 top-0 z-10 flex h-16 w-full items-center border-b bg-white/70 filter backdrop-blur-2xl',
+        {
+          fixed: pathname === '/',
+          sticky: pathname !== '/'
+        }
+      )}
     >
       <header className="cont flex items-center justify-between">
         <ProgressLink href="/" className="text-3xl">

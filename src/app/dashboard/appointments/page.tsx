@@ -9,6 +9,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer';
+import { cn } from '@/lib/utils';
 import { adminAppointmentsKey, useAdminAppointments } from '@/queries/use-admin-appointments';
 import {
   CheckCircle,
@@ -44,7 +45,12 @@ export default function Page() {
             {statusOptions.map((status, i) => (
               <SelectItem key={i} value={status}>
                 <div
-                  className={`flex items-center space-x-2 pr-2 ${status === 'all' ? 'text-violet-600' : ''} ${status === 'completed' ? 'text-green-600' : ''} ${status === 'pending' ? 'text-sky-600' : ''} ${status === 'cancelled' ? 'text-rose-600' : ''} `}
+                  className={cn('flex items-center space-x-2 pr-2', {
+                    'text-violet-600': status === 'all',
+                    'text-green-600': status === 'completed',
+                    'text-sky-600': status === 'pending',
+                    'text-rose-600': status === 'cancelled'
+                  })}
                 >
                   <span className="capitalize">{status === 'pending' ? 'Upcoming' : status}</span>
                   {status === 'all' && <TextQuote className="size-4" />}

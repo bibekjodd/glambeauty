@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 import { addServiceSchema, AddServiceSchema, UpdateServiceSchema } from '@/lib/form-schemas';
-import { imageToDataUri } from '@/lib/utils';
+import { cn, imageToDataUri } from '@/lib/utils';
 import { addServiceKey, useAddService } from '@/mutations/use-add-service';
 import { updateServiceKey, useUpdateService } from '@/mutations/use-update-service';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -210,7 +210,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
             loading={disabled}
             className="relative"
           >
-            <span className={`${disabled ? 'opacity-0' : ''}`}>
+            <span className={cn({ 'opacity-0': disabled })}>
               {mode === 'add' ? 'Add Service' : 'Update'} Service
             </span>
           </Button>

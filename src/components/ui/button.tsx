@@ -46,7 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
-        <span className={`${loading ? 'opacity-0' : ''} inline-flex items-center justify-center`}>
+        <span className={cn('inline-flex items-center justify-center', { 'opacity-0': loading })}>
           <span className="inline-flex items-center justify-center">{children}</span>
           {Icon && <Icon className="ml-2 size-4" />}
         </span>

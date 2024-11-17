@@ -1,5 +1,6 @@
 'use client';
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { MoveRight } from 'lucide-react';
@@ -32,7 +33,10 @@ export default function Services() {
   return (
     <section id="services" className="cont my-24 scroll-m-20 md:my-32">
       <h3
-        className={`text-balance text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
+        className={cn(
+          poppins.className,
+          'text-balance text-center text-4xl font-semibold text-gray-900'
+        )}
       >
         World class <span className="text-pink-500">Services</span> for{' '}
         <span className="text-pink-500">You!</span>
@@ -62,7 +66,7 @@ function ServiceCard({ service }: { service: Service }) {
 
       <div className="relative mt-3 flex-grow space-y-3">
         {bgShadow}
-        <h3 className={`text-2xl font-semibold ${poppins.className}`}>{service.title}</h3>
+        <h3 className={cn(poppins.className, 'text-2xl font-semibold')}>{service.title}</h3>
         <p className="mt-3 line-clamp-3 text-gray-700">{service.description}</p>
         {profile?.role === 'user' ? (
           <SelectAppointmentDialog>

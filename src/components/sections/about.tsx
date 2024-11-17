@@ -1,5 +1,6 @@
 import { aboutUsImage } from '@/lib/constants';
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 export default function About() {
@@ -8,7 +9,7 @@ export default function About() {
       <section className="cont my-24 grid grid-cols-1 space-y-5 py-10 md:my-32 lg:grid-cols-2 lg:space-y-0">
         <div className="relative text-gray-700 lg:pr-6">
           {bgShadow}
-          <h3 className={`${poppins.className} text-3xl font-semibold text-gray-900`}>
+          <h3 className={cn(poppins.className, 'text-3xl font-semibold text-gray-900')}>
             About <span className="text-pink-500">Glambeauty</span>
           </h3>
           <p className="mt-3">

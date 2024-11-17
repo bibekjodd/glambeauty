@@ -1,4 +1,5 @@
 import { dummyServiceImage, loginLink } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { MoveRight } from 'lucide-react';
 import Image from 'next/image';
 import AddServiceDialog from '../dialogs/add-service-dialog';
@@ -29,7 +30,7 @@ export default function ServiceCard({ service, view }: Props) {
         <p>
           Duration: <span>{service.duration} hours</span>
         </p>
-        <p className={`${view === 'admin' ? 'line-clamp-2' : ''}`}>{service.description}</p>
+        <p className={cn(view === 'admin' && 'line-clamp-2')}>{service.description}</p>
 
         {view === 'admin' && (
           <AddServiceDialog mode="update" service={service}>

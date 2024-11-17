@@ -1,4 +1,5 @@
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { Clock12, Gem, Headset, UsersRound } from 'lucide-react';
 
 const list = [
@@ -24,7 +25,10 @@ export default function Best() {
   return (
     <section id="best" className="mt-24 py-12">
       <h3
-        className={`text-balance text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
+        className={cn(
+          poppins.className,
+          'text-balance text-center text-4xl font-semibold text-gray-900'
+        )}
       >
         Why are we the <span className="text-pink-500">Best</span> on the{' '}
         <span className="text-pink-500">Market!</span>

@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { usePathname } from 'next/navigation';
 import React, { useRef } from 'react';
@@ -35,7 +36,9 @@ export default function DashboardMenuDrawer({ children }: { children: React.Reac
               onClick={() => {
                 closeButtonRef.current?.click();
               }}
-              className={`flex items-center space-x-2 p-4 font-semibold ${link.href === pathname ? 'bg-pink-600/10 text-pink-600' : ''}`}
+              className={cn('flex items-center space-x-2 p-4 font-semibold', {
+                'bg-pink-600/10 text-pink-600': link.href === pathname
+              })}
             >
               <link.icon className="size-5" />
               <span>{link.title}</span>

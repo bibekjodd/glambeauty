@@ -1,6 +1,7 @@
 'use client';
 import LogoutDialog from '@/components/dialogs/logout-dialog';
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import {
   BookText,
@@ -46,7 +47,10 @@ export default function DashboardSidebar() {
   const pathname = usePathname();
   return (
     <aside
-      className={`${poppins.className} left-0 top-0 z-50 hidden h-screen min-h-screen w-64 flex-col overflow-y-auto border-r py-3 text-sm font-semibold lg:flex`}
+      className={cn(
+        poppins.className,
+        'left-0 top-0 z-50 hidden h-screen min-h-screen w-64 flex-col overflow-y-auto border-r py-3 text-sm font-semibold lg:flex'
+      )}
     >
       {bgGraphics}
       <ProgressLink href="/" className="px-6 text-3xl">
@@ -58,7 +62,12 @@ export default function DashboardSidebar() {
           <ProgressLink
             key={link.title}
             href={link.href}
-            className={`mb-1 flex h-12 items-center space-x-3 pl-4 hover:bg-pink-600/10 hover:text-pink-600 ${pathname === link.href ? 'border-l-4 border-pink-500 bg-pink-600/10 text-pink-600' : ''}`}
+            className={cn(
+              'mb-1 flex h-12 items-center space-x-3 pl-4 hover:bg-pink-600/10 hover:text-pink-600',
+              {
+                'border-l-4 border-pink-500 bg-pink-600/10 text-pink-600': link.href === pathname
+              }
+            )}
           >
             <link.icon className="size-5" />
             <span>{link.title}</span>

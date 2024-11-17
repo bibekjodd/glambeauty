@@ -1,6 +1,6 @@
 import { inter } from '@/lib/fonts';
 import { getQueryClient } from '@/lib/query-client';
-import { formatDate } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import { profileKey } from '@/queries/use-profile';
 import { QueryKey } from '@tanstack/react-query';
 import { CheckCircle, CircleSlash, Clock12, EllipsisVertical } from 'lucide-react';
@@ -33,7 +33,14 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
 
       <div className="flex flex-col">
         <div
-          className={`flex w-fit items-center space-x-1 rounded-full px-2 py-0.5 text-sm font-normal ${appointment.status === 'pending' ? 'bg-sky-600/30 text-sky-500' : ''} ${appointment.status === 'completed' ? 'bg-green-600/30 text-green-500' : ''} ${appointment.status === 'cancelled' ? 'bg-rose-500/30 text-rose-500' : ''}`}
+          className={cn(
+            'flex w-fit items-center space-x-1 rounded-full px-2 py-0.5 text-sm font-normal',
+            {
+              'bg-sky-600/30 text-sky-500': appointment.status === 'pending',
+              'bg-green-600/30 text-green-500': appointment.status === 'completed',
+              'bg-rose-500/30 text-rose-500': appointment.status === 'cancelled'
+            }
+          )}
         >
           <span className="capitalize">
             {appointment.status === 'pending' ? 'Upcoming' : appointment.status}
@@ -67,7 +74,7 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
         </p>
 
         {appointment.cancelReason && (
-          <div className={`mt-3 text-gray-800 ${inter.className}`}>
+          <div className={cn(inter.className, 'mt-3 text-gray-800')}>
             <span>Cancel Reason:</span> <span>{appointment.cancelReason}</span>
           </div>
         )}

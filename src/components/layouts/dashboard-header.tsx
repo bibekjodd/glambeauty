@@ -1,5 +1,6 @@
 'use client';
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { Menu } from 'lucide-react';
@@ -18,7 +19,10 @@ export default function DashboardHeader() {
   if (!profile) return null;
   return (
     <header
-      className={`${poppins.className} sticky top-0 z-30 flex h-16 items-center border-b bg-white/80 px-4 text-sm filter backdrop-blur-2xl`}
+      className={cn(
+        poppins.className,
+        'sticky top-0 z-30 flex h-16 items-center border-b bg-white/80 px-4 text-sm filter backdrop-blur-2xl'
+      )}
     >
       <h3 className="hidden text-lg font-semibold lg:block">{currentPage?.title || 'Dashboard'}</h3>
 

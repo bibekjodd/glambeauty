@@ -1,4 +1,5 @@
 import { poppins } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 
@@ -39,7 +40,10 @@ export default function Testimonails() {
   return (
     <section id="testimonials" className="mt-24 bg-gray-100 py-12 md:px-5 lg:px-10 xl:px-0">
       <h3
-        className={`text-balance text-center text-4xl font-semibold text-gray-900 ${poppins.className}`}
+        className={cn(
+          poppins.className,
+          'text-balance text-center text-4xl font-semibold text-gray-900'
+        )}
       >
         We are highly <span className="text-pink-500">admired</span> by our{' '}
         <span className="text-pink-500">Customers!</span>
@@ -63,7 +67,7 @@ export default function Testimonails() {
                   <Star key={i} className="size-4 fill-amber-500 text-amber-500" />
                 ))}
               </div>
-              <p className={`text-gray-500 ${poppins.className} mt-3`}>{testimonial.review}</p>
+              <p className={cn(poppins.className, 'mt-3 text-gray-500')}>{testimonial.review}</p>
             </div>
           </div>
         ))}

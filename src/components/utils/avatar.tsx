@@ -1,4 +1,5 @@
 import { dummyUserImage } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 
 type Props = {
@@ -16,7 +17,17 @@ export default function Avatar({ src, className, variant, isLink, href }: Props)
   const image = (
     <div className="inline h-fit w-fit select-none">
       <div
-        className={` ${variant === 'xs' ? 'h-4 w-4' : ''} ${variant === 'sm' ? 'size-6' : ''} ${variant === 'md' || !variant ? 'size-8' : ''} ${variant === 'lg' ? 'size-10' : ''} ${variant === 'xl' ? 'size-12' : ''} ${variant === 'xl' ? 'size-14' : ''} ${className || ''} ${variant === '2xl' ? 'size-16' : ''}`}
+        className={cn(
+          {
+            'size-4': variant === 'xs',
+            'size-6': variant === 'sm',
+            'size-8': variant === 'md' || !variant,
+            'size-10': variant === 'lg',
+            'size-12': variant === 'xl',
+            'size-14': variant === '2xl'
+          },
+          className
+        )}
       >
         <img
           src={src || dummyUserImage}
