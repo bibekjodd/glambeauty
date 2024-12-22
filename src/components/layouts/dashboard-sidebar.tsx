@@ -1,5 +1,6 @@
 'use client';
-import LogoutDialog from '@/components/dialogs/logout-dialog';
+
+import { openLogoutDialog } from '@/components/dialogs/logout-dialog';
 import { poppins } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
@@ -7,7 +8,7 @@ import {
   BookText,
   LayoutGrid,
   Library,
-  LogOut,
+  LogOutIcon,
   LucideIcon,
   MessageSquareText,
   UsersRound
@@ -74,12 +75,13 @@ export default function DashboardSidebar() {
           </ProgressLink>
         ))}
 
-        <LogoutDialog>
-          <button className="mb-3 mt-auto flex w-fit items-center space-x-3 px-6 hover:text-rose-500">
-            <LogOut className="size-5" />
-            <span>Logout</span>
-          </button>
-        </LogoutDialog>
+        <button
+          onClick={openLogoutDialog}
+          className="mb-3 mt-auto flex w-fit items-center space-x-3 px-6 hover:text-rose-500"
+        >
+          <LogOutIcon className="size-5" />
+          <span>Logout</span>
+        </button>
       </nav>
     </aside>
   );

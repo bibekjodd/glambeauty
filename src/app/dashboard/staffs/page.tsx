@@ -1,5 +1,6 @@
 'use client';
-import AddStaffDialog from '@/components/dialogs/add-staff-dialog';
+
+import AddStaffDialog, { openAddStaffDialog } from '@/components/dialogs/add-staff-dialog';
 import StaffProfileDialog from '@/components/dialogs/staff-profile-dialog';
 import StaffOptionsDropdown from '@/components/dropdowns/staff-options-dropdown';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -22,7 +23,7 @@ import {
   AlertCircle,
   CircleUser,
   Dot,
-  EllipsisVertical,
+  EllipsisVerticalIcon,
   Loader2,
   ShieldCheck,
   UserRoundPlus
@@ -32,46 +33,51 @@ export default function Page() {
   const { data: staffs, isLoading, error } = useStaffs();
 
   return (
-    <main className="w-full flex-1 overflow-x-auto p-4">
-      <section className="flex justify-between">
-        <h3 className="text-lg font-semibold">All Staffs</h3>
+    <>
+      <AddStaffDialog />
+      <main className="w-full flex-1 overflow-x-auto p-4">
+        <section className="flex justify-between">
+          <h3 className="text-lg font-semibold">All Staffs</h3>
 
-        <AddStaffDialog>
-          <Button Icon={UserRoundPlus} className="flex items-center space-x-2">
+          <Button
+            onClick={openAddStaffDialog}
+            Icon={UserRoundPlus}
+            className="flex items-center space-x-2"
+          >
             Add new Staff
           </Button>
-        </AddStaffDialog>
-      </section>
+        </section>
 
-      <div className="w-full max-w-full overflow-x-auto scrollbar-thin">
-        {error && (
-          <Alert variant="destructive" className="mt-2">
-            <AlertCircle className="size-4" />
-            <AlertTitle>Could not load staffs!</AlertTitle>
-            <AlertDescription>{error.message}</AlertDescription>
-          </Alert>
-        )}
+        <div className="w-full max-w-full overflow-x-auto scrollbar-thin">
+          {error && (
+            <Alert variant="destructive" className="mt-2">
+              <AlertCircle className="size-4" />
+              <AlertTitle>Could not load staffs!</AlertTitle>
+              <AlertDescription>{error.message}</AlertDescription>
+            </Alert>
+          )}
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Staff</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>
-                <span>Status</span>
-                <Dot className="inline-block size-6 -translate-x-1 scale-150 animate-pulse text-green-500" />
-              </TableHead>
-            </TableRow>
-          </TableHeader>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Staff</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>
+                  <span>Status</span>
+                  <Dot className="inline-block size-6 -translate-x-1 scale-150 animate-pulse text-green-500" />
+                </TableHead>
+              </TableRow>
+            </TableHeader>
 
-          <TableBody className="font-medium">
-            {staffs?.map((staff) => <Staff staff={staff} key={staff.id} />)}
-          </TableBody>
-        </Table>
+            <TableBody className="font-medium">
+              {staffs?.map((staff) => <Staff staff={staff} key={staff.id} />)}
+            </TableBody>
+          </Table>
 
-        {isLoading && <Skeleton className="mt-2 h-80 w-full" />}
-      </div>
-    </main>
+          {isLoading && <Skeleton className="mt-2 h-80 w-full" />}
+        </div>
+      </main>
+    </>
   );
 }
 
@@ -114,7 +120,7 @@ function Staff({ staff }: { staff: User }) {
               {isUpdatingStaff ? (
                 <Loader2 className="size-4 animate-spin text-gray-900" />
               ) : (
-                <EllipsisVertical className="size-4 text-gray-900" />
+                <EllipsisVerticalIcon className="size-4 text-gray-900" />
               )}
             </button>
           </StaffOptionsDropdown>

@@ -14,17 +14,12 @@ export const useUpdateProfile = () => {
   return useMutation({
     mutationKey: updateProfileKey,
     mutationFn: updateProfile,
-    onMutate() {
-      toast.dismiss();
-      toast.loading('Updating profile...');
-    },
+    onMutate() {},
     onSuccess(user) {
-      toast.dismiss();
       toast.success('Profile updated successfully');
       queryClient.setQueryData<User>(profileKey, user);
     },
     onError(err) {
-      toast.dismiss();
       toast.error(`Could not update profile! ${err.message}`);
     }
   });

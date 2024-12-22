@@ -16,8 +16,6 @@ export const useCancelAppointment = (id: string) => {
       cancelAppointment({ id, cancelReason }),
 
     onMutate({ cancelReason, queryKey }) {
-      toast.dismiss();
-      toast.loading('Cancelling appointment');
       const oldAppointmentsData = queryClient.getQueryData<InfiniteData<Appointment[]>>(
         queryKey
       ) || { pages: [], pageParams: [] };
@@ -37,12 +35,10 @@ export const useCancelAppointment = (id: string) => {
     },
 
     onSuccess() {
-      toast.dismiss();
       toast.success('Appointment cancelled successfully');
     },
 
     onError(err, vars, oldPages) {
-      toast.dismiss();
       toast.error(`Could not cancel appointment! ${err.message}`);
       if (!oldPages) return;
       queryClient.setQueryData<InfiniteData<Appointment[]>>(appointmentsKey, { ...oldPages });

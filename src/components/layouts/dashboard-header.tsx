@@ -1,4 +1,5 @@
 'use client';
+
 import { poppins } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';

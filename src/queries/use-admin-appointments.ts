@@ -32,9 +32,9 @@ const fetchAppointments = async ({
 }: Options): Promise<Appointment[]> => {
   try {
     const url = new URL(`${backendUrl}/api/appointments/all`);
-    cursor && url.searchParams.set('cursor', cursor);
-    userId && url.searchParams.set('userId', userId);
-    status && url.searchParams.set('status', status);
+    if (cursor) url.searchParams.set('cursor', cursor);
+    if (userId) url.searchParams.set('userId', userId);
+    if (status) url.searchParams.set('status', status);
     const res = await axios.get<{ appointments: Appointment[] }>(url.href, {
       signal,
       withCredentials: true

@@ -1,22 +1,27 @@
+'use client';
+
+import { MILLIS } from '@/lib/constants';
 import { bookAppointmentKey } from '@/mutations/use-book-appointment';
 import { useAvailableStaffs } from '@/queries/use-available-staffs';
 import { useServices } from '@/queries/use-services';
+import { createStore } from '@jodd/snap';
 import { useIsMutating } from '@tanstack/react-query';
-import { Dot, Loader2 } from 'lucide-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import dayjs from 'dayjs';
+import { CalendarIcon, ChevronsUpDownIcon, Dot, Loader2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../ui/button';
+import { Calendar } from '../ui/calendar';
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '../ui/dialog';
 import { Label } from '../ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import {
   Select,
   SelectContent,
@@ -28,18 +33,40 @@ import {
 import Avatar from '../utils/avatar';
 import BookAppointmentDialog from './book-appointment-dialog';
 
-type CalendarDate = Date | null | [Date | null, Date | null];
-type Props = { children: React.ReactNode; referredServiceId?: string };
-export default function SelectAppointmentDialog({ children, referredServiceId }: Props) {
-  const [date, onChange] = useState<CalendarDate>(new Date());
+const useSelectAppointmentDialog = createStore<{
+  isOpen: boolean;
+  referredServiceId: string | null;
+}>(() => ({ isOpen: false, referredServiceId: null }));
+
+const onOpenChange = (isOpen: boolean) =>
+  useSelectAppointmentDialog.setState((state) => ({
+    isOpen,
+    referredServiceId: isOpen ? state.referredServiceId : null
+  }));
+
+export const openSelectAppointmentDialog = (referredServiceId?: string) =>
+  useSelectAppointmentDialog.setState({
+    isOpen: true,
+    referredServiceId: referredServiceId || null
+  });
+
+export const closeSelectAppointmentDialog = () => onOpenChange(false);
+
+export default function SelectAppointmentDialog() {
+  const { isOpen, referredServiceId } = useSelectAppointmentDialog();
+
+  const [date, setDate] = useState<Date>(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return date;
+  });
   const [time, setTime] = useState(9);
   const [serviceId, setServiceId] = useState<string | null>(referredServiceId || null);
   const { data: services } = useServices();
   const [staffId, setStaffId] = useState<string | null>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const fullDate = useMemo(() => {
-    const selectedDate = new Date(date?.toString() || Date.now());
+    const selectedDate = new Date(date);
     const minutes = Math.round(time) > time ? 0.5 : 0;
     selectedDate.setHours(time);
     selectedDate.setMinutes(minutes);
@@ -73,28 +100,29 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
     setStaffId(null);
     selectedStaff = undefined;
     selectedService = undefined;
-    closeButtonRef.current?.click();
+
+    closeSelectAppointmentDialog();
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    setServiceId(referredServiceId);
+  }, [isOpen, referredServiceId]);
+
   return (
-    <Dialog
-      onOpenChange={(isOpen) => {
-        if (!isOpen) return;
-        selectedStaff = undefined;
-        selectedService = undefined;
-      }}
-    >
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex h-screen max-h-screen flex-col">
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="flex max-h-screen flex-col">
         <DialogHeader>
           <DialogTitle className="text-center">Book an Appointment</DialogTitle>
         </DialogHeader>
+        <DialogDescription className="hidden" />
 
         <div className="flex h-full flex-col space-y-7 overflow-y-auto px-2 pb-7 scrollbar-thin">
           <section className="flex flex-col space-y-2">
-            <Label>Select the service</Label>
+            <Label htmlFor="service">Select the service</Label>
+
             <Select value={serviceId || ''} onValueChange={setServiceId}>
-              <SelectTrigger>
+              <SelectTrigger id="service">
                 <SelectValue placeholder="No service selected" />
               </SelectTrigger>
 
@@ -113,36 +141,63 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
             </Select>
           </section>
 
-          <section className="flexflex-col space-y-2">
-            <Label>Pick the date</Label>
-            <Calendar
-              value={date}
-              onChange={onChange}
-              minDate={new Date(Date.now() + 24 * 60 * 60 * 1000)}
-              maxDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)}
-            />
+          <section className="flex flex-col space-y-2">
+            <Label htmlFor="date">Select date</Label>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  id="date"
+                  className="flex h-9 w-full items-center rounded-md border px-4 text-sm ring-ring focus:ring-1"
+                >
+                  <CalendarIcon className="size-3.5" />
+                  <span className="ml-2 mr-auto">{dayjs(fullDate).format('MMMM DD, ha')}</span>
+                  <ChevronsUpDownIcon className="size-3 opacity-50" />
+                </button>
+              </PopoverTrigger>
+
+              <PopoverContent className="pb-4">
+                <div>
+                  <section className="flex flex-col space-y-2">
+                    <Label>Select time </Label>
+
+                    <Select
+                      value={time.toString()}
+                      onValueChange={(val) => setTime(Number(val) || 9)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select time" />
+                      </SelectTrigger>
+
+                      <SelectContent>
+                        <SelectGroup>
+                          {new Array(9).fill('nothing').map((_, i) => (
+                            <SelectItem key={i} value={(i + 9).toString()}>
+                              {(i + 9) % 12 || 12} {i + 9 >= 12 ? 'pm' : 'am'}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </section>
+
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(date) => {
+                      if (date) setDate(date);
+                    }}
+                    fromDate={new Date(Date.now() + MILLIS.DAY)}
+                    toDate={new Date(Date.now() + MILLIS.DAY * 29)}
+                  />
+                </div>
+              </PopoverContent>
+            </Popover>
           </section>
 
           <section className="flex flex-col space-y-2">
-            <Label>Select time </Label>
-            <Select value={time.toString()} onValueChange={(val) => setTime(Number(val) || 9)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select time" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {new Array(9).fill('nothing').map((_, i) => (
-                    <SelectItem key={i} value={(i + 9).toString()}>
-                      {(i + 9) % 12 || 12} {i + 9 >= 12 ? 'pm' : 'am'}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </section>
+            <Label htmlFor="stylist">Select a stylist</Label>
 
-          <section className="flex flex-col space-y-2">
-            <Label>Select a stylist</Label>
             {canSelectStaff && isLoadingStaffs && (
               <div className="flex h-9 w-full items-center justify-between rounded-lg border border-border px-3 text-sm">
                 <span>Finding available staffs...</span>
@@ -163,9 +218,10 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
             )}
             {canSelectStaff && (availableStaffs?.length || 0) > 0 && (
               <Select value={staffId || ''} onValueChange={setStaffId}>
-                <SelectTrigger>
+                <SelectTrigger id="stylist">
                   <SelectValue placeholder="Select a stylist" />
                 </SelectTrigger>
+
                 <SelectContent>
                   {availableStaffs?.map((staff) => (
                     <SelectItem
@@ -193,8 +249,8 @@ export default function SelectAppointmentDialog({ children, referredServiceId }:
         </div>
 
         <DialogFooter className="sm:flex-col-reverse sm:space-x-0">
-          <DialogClose asChild ref={closeButtonRef}>
-            <Button variant="outline" className="mt-1">
+          <DialogClose asChild>
+            <Button variant="text" className="mt-1">
               Cancel
             </Button>
           </DialogClose>

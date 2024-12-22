@@ -1,8 +1,10 @@
+'use client';
+
 import { adminAppointmentsKey, useAdminAppointments } from '@/queries/use-admin-appointments';
 import { appointmentsKey, useAppointments } from '@/queries/use-appointments';
 import { useProfile } from '@/queries/use-profile';
-import { CircleAlert } from 'lucide-react';
-import React from 'react';
+import { createStore } from '@jodd/snap';
+import { CircleAlertIcon } from 'lucide-react';
 import AppointmentCard, { apponitmentCardSkeleton } from '../cards/appointment-card';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Button } from '../ui/button';
@@ -12,18 +14,28 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger
+  DrawerTitle
 } from '../ui/drawer';
+import { ScrollArea } from '../ui/scroll-area';
 import InfiniteScrollObserver from '../utils/infinite-scroll-observer';
 
-export default function AppointmentsDrawer({ children }: { children: React.ReactNode }) {
+const useAppointmentsDrawer = createStore<{ isOpen: boolean }>(() => ({ isOpen: false }));
+
+const onOpenChange = (isOpen: boolean) => useAppointmentsDrawer.setState({ isOpen });
+
+export const openApppointmentsDrawer = () => onOpenChange(true);
+
+export const closeApppointmentsDrawer = () => onOpenChange(false);
+
+export default function AppointmentsDrawer() {
   const { data: profile } = useProfile();
+
+  const { isOpen } = useAppointmentsDrawer();
+
   if (!profile) return null;
   return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="ml-auto h-screen w-full max-w-screen-sm rounded-none sm:rounded-l-lg">
+    <Drawer direction="right" open={isOpen} onOpenChange={onOpenChange}>
+      <DrawerContent className="ml-auto flex h-screen w-full max-w-screen-sm flex-col rounded-none sm:rounded-l-lg">
         <DrawerHeader>
           <DrawerTitle className="text-center">
             {profile.role === 'user' ? 'Appointments History' : ''}
@@ -32,8 +44,11 @@ export default function AppointmentsDrawer({ children }: { children: React.React
           </DrawerTitle>
         </DrawerHeader>
 
-        {profile.role === 'admin' ? <AdminAppointments /> : <CustomerAndStaffAppointments />}
-        <DrawerFooter>
+        <ScrollArea className="h-full">
+          {profile.role === 'admin' ? <AdminAppointments /> : <CustomerAndStaffAppointments />}
+        </ScrollArea>
+
+        <DrawerFooter className="md:hidden">
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>
           </DrawerClose>
@@ -48,7 +63,7 @@ function CustomerAndStaffAppointments() {
   const appointments = data?.pages.flat(1) || [];
   const { data: profile } = useProfile();
   return (
-    <div className="h-full space-y-3 overflow-y-auto px-4 scrollbar-thin">
+    <div className="space-y-3 px-4">
       {!isLoading && appointments.length === 0 && (
         <p className="px-4 font-medium">
           {profile?.role === 'user'
@@ -62,7 +77,7 @@ function CustomerAndStaffAppointments() {
 
       {error && (
         <Alert variant="destructive">
-          <CircleAlert className="size-4" />
+          <CircleAlertIcon className="size-4" />
           <AlertTitle>Could not load appointments</AlertTitle>
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
@@ -93,7 +108,7 @@ function AdminAppointments() {
   const appointments = data?.pages.flat(1) || [];
 
   return (
-    <div className="h-full space-y-3 overflow-y-auto px-4 scrollbar-thin">
+    <div className="space-y-3 px-4">
       {!isLoading && appointments.length === 0 && (
         <p className="px-4 font-medium">'No customers has made any appointments yet!'</p>
       )}
@@ -103,7 +118,7 @@ function AdminAppointments() {
 
       {error && (
         <Alert variant="destructive">
-          <CircleAlert className="size-4" />
+          <CircleAlertIcon className="size-4" />
           <AlertTitle>Could not load appointments</AlertTitle>
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>

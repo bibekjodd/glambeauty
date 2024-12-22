@@ -1,3 +1,4 @@
+import { closeAddStaffDialog } from '@/components/dialogs/add-staff-dialog';
 import { backendUrl } from '@/lib/constants';
 import { getQueryClient } from '@/lib/query-client';
 import { extractErrorMessage } from '@/lib/utils';
@@ -26,7 +27,7 @@ export const useUpdateUser = (id: string) => {
         };
       });
       updatedStaffsData = updatedStaffsData.filter((staff) => staff.role !== 'user');
-
+      closeAddStaffDialog();
       queryClient.setQueryData<User[]>(staffsKey, updatedStaffsData);
     },
 

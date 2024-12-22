@@ -1,9 +1,17 @@
+import ImageDialog from '@/components/dialogs/image-dialog';
+import LogoutDialog from '@/components/dialogs/logout-dialog';
+import ProfileDialog from '@/components/dialogs/profile-dialog';
+import QrCodeDialog from '@/components/dialogs/qr-code-dialog';
+import RequireLoginDialog from '@/components/dialogs/require-login-dialog';
+import UpdateProfileDialog from '@/components/dialogs/update-profile-dialog';
+import NotificationsDrawer from '@/components/drawers/notifications-drawer';
 import QueryProvider from '@/providers/query-provider';
 import { LoadingBar } from '@jodd/next-top-loading-bar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+
 const inter = Inter({ subsets: ['latin'] });
 
 const title = 'Glambeauty';
@@ -45,7 +53,18 @@ export default function RootLayout({
         <QueryProvider>
           <LoadingBar waitingTime={200} color="rgb(236 72 153)" />
           <Toaster toastOptions={{ duration: 3000 }} theme="dark" richColors closeButton />
+
           {children}
+
+          <ProfileDialog />
+          <UpdateProfileDialog />
+          <RequireLoginDialog />
+          <LogoutDialog />
+
+          <NotificationsDrawer />
+
+          <ImageDialog />
+          <QrCodeDialog />
         </QueryProvider>
       </body>
     </html>

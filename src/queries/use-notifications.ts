@@ -25,7 +25,7 @@ const fetchNotifications = async ({
 }): Promise<NotificationResult[]> => {
   try {
     const url = new URL(`${backendUrl}/api/notifications`);
-    cursor && url.searchParams.set('cursor', cursor);
+    if (cursor) url.searchParams.set('cursor', cursor);
     const res = await axios.get<{ notifications: NotificationResult[] }>(url.href, {
       withCredentials: true,
       signal

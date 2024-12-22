@@ -1,4 +1,5 @@
 'use client';
+
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
   Select,
@@ -11,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Avatar from '@/components/utils/avatar';
 import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer';
 import { useFeedbacks } from '@/queries/use-feedbacks';
-import { CircleAlert, ListFilter, Star } from 'lucide-react';
+import { CircleAlertIcon, ListFilterIcon, Star } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
 
@@ -27,7 +28,7 @@ export default function Page() {
         <h3 className="mb-2 text-xl font-semibold lg:hidden">User Feedbacks</h3>
         <div className="flex items-center space-x-5 bg-white/80">
           <div className="flex items-center space-x-2">
-            <ListFilter className="size-4" />
+            <ListFilterIcon className="size-4" />
             <span className="font-medium">Filter by Ratings</span>
           </div>
 
@@ -51,7 +52,7 @@ export default function Page() {
       <div className="flex flex-col space-y-3 px-4">
         {error && (
           <Alert variant="destructive">
-            <CircleAlert className="size-4" />
+            <CircleAlertIcon className="size-4" />
             <AlertTitle>Could not load feedbacks</AlertTitle>
             <AlertDescription>{error.message}</AlertDescription>
           </Alert>

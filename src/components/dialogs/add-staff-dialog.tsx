@@ -1,11 +1,7 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Avatar from '@/components/utils/avatar';
@@ -14,12 +10,18 @@ import { updateUserKey, useUpdateUser } from '@/mutations/use-update-user';
 import { useStaffs } from '@/queries/use-staffs';
 import { useUsers } from '@/queries/use-users';
 import { AutoAnimate } from '@jodd/auto-animate';
+import { createStore } from '@jodd/snap';
 import { useIsMutating } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Skeleton } from '../ui/skeleton';
 import InfiniteScrollObserver from '../utils/infinite-scroll-observer';
 
-export default function AddStaffDialog({ children }: { children: React.ReactNode }) {
+const useAddStaffDialog = createStore<{ isOpen: boolean }>(() => ({ isOpen: false }));
+const onOpenChange = (isOpen: boolean) => useAddStaffDialog.setState({ isOpen });
+export const openAddStaffDialog = () => onOpenChange(true);
+export const closeAddStaffDialog = () => onOpenChange(false);
+
+export default function AddStaffDialog() {
   const [searchInput, setSearchInput] = useState('');
   const enabled = useDebounce(searchInput);
   const { data, isLoading, isFetching, hasNextPage, fetchNextPage } = useUsers({
@@ -28,9 +30,9 @@ export default function AddStaffDialog({ children }: { children: React.ReactNode
   });
   const users = data?.pages.flat(1) || [];
 
+  const { isOpen } = useAddStaffDialog();
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-full flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-center">Add new staff</DialogTitle>

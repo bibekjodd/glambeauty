@@ -1,15 +1,12 @@
-import { FormInput } from '@/components/forms/form-input';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,6 +20,7 @@ import { useIsMutating } from '@tanstack/react-query';
 import { Image as ImageIcon, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Input } from '../ui/input';
 import DeleteServiceDialog from './delete-service-dialog';
 
 type Props =
@@ -97,7 +95,7 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-screen flex-col">
+      <DialogContent className="flex max-h-screen flex-col lg:max-h-[calc(100vh-20px)]">
         <DialogHeader>
           <DialogTitle className="text-center">
             {mode === 'add' ? 'Add new Service' : 'Update Service'}
@@ -109,17 +107,15 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
           className="flex flex-grow flex-col space-y-2 overflow-y-auto px-2 scrollbar-thin"
         >
           <div className="flex flex-grow flex-col space-y-5">
-            <FormInput
+            <Input
               id="title"
-              Icon={null}
               error={errors.title?.message}
               label="Title"
               placeholder="Service title..."
               {...register('title')}
             />
-            <FormInput
+            <Input
               id="price"
-              Icon={null}
               error={errors.price?.message}
               label="Price"
               type="number"
@@ -189,12 +185,6 @@ export default function AddServiceDialog({ children, mode, service }: Props) {
         </form>
 
         <DialogFooter>
-          <DialogClose asChild ref={closeButtonRef}>
-            <Button type="button" variant="outline" className="">
-              Close
-            </Button>
-          </DialogClose>
-
           {service && (
             <DeleteServiceDialog id={service.id}>
               <Button type="button" variant="outline">

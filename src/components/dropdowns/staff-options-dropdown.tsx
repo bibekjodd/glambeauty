@@ -23,7 +23,6 @@ export default function StaffOptionsDropdown({ staff, children }: Props) {
   const updateStaff = (options: { role?: 'staff' | 'admin' | 'user'; active?: boolean }) => {
     mutate(options, {
       onError(err) {
-        toast.dismiss();
         toast.error(`Could not update user! ${err.message}`);
       }
     });

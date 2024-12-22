@@ -1,3 +1,4 @@
+import { closePostFeedbackDialog } from '@/components/dialogs/post-feedback-dialog';
 import { backendUrl } from '@/lib/constants';
 import { PostFeedbackSchema } from '@/lib/form-schemas';
 import { extractErrorMessage } from '@/lib/utils';
@@ -12,12 +13,11 @@ export const usePostFeedback = () => {
     mutationKey: postFeedbackKey,
     mutationFn: postFeedback,
     onError(err) {
-      toast.dismiss();
       toast.error(`Could not post feedback! ${err.message}`);
     },
     onSuccess() {
-      toast.dismiss();
       toast.success('Your feedback has been sent successfully');
+      closePostFeedbackDialog();
     }
   });
 };

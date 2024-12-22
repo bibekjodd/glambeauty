@@ -40,7 +40,7 @@ export default function DeleteServiceDialog({ children, id }: Props) {
 
         <DialogFooter>
           <DialogClose asChild ref={closeButtonRef}>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="text">Cancel</Button>
           </DialogClose>
           <Button onClick={deleteService} loading={isDeletingService} disabled={isDeletingService}>
             Confirm Delete

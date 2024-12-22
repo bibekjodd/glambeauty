@@ -1,24 +1,38 @@
-import { FormInput } from '@/components/forms/form-input';
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog';
 import { updateProfileSchema, UpdateProfileSchema } from '@/lib/form-schemas';
-import { updateProfileKey, useUpdateProfile } from '@/mutations/use-update-profile';
+import { useUpdateProfile } from '@/mutations/use-update-profile';
 import { useProfile } from '@/queries/use-profile';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useIsMutating } from '@tanstack/react-query';
+import { createStore } from '@jodd/snap';
 import { MapPin, Phone, User } from 'lucide-react';
-import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { Input } from '../ui/input';
 
-export default function UpdateProfileDialog({ children }: { children: React.ReactNode }) {
+const useUpdateProfileDialog = createStore<{ isOpen: boolean }>(() => ({ isOpen: false }));
+
+const onOpenChange = (isOpen: boolean) => useUpdateProfileDialog.setState({ isOpen });
+export const openUpdateProfileDialog = () => onOpenChange(true);
+export const closeUpdateProfileDialog = () => onOpenChange(false);
+
+export default function UpdateProfileDialog() {
+  const { data: profile } = useProfile();
+  if (!profile) return;
+
+  return <BaseDialog />;
+}
+
+function BaseDialog() {
   const { data: profile } = useProfile();
   const {
     handleSubmit,
@@ -33,46 +47,53 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
       phone: profile?.phone || undefined
     }
   });
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const { mutate } = useUpdateProfile();
-  const isUpdatingProfile = !!useIsMutating({ mutationKey: updateProfileKey });
+  const { mutate, isPending } = useUpdateProfile();
 
   const onSubmit = (data: UpdateProfileSchema) => {
+    if (isPending) return;
     mutate(data, {
       onSuccess() {
-        closeButtonRef.current?.click();
+        closeUpdateProfileDialog();
         reset();
       }
     });
   };
 
+  const { isOpen } = useUpdateProfileDialog();
+
   return (
-    <Dialog onOpenChange={() => reset()}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(isOpen) => {
+        onOpenChange(isOpen);
+        reset();
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-center">Update Profile</DialogTitle>
         </DialogHeader>
+        <DialogDescription className="hidden" />
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
-          <FormInput
-            Icon={User}
+          <Input
+            IconLeft={User}
             id="name"
             label="Name"
             placeholder="Ayushma Dhungana..."
             {...register('name')}
             error={errors.name?.message}
           />
-          <FormInput
-            Icon={MapPin}
+          <Input
+            IconLeft={MapPin}
             id="address"
             {...register('address')}
             label="Address"
             placeholder="Bharatpur-2, Chitwan..."
             error={errors.address?.message}
           />
-          <FormInput
-            Icon={Phone}
+          <Input
+            IconLeft={Phone}
             id="phone"
             {...register('phone')}
             label="Phone"
@@ -83,15 +104,15 @@ export default function UpdateProfileDialog({ children }: { children: React.Reac
         </form>
 
         <DialogFooter>
-          <DialogClose asChild ref={closeButtonRef}>
-            <Button variant="outline">Close</Button>
+          <DialogClose asChild>
+            <Button variant="text">Cancel</Button>
           </DialogClose>
 
           <Button
             type="submit"
             onClick={handleSubmit(onSubmit)}
-            disabled={isUpdatingProfile}
-            loading={isUpdatingProfile}
+            disabled={isPending}
+            loading={isPending}
           >
             Save
           </Button>

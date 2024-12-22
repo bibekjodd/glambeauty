@@ -10,7 +10,6 @@ export const useAppointment = (id: string) => {
     queryKey: appointmentKey(id),
     queryFn: ({ signal }) => fetchAppointment({ id, signal }),
     staleTime: Infinity,
-    gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
 };

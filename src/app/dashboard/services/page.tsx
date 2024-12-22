@@ -1,10 +1,11 @@
 'use client';
+
 import ServiceCard, { serviceCardSkeleton } from '@/components/cards/service-card';
 import AddServiceDialog from '@/components/dialogs/add-service-dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useServices } from '@/queries/use-services';
-import { CircleAlert, PackagePlus } from 'lucide-react';
+import { CircleAlertIcon, PackagePlus } from 'lucide-react';
 
 export default function Page() {
   const { data: services, isLoading, error } = useServices();
@@ -20,7 +21,7 @@ export default function Page() {
       <section className="flex flex-col space-y-10 px-4">
         {error && (
           <Alert variant="destructive">
-            <CircleAlert className="size-4" />
+            <CircleAlertIcon className="size-4" />
             <AlertTitle>Could not load services</AlertTitle>
             <AlertDescription>{error.message}</AlertDescription>
           </Alert>

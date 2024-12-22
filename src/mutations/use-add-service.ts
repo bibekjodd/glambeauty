@@ -15,12 +15,8 @@ export const useAddService = () => {
   return useMutation({
     mutationKey: addServiceKey,
     mutationFn: (data: AddServiceSchema & { image?: File }) => addService({ ...data }),
-    onMutate() {
-      toast.dismiss();
-      toast.loading(`Adding new service...`);
-    },
+
     onSuccess(addedService) {
-      toast.dismiss();
       toast.success(`New Service added successfully`);
       const oldServicesData = queryClient.getQueryData<Service[]>(servicesKey);
       if (!oldServicesData) return;
@@ -31,7 +27,6 @@ export const useAddService = () => {
       queryClient.setQueryData<Service[]>(servicesKey, updatedServicesData);
     },
     onError(err) {
-      toast.dismiss();
       toast.error(`Could not add service! ${err.message}`);
     },
     onSettled() {
@@ -48,7 +43,7 @@ const addService = async ({ image, ...data }: Options): Promise<Service> => {
       withCredentials: true
     });
     const [imageUrl, res] = await Promise.all([uploadImagePromise, addServicePromise]);
-    imageUrl && updateService({ id: res.data.service.id, image: imageUrl });
+    if (imageUrl) updateService({ id: res.data.service.id, image: imageUrl });
     return { ...res.data.service, image: imageUrl || null };
   } catch (error) {
     throw new Error(extractErrorMessage(error));

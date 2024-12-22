@@ -1,6 +1,6 @@
 import { poppins } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { Clock12, Gem, Headset, UsersRound } from 'lucide-react';
+import { Clock12Icon, Gem, Headset, UsersRound } from 'lucide-react';
 
 const list = [
   {
@@ -17,7 +17,7 @@ const list = [
   },
   {
     title: 'Flexible scheduling',
-    icon: Clock12
+    icon: Clock12Icon
   }
 ];
 

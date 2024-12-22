@@ -1,11 +1,8 @@
-'use client';
 import { poppins } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { useProfile } from '@/queries/use-profile';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { MoveRight } from 'lucide-react';
 import Image from 'next/image';
-import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
 
 type Service = { title: string; image: string; description: string };
 const services: Service[] = [
@@ -51,7 +48,6 @@ export default function Services() {
 }
 
 function ServiceCard({ service }: { service: Service }) {
-  const { data: profile } = useProfile();
   return (
     <div className="flex flex-col lg:px-7">
       <div className="relative aspect-video w-full cursor-pointer overflow-hidden rounded-md">
@@ -68,22 +64,13 @@ function ServiceCard({ service }: { service: Service }) {
         {bgShadow}
         <h3 className={cn(poppins.className, 'text-2xl font-semibold')}>{service.title}</h3>
         <p className="mt-3 line-clamp-3 text-gray-700">{service.description}</p>
-        {profile?.role === 'user' ? (
-          <SelectAppointmentDialog>
-            <button className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]">
-              <span>Book now</span>
-              <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
-            </button>
-          </SelectAppointmentDialog>
-        ) : (
-          <ProgressLink
-            href="/services"
-            className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]"
-          >
-            <span>Browse services</span>
-            <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
-          </ProgressLink>
-        )}
+        <ProgressLink
+          href="/services"
+          className="group flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-br from-pink-400 to-pink-500 text-sm font-medium text-transparent text-white transition hover:text-white hover:brightness-110 active:scale-[0.98]"
+        >
+          <span>See more services</span>
+          <MoveRight className="size-4 translate-x-3 scale-125 transition-transform group-hover:translate-x-4" />
+        </ProgressLink>
       </div>
     </div>
   );

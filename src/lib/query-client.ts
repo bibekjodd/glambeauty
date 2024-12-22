@@ -1,4 +1,5 @@
 import { isServer, QueryClient } from '@tanstack/react-query';
+import { MILLIS } from './constants';
 
 export function makeQueryClient() {
   return new QueryClient({
@@ -7,12 +8,13 @@ export function makeQueryClient() {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         retry: false,
-        gcTime: 3 * 60 * 1000,
-        refetchIntervalInBackground: false
+        gcTime: 3 * MILLIS.MINUTE,
+        refetchIntervalInBackground: false,
+        maxPages: 10
       },
       mutations: {
         retry: false,
-        gcTime: 30 * 1000
+        gcTime: MILLIS.MINUTE / 2
       }
     }
   });

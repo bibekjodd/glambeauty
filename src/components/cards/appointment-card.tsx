@@ -3,7 +3,7 @@ import { getQueryClient } from '@/lib/query-client';
 import { cn, formatDate } from '@/lib/utils';
 import { profileKey } from '@/queries/use-profile';
 import { QueryKey } from '@tanstack/react-query';
-import { CheckCircle, CircleSlash, Clock12, EllipsisVertical } from 'lucide-react';
+import { CheckCircleIcon, CircleSlashIcon, Clock12Icon, EllipsisVerticalIcon } from 'lucide-react';
 import AppointmentOptionsMenu from '../dropdowns/appointment-options-menu';
 import { Skeleton } from '../ui/skeleton';
 import Avatar from '../utils/avatar';
@@ -45,9 +45,9 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
           <span className="capitalize">
             {appointment.status === 'pending' ? 'Upcoming' : appointment.status}
           </span>
-          {appointment.status === 'pending' && <Clock12 className="size-4" />}
-          {appointment.status === 'completed' && <CheckCircle className="size-4" />}
-          {appointment.status === 'cancelled' && <CircleSlash className="size-4" />}
+          {appointment.status === 'pending' && <Clock12Icon className="size-4" />}
+          {appointment.status === 'completed' && <CheckCircleIcon className="size-4" />}
+          {appointment.status === 'cancelled' && <CircleSlashIcon className="size-4" />}
         </div>
 
         <h3 className="mt-1 text-lg font-semibold">{appointment.service.title}</h3>
@@ -83,7 +83,7 @@ export default function AppointmentCard({ appointment, queryKey }: Props) {
       {appointment.status === 'pending' && profile?.role !== 'staff' && (
         <AppointmentOptionsMenu appointment={appointment} queryKey={queryKey}>
           <button>
-            <EllipsisVertical className="size-4 text-gray-700" />
+            <EllipsisVerticalIcon className="size-4 text-gray-700" />
           </button>
         </AppointmentOptionsMenu>
       )}

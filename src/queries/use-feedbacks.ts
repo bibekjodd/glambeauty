@@ -27,8 +27,8 @@ const fetchFeedbacks = async ({
 }): Promise<Feedback[]> => {
   try {
     const url = new URL(`${backendUrl}/api/feedbacks`);
-    cursor && url.searchParams.set('cursor', cursor);
-    rating && url.searchParams.set('rating', rating.toString());
+    if (cursor) url.searchParams.set('cursor', cursor);
+    if (rating) url.searchParams.set('rating', rating.toString());
     const res = await axios.get<{ feedbacks: Feedback[] }>(url.href, {
       withCredentials: true,
       signal

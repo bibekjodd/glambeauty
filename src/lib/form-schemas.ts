@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 export const updateProfileSchema = z.object({
   name: z.string().min(4, 'Too short name').max(40, 'Too long name').optional(),
   address: z.string().min(3, 'Invalid address').max(200, 'Too long address').optional(),

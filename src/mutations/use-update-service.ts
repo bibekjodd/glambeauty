@@ -17,13 +17,7 @@ export const useUpdateService = (id: string) => {
     mutationFn: (data: UpdateServiceSchema & { image?: File | string }) =>
       updateService({ id, ...data }),
 
-    onMutate() {
-      toast.dismiss();
-      toast.loading('Updating service...');
-    },
-
     onSuccess(updatedService) {
-      toast.dismiss();
       toast.success('Updated service successfully');
       const oldServicesData = queryClient.getQueryData<Service[]>(servicesKey);
       if (!oldServicesData) return;
@@ -36,7 +30,6 @@ export const useUpdateService = (id: string) => {
     },
 
     onError(error) {
-      toast.dismiss();
       toast.error(`Could not update service! ${error.message}`);
     },
 
@@ -58,7 +51,7 @@ export const updateService = async ({ id, image, ...data }: Options): Promise<Se
       }
     );
     const [imageUrl, res] = await Promise.all([uploadImagePromise, updateServicePromise]);
-    imageUrl && updateService({ id, image: imageUrl });
+    if (imageUrl) updateService({ id, image: imageUrl });
     return { ...res.data.service, image: imageUrl || res.data.service.image };
   } catch (error) {
     throw new Error(extractErrorMessage(error));

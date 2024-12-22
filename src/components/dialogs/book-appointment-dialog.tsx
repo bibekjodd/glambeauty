@@ -1,18 +1,21 @@
 import { formatDate } from '@/lib/utils';
-import { bookAppointmentKey, useBookAppointment } from '@/mutations/use-book-appointment';
-import { useIsMutating } from '@tanstack/react-query';
+import { useBookAppointment } from '@/mutations/use-book-appointment';
+import { useProfile } from '@/queries/use-profile';
+import { CheckCheckIcon } from 'lucide-react';
 import React, { useRef } from 'react';
 import { Button } from '../ui/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '../ui/dialog';
 import Avatar from '../utils/avatar';
+import { openRequireLoginDialog } from './require-login-dialog';
 
 type Props = {
   children: React.ReactNode;
@@ -31,8 +34,8 @@ export default function BookAppointmentDialog({
   refetchAvailableStaffs,
   clearValues
 }: Props) {
-  const { mutate } = useBookAppointment();
-  const isBookingAppointment = !!useIsMutating({ mutationKey: bookAppointmentKey });
+  const { data: profile } = useProfile();
+  const { mutate, isPending } = useBookAppointment();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const fullDate = new Date(date);
 
@@ -58,6 +61,8 @@ export default function BookAppointmentDialog({
         <DialogHeader>
           <DialogTitle className="text-center">Confirm Appointment</DialogTitle>
         </DialogHeader>
+
+        <DialogDescription className="hidden" />
 
         <section className="flex flex-col space-y-1 rounded-lg border p-3 text-sm font-medium">
           <h4 className="pb-2 text-xl font-semibold">Appointment Details</h4>
@@ -86,13 +91,15 @@ export default function BookAppointmentDialog({
 
         <DialogFooter>
           <DialogClose asChild ref={closeButtonRef}>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="text">Cancel</Button>
           </DialogClose>
+
           <Button
-            loading={isBookingAppointment}
-            onClick={bookAppointment}
+            loading={isPending}
+            onClick={profile ? bookAppointment : openRequireLoginDialog}
             className="relative"
-            disabled={isBookingAppointment}
+            disabled={isPending}
+            Icon={CheckCheckIcon}
           >
             Confirm Booking
           </Button>

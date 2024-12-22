@@ -2,7 +2,6 @@ import { poppins } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { ChevronRight } from 'lucide-react';
-import { Button } from '../ui/button';
 
 export default function Hero() {
   return (
@@ -19,10 +18,10 @@ export default function Hero() {
         </h3>
 
         <ProgressLink href="/services">
-          <Button variant="gradient" className="mt-2 h-11 rounded-full px-6 text-lg">
+          <button className="mt-2 flex h-11 items-center space-x-2 rounded-full bg-gradient-to-br from-pink-400 to-pink-500 px-6 text-lg text-primary-foreground shadow hover:brightness-[1.15]">
             <span>See our services</span>
-            <ChevronRight className="size-6 transition group-hover:translate-x-0.5" />
-          </Button>
+            <ChevronRight className="size-5 transition group-hover:translate-x-0.5" />
+          </button>
         </ProgressLink>
       </div>
     </section>

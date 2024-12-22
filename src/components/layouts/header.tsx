@@ -1,13 +1,14 @@
 'use client';
-import { loginLink } from '@/lib/constants';
-import { cn } from '@/lib/utils';
+
+import { cn, openLoginLink } from '@/lib/utils';
 import { useProfile } from '@/queries/use-profile';
 import { ProgressLink } from '@jodd/next-top-loading-bar';
 import { LogIn, MoveRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import SelectAppointmentDialog from '../dialogs/select-appointment-dialog';
+import { openSelectAppointmentDialog } from '../dialogs/select-appointment-dialog';
 import ProfileDropdown from '../dropdowns/profile-dropdown';
 import { Button } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
 import Avatar from '../utils/avatar';
 import { logo } from '../utils/logo';
 
@@ -31,17 +32,19 @@ export default function Header() {
 
         <nav className="flex items-center space-x-3 font-medium md:space-x-10">
           {profile?.role === 'user' && (
-            <SelectAppointmentDialog>
-              <Button className="hidden rounded-full px-6 sm:flex" variant="gradient">
-                <span>Book an appointment</span>
-                <MoveRight className="ml-2 size-4 scale-125 transition group-hover:translate-x-1" />
-              </Button>
-            </SelectAppointmentDialog>
+            <Button
+              onClick={() => openSelectAppointmentDialog()}
+              className="hidden rounded-full px-6 sm:flex"
+              variant="gradient"
+            >
+              <span>Book an appointment</span>
+              <MoveRight className="ml-2 size-4 scale-125 transition group-hover:translate-x-1" />
+            </Button>
           )}
 
           {!profile && !isLoadingProfile && (
             <Button
-              onClick={() => window.open(loginLink, '_blank')}
+              onClick={openLoginLink}
               className="rounded-full px-6"
               variant="gradient"
               Icon={LogIn}
@@ -67,8 +70,8 @@ export default function Header() {
 
           {isLoadingProfile && (
             <div className="flex items-center space-x-2">
-              <div className="hidden h-6 w-28 animate-pulse rounded-lg bg-neutral-400/30 sm:inline" />
-              <div className="size-8 animate-pulse rounded-full bg-neutral-400/30" />
+              <Skeleton className="hidden h-7 w-28 rounded-full sm:inline" />
+              <Skeleton className="size-8 rounded-full" />
             </div>
           )}
         </nav>

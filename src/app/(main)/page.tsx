@@ -1,9 +1,9 @@
-import AppointmentDetailDrawer from '@/components/drawers/appointment-detail-drawer';
-import About from '@/components/sections/about';
-import Best from '@/components/sections/best';
-import Hero from '@/components/sections/hero';
-import Services from '@/components/sections/services';
-import Testimonails from '@/components/sections/testimonials';
+import AppointmentDetailsDialog from '@/components/dialogs/appointment-details-dialog';
+import About from './sections/about';
+import Best from './sections/best';
+import Hero from './sections/hero';
+import Services from './sections/services';
+import Testimonails from './sections/testimonials';
 
 export default function page() {
   return (
@@ -13,7 +13,8 @@ export default function page() {
       <Services />
       <Best />
       <Testimonails />
-      <AppointmentDetailDrawer />
+
+      <AppointmentDetailsDialog />
     </main>
   );
 }

@@ -3,9 +3,9 @@ import { useTopStaffs } from '@/queries/use-top-staffs';
 import { useState } from 'react';
 import StaffProfileDialog from '../dialogs/staff-profile-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Skeleton } from '../ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import Avatar from '../utils/avatar';
-import { Skeleton } from '../ui/skeleton';
 
 export default function TopStaffs() {
   const [start] = useState(findNextNDaysDate(-1));

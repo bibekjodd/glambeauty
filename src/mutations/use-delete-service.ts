@@ -13,13 +13,8 @@ export const useDeleteService = (id: string) => {
   return useMutation({
     mutationKey: deleteServiceKey(id),
     mutationFn: () => deleteService(id),
-    onMutate() {
-      toast.dismiss();
-      toast.loading('Deleting service...');
-    },
 
     onSuccess() {
-      toast.dismiss();
       toast.success('Service deleted successfully');
       const oldServices = queryClient.getQueryData<Service[]>(servicesKey);
       if (!oldServices) return;
@@ -28,7 +23,6 @@ export const useDeleteService = (id: string) => {
     },
 
     onError(err) {
-      toast.dismiss();
       toast.error(`Could not delete service! ${err.message}`);
     },
 

@@ -2,6 +2,7 @@ import { TopService } from '@/queries/use-top-services';
 import axios, { AxiosError } from 'axios';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { backendUrl } from './constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,6 +20,11 @@ export const colors = [
   '#1ABC9C',
   '#F39C12'
 ] as const;
+
+export const openLoginLink = () => {
+  const loginLink = `${backendUrl}/api/auth/login/google?redirect=${typeof location === 'undefined' ? { origin: '' } : location.origin}`;
+  window.open(loginLink, '_blank');
+};
 
 export const extractErrorMessage = (err: unknown): string => {
   if (err instanceof AxiosError) {
@@ -49,6 +55,7 @@ export const uploadImage = async (file: File): Promise<string> => {
       formData
     );
     return data.data.display_url;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     throw new Error('Could not upload image');
   }

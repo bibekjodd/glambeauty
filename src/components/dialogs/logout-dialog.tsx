@@ -1,3 +1,5 @@
+'use client';
+
 import { useLogout } from '@/mutations/use-logout';
 import { Button } from '@/ui/button';
 import {
@@ -7,32 +9,37 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/ui/dialog';
-import React from 'react';
+import { createStore } from '@jodd/snap';
 
-type Props = {
-  children?: React.ReactNode;
-};
+const useLogoutDialog = createStore<{ isOpen: boolean }>(() => ({ isOpen: false }));
+const onOpenChange = (isOpen: boolean) => useLogoutDialog.setState({ isOpen });
+export const openLogoutDialog = () => onOpenChange(true);
+export const closeLogoutDialog = () => onOpenChange(false);
 
-export default function LogoutDialog({ children }: Props) {
-  const { mutate: logout, isPending } = useLogout();
+export default function LogoutDialog() {
+  const { mutate, isPending } = useLogout();
+  const logout = () => {
+    if (isPending) return;
+    mutate();
+  };
+
+  const { isOpen } = useLogoutDialog();
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children ? children : <Button>Logout</Button>}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
           <DialogDescription>
-            You will need to log in again to access your account
+            You will need to log in again to access your account.
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="text">Cancel</Button>
           </DialogClose>
           <DialogClose asChild>
             <Button disabled={isPending} loading={isPending} onClick={() => logout()}>

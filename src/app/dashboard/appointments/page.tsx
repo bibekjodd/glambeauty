@@ -1,4 +1,5 @@
 'use client';
+
 import AppointmentCard, { apponitmentCardSkeleton } from '@/components/cards/appointment-card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import {
@@ -12,12 +13,12 @@ import InfiniteScrollObserver from '@/components/utils/infinite-scroll-observer'
 import { cn } from '@/lib/utils';
 import { adminAppointmentsKey, useAdminAppointments } from '@/queries/use-admin-appointments';
 import {
-  CheckCircle,
-  CircleAlert,
-  CircleSlash,
-  Clock12,
-  ListFilter,
-  TextQuote
+  CheckCircleIcon,
+  CircleAlertIcon,
+  CircleSlashIcon,
+  Clock12Icon,
+  ListFilterIcon,
+  TextQuoteIcon
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -33,7 +34,7 @@ export default function Page() {
     <main>
       <div className="sticky left-0 top-16 z-10 flex w-full items-center space-x-5 bg-white/80 px-4 py-4 filter backdrop-blur-2xl lg:left-60">
         <div className="flex items-center space-x-2">
-          <ListFilter className="size-4" />
+          <ListFilterIcon className="size-4" />
           <span className="font-medium">Filter by Status</span>
         </div>
 
@@ -53,10 +54,10 @@ export default function Page() {
                   })}
                 >
                   <span className="capitalize">{status === 'pending' ? 'Upcoming' : status}</span>
-                  {status === 'all' && <TextQuote className="size-4" />}
-                  {status === 'pending' && <Clock12 className="size-4" />}
-                  {status === 'completed' && <CheckCircle className="size-4" />}
-                  {status === 'cancelled' && <CircleSlash className="size-4" />}
+                  {status === 'all' && <TextQuoteIcon className="size-4" />}
+                  {status === 'pending' && <Clock12Icon className="size-4" />}
+                  {status === 'completed' && <CheckCircleIcon className="size-4" />}
+                  {status === 'cancelled' && <CircleSlashIcon className="size-4" />}
                 </div>
               </SelectItem>
             ))}
@@ -70,7 +71,7 @@ export default function Page() {
 
         {error && (
           <Alert variant="destructive">
-            <CircleAlert className="size-4" />
+            <CircleAlertIcon className="size-4" />
             <AlertTitle>Could not load appointments</AlertTitle>
             <AlertDescription>{error.message}</AlertDescription>
           </Alert>
